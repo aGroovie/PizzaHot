@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import pizza.hot.businesslogic.HibernateUtils;
+import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.DrinkDao;
 import pizza.hot.model.Drink;
 

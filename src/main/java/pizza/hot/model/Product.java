@@ -28,6 +28,10 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Pizza pizza;
+
     public Product() {
     }
 

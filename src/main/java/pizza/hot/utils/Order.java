@@ -1,4 +1,4 @@
-package pizza.hot.model;
+package pizza.hot.utils;
 
 
 import org.hibernate.validator.constraints.CreditCardNumber;

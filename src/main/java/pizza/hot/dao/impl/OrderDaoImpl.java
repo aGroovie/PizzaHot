@@ -5,48 +5,47 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
-import pizza.hot.dao.PizzaDao;
-import pizza.hot.model.Pizza;
+import pizza.hot.dao.OrderDao;
+import pizza.hot.utils.Order;
 
 import java.util.List;
 @Repository
-public class PizzaDaoImpl implements PizzaDao {
+public class OrderDaoImpl implements OrderDao {
     @Override
-    public void addPizza(Pizza pizza) {
+    public void saveOrder(Order order) {
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.getCurrentSession();
         session.getTransaction().begin();
 
-        session.saveOrUpdate(pizza);
+        session.saveOrUpdate(order);
         session.getTransaction().commit();
 
         session.close();
     }
 
     @Override
-    public List<Pizza> getAllPizzas() {
+    public List<Order> findAll() {
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.getCurrentSession();
         session.getTransaction().begin();
 
-        Query query = session.createNativeQuery("SELECT * FROM base_pizzas").addEntity(Pizza.class);
-        List<Pizza> pizzaList = query.list();
+        Query query = session.createNativeQuery("SELECT * FROM buyer_order").addEntity(Order.class);
+        List<Order> orderList = query.list();
 
         session.close();
 
-        return pizzaList;
+        return orderList;
     }
 
     @Override
-    public void deletePizzaById(Long id) {
+    public void deleteOrderById(Long id) {
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.getCurrentSession();
         session.getTransaction().begin();
 
-        Query query = session.createNativeQuery("DELETE FROM base_pizzas where pizza_id= :id").setParameter("id", id);
+        Query query = session.createNativeQuery("DELETE FROM buyer_order where buyer_id= :id").setParameter("id", id);
         query.executeUpdate();
 
         session.close();
-
     }
 }

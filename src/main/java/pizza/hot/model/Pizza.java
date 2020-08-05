@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "base_pizzas")
 @EntityListeners(AuditingEntityListener.class)
-public class Pizza implements Serializable {
+public class Pizza extends Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,8 @@ public class Pizza implements Serializable {
     @Column(name = "pizza_desc")
     private String description;
 
-
+   @OneToMany(mappedBy = "base_pizzas",cascade = CascadeType.ALL)
+   private List<Product> products = new ArrayList<>();
 
 
     public Pizza() {
@@ -77,6 +78,14 @@ public class Pizza implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pizza.hot.businesslogic;
+package pizza.hot.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "drinks")
 @EntityListeners(AuditingEntityListener.class)
-public class Drink implements Serializable {
+public class Drink extends Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
