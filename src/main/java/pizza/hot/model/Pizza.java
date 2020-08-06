@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-@Component
+
 @Entity
 @Table(name = "base_pizzas")
 @EntityListeners(AuditingEntityListener.class)

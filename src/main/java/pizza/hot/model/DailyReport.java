@@ -23,6 +23,8 @@ public class DailyReport implements Serializable {
     @Column(name ="report_date")
     private String date;
 
+
+
     public Long getId() {
         return id;
     }

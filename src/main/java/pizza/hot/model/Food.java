@@ -6,8 +6,20 @@ public class Food {
 
     private String name;
 
+    private Long size;
+
+
+
     public String getName() {
         return name;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public void setName(String name) {
