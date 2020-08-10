@@ -1,12 +1,12 @@
 package pizza.hot.model;
 
-public class Food {
+public abstract class Food {
 
     private Long price;
 
     private String name;
 
-    private Long size;
+    private String description;
 
 
 
@@ -14,13 +14,6 @@ public class Food {
         return name;
     }
 
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -32,6 +25,14 @@ public class Food {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Food (){

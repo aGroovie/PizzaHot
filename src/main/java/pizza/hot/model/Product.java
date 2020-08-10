@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
-public class Product implements Serializable {
+public class Product  extends Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +27,9 @@ public class Product implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    @Column(name = "product_description")
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -69,6 +72,16 @@ public class Product implements Serializable {
     }
 
     @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -76,12 +89,13 @@ public class Product implements Serializable {
         return id.equals(product.id) &&
                 price.equals(product.price) &&
                 name.equals(product.name) &&
-                type == product.type;
+                type == product.type &&
+                description.equals(product.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, name, type);
+        return Objects.hash(id, price, name, type, description);
     }
 
     @Override
@@ -91,6 +105,8 @@ public class Product implements Serializable {
                 ", price=" + price +
                 ", name='" + name + '\'' +
                 ", type=" + type +
+                ", description='" + description + '\'' +
+                ", pizza=" + pizza +
                 '}';
     }
 }

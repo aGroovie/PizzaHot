@@ -43,7 +43,7 @@ public class User implements Serializable {
 
 
     @Column(name = "user_role")
-@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
 

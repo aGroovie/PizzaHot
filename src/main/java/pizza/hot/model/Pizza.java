@@ -4,10 +4,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "base_pizzas")
@@ -16,6 +15,7 @@ public class Pizza extends Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pizza_id")
     private Long id;
 
     @Column(name = "pizza_name")
@@ -32,7 +32,7 @@ public class Pizza extends Food implements Serializable {
     private String description;
 
    @OneToMany(mappedBy = "base_pizzas",cascade = CascadeType.ALL)
-   private List<Product> products = new ArrayList<>();
+   private Set<Product> products = new HashSet<>();
 
 
     public Pizza() {
@@ -63,7 +63,6 @@ public class Pizza extends Food implements Serializable {
         this.size = size;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -80,13 +79,8 @@ public class Pizza extends Food implements Serializable {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+
 
     @Override
     public boolean equals(Object o) {

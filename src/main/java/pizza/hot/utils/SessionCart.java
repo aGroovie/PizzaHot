@@ -44,6 +44,7 @@ public class SessionCart {
 
         for(Food food : usercart.keySet()){
             totalPrice+= food.getPrice()*usercart.get(food);
+            System.out.println(price);
         }
         this.totalPrice = price;
 

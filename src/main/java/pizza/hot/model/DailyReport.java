@@ -5,8 +5,11 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
-@Component
+import java.util.Set;
+
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "daily_report")

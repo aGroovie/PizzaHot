@@ -24,6 +24,9 @@ public class Drink extends Food implements Serializable {
     @Column(name = "drink_size")
     private Long size;
 
+    @Column(name = "drink_description")
+    private String description;
+
 
     public Drink() {
 
@@ -62,6 +65,15 @@ public class Drink extends Food implements Serializable {
     }
 
 
+    public String getDescription() {
+        return description;
+    }
+
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,12 +82,13 @@ public class Drink extends Food implements Serializable {
         return id.equals(drink.id) &&
                 price.equals(drink.price) &&
                 name.equals(drink.name) &&
-                size.equals(drink.size);
+                size.equals(drink.size) &&
+                description.equals(drink.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, name, size);
+        return Objects.hash(id, price, name, size, description);
     }
 
     @Override
@@ -85,6 +98,7 @@ public class Drink extends Food implements Serializable {
                 ", price=" + price +
                 ", name='" + name + '\'' +
                 ", size=" + size +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

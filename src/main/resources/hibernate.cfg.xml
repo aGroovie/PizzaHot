@@ -15,7 +15,7 @@
         <mapping class="pizza.hot.model.Product"/>
         <mapping class="pizza.hot.model.Pizza"/>
         <mapping class="pizza.hot.model.Drink"/>
-        <mapping class="pizza.hot.utils.Order"/>
+        <mapping class="pizza.hot.model.Payment"/>
         <mapping class="pizza.hot.model.DailyReport"/>
         <mapping class="pizza.hot.model.User"/>
     </session-factory>
