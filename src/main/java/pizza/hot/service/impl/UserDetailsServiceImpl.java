@@ -1,4 +1,3 @@
-/*
 package pizza.hot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pizza.hot.dao.UserDao;
 import pizza.hot.model.User;
 
-import java.util.HashSet;
-import java.util.Set;
-//@Service("userDetailsService")
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    private UserDao userDao;
+    UserDao userDao;
 
     @Autowired
     public void setUserDao(UserDao userDao) {
@@ -26,14 +23,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
-        Set<GrantedAuthority> grantedAuthoritySet = new HashSet<>();
-        grantedAuthoritySet.add(new SimpleGrantedAuthority("ADMIN_ROLE"));
-        grantedAuthoritySet.add(new SimpleGrantedAuthority("CUSTOMER_ROLE"));
+           User user = userDao.findByUsername(username);
+           if(user ==null){
+               throw new UsernameNotFoundException("User" + username + "does not exists!");
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), grantedAuthoritySet);
+           }
+           String role = user.getUserRole();
+        List<GrantedAuthority> grantlist = new ArrayList<>();
+
+        GrantedAuthority authority = new SimpleGrantedAuthority(role);
+
+       grantlist.add(authority);
+
+        UserDetails userDetails = (UserDetails) new User();  //here might be a problem
+
+
+        return userDetails;
     }
 }
-*/

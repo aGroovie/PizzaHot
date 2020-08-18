@@ -7,14 +7,19 @@ import pizza.hot.enums.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Component
 @Entity
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
 public class Product  extends Food implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
 
@@ -31,13 +36,13 @@ public class Product  extends Food implements Serializable {
     @Column(name = "product_description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Pizza pizza;
+   @ManyToOne
+   @PrimaryKeyJoinColumn
+   private Pizza pizza;
+
 
     public Product() {
     }
-
 
     public Long getId() {
         return id;
@@ -69,6 +74,14 @@ public class Product  extends Food implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Pizza getPizza() {
+        return pizza;
+    }
+
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
     }
 
     @Override
@@ -106,7 +119,6 @@ public class Product  extends Food implements Serializable {
                 ", name='" + name + '\'' +
                 ", type=" + type +
                 ", description='" + description + '\'' +
-                ", pizza=" + pizza +
                 '}';
     }
 }

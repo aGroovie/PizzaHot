@@ -31,12 +31,20 @@ public class Pizza extends Food implements Serializable {
     @Column(name = "pizza_desc")
     private String description;
 
-   @OneToMany(mappedBy = "base_pizzas",cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "pizza",fetch = FetchType.EAGER)
    private Set<Product> products = new HashSet<>();
 
 
     public Pizza() {
 
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     public Long getId() {

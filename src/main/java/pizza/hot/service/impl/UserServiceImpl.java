@@ -3,7 +3,6 @@ package pizza.hot.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pizza.hot.dao.UserDao;
-import pizza.hot.enums.UserRole;
 import pizza.hot.model.User;
 import pizza.hot.service.UserService;
 
@@ -21,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        user.setUserRole(UserRole.CUSTOMER_ROLE);
+        user.setUserRole(User.ROLE_CUSTOMER);
         userDao.saveUser(user);
     }
 

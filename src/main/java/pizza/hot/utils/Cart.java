@@ -2,8 +2,10 @@ package pizza.hot.utils;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import pizza.hot.model.Food;
+import pizza.hot.model.Product;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,11 @@ public class Cart {
 
     @Column(name = "cart_quanity")
     private Long quanity;
+
+
+
+   // private Map<Product, Integer> usercart = new HashMap<>();
+
 
 
     @Column(name = "cart_foodsize")

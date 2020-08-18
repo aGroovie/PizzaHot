@@ -1,15 +1,20 @@
 package pizza.hot.model;
 
-import pizza.hot.enums.UserRole;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+
+
+
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_CUSTOMER = "CUSTOMER";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +48,16 @@ public class User implements Serializable {
 
 
     @Column(name = "user_role")
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private String userRole;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Payment> payments = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Address> addresses = new HashSet<>();
+
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Order order;
 
 
     public Long getId() {
@@ -95,11 +108,35 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public UserRole getUserRole() {
+    public String getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(UserRole userRole) {
+    public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

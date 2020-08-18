@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,10 +24,17 @@ public class DailyReport implements Serializable {
     @Column(name = "report_earnings")
     private  Long earnings;
 
-    @Column(name ="report_date")
-    private String date;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "report_date", nullable = false)
+    private Date date;
+
+   @OneToMany(mappedBy = "dailyReport")
+    private Set<Order> orders = new HashSet<>();
 
 
+    public DailyReport(){
+
+    }
 
     public Long getId() {
         return id;
@@ -44,15 +52,20 @@ public class DailyReport implements Serializable {
         this.earnings = earnings;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
-    public DailyReport(){
 
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -60,22 +73,13 @@ public class DailyReport implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DailyReport that = (DailyReport) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(earnings, that.earnings) &&
-                Objects.equals(date, that.date);
+        return id.equals(that.id) &&
+                earnings.equals(that.earnings) &&
+                date.equals(that.date);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, earnings, date);
-    }
-
-    @Override
-    public String toString() {
-        return "DailyReport{" +
-                "id=" + id +
-                ", earnings=" + earnings +
-                ", date='" + date + '\'' +
-                '}';
     }
 }

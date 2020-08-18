@@ -8,7 +8,7 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/pizza_hot?useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="show_sql">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
 
@@ -18,5 +18,7 @@
         <mapping class="pizza.hot.model.Payment"/>
         <mapping class="pizza.hot.model.DailyReport"/>
         <mapping class="pizza.hot.model.User"/>
+        <mapping class="pizza.hot.model.Address"/>
+        <mapping class="pizza.hot.model.Order"/>
     </session-factory>
 </hibernate-configuration>
