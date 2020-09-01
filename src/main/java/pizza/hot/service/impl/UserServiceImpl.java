@@ -2,6 +2,7 @@ package pizza.hot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pizza.hot.config.EncrytedPasswordUtils;
 import pizza.hot.dao.UserDao;
 import pizza.hot.model.User;
 import pizza.hot.service.UserService;
@@ -20,6 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        String encryptedPassword = EncrytedPasswordUtils.encrytePassword(user.getPassword());
+        user.setPassword(encryptedPassword);
         user.setUserRole(User.ROLE_CUSTOMER);
         userDao.saveUser(user);
     }

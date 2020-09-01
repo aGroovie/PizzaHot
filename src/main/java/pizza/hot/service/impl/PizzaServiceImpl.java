@@ -7,6 +7,7 @@ import pizza.hot.model.Pizza;
 import pizza.hot.service.PizzaService;
 
 import java.util.List;
+
 @Service
 public class PizzaServiceImpl implements PizzaService {
 
@@ -32,5 +33,10 @@ public class PizzaServiceImpl implements PizzaService {
     public void deletePizzaById(Long id) {
 
         pizzaDao.deletePizzaById(id);
+    }
+
+    @Override
+    public void updatePizzaById(Long id, Pizza newPizza) {
+        pizzaDao.updatePizzaById(id, newPizza);
     }
 }

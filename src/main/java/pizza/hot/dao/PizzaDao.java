@@ -14,5 +14,6 @@ public interface PizzaDao {
 
     void deletePizzaById(Long id);
 
+    void updatePizzaById(Long id, Pizza pizza);
 
 }

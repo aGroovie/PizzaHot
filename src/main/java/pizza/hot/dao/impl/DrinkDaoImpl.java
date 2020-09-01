@@ -18,8 +18,8 @@ public class DrinkDaoImpl implements DrinkDao {
         session.getTransaction().begin();
 
         session.saveOrUpdate(drink);
-        session.getTransaction().commit();
 
+        session.getTransaction().commit();
         session.close();
     }
 

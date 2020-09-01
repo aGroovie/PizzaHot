@@ -1,5 +1,6 @@
 package pizza.hot.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,6 +10,7 @@ import pizza.hot.dao.PizzaDao;
 import pizza.hot.model.Pizza;
 
 import java.util.List;
+
 @Repository
 public class PizzaDaoImpl implements PizzaDao {
     @Override
@@ -46,6 +48,19 @@ public class PizzaDaoImpl implements PizzaDao {
         Query query = session.createNativeQuery("DELETE FROM base_pizzas where pizza_id= :id").setParameter("id", id);
         query.executeUpdate();
 
+        session.close();
+
+    }
+
+    @Override
+    public void updatePizzaById(Long id, Pizza newPizza) {
+        Pizza oldPizza;
+        SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.getCurrentSession();
+        oldPizza = session.get(Pizza.class, id);
+        oldPizza = newPizza;
+        session.update(oldPizza);
+        session.getTransaction().commit();
         session.close();
 
     }

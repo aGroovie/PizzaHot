@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>List of Pizzas to redact</title>
+
+
+</head>
+<body>
+<table>
+<caption> <b> List of Pizzas</b></caption>
+<thead>
+<tr>
+    <th>Pizza Name</th>
+    <th>Pizza price</th>
+    <th>Pizza size</th>=
+    <th>Pizza description</th>
+</tr>
+</thead>
+    <tbody>
+    <tr th:each="pizza : ${pizzaList}">
+        <td th:text="${pizza.name}"></td>
+        <td th:text="${pizza.price}"></td>
+        <td th:text="${pizza.size}"></td>
+        <td th:text="${pizza.description}"></td>
+        <td><a th:href="@{deletePizzaById/{id}(id=${pizza.id})}">Delete</a></td>
+
+</tr>
+    </tbody>
+</table>
+</body>
+</html>

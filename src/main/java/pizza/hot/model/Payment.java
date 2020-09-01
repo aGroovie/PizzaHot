@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
-@Component
 @Entity
 @Table(name ="payment_info")
 @EntityListeners(AuditingEntityListener.class)

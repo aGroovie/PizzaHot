@@ -1,5 +1,7 @@
 package pizza.hot.model;
 
+import pizza.hot.validator.UserNameConstraint;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -13,22 +15,26 @@ public class User implements Serializable {
 
 
 
-    public static final String ROLE_ADMIN = "ADMIN";
-    public static final String ROLE_CUSTOMER = "CUSTOMER";
+    public static final String ROLE_ADMIN = "ADMIN_ROLE";
+    public static final String ROLE_CUSTOMER = "CUSTOMER_ROLE";
+
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     @NotNull
     @Size(min=5,max=10, message = "Username must be between {min} and {max}")
+   // @UserNameConstraint
     private String username;
 
     @Column(name = "user_pw")
     @NotNull
-    @Size(min=6,max=16, message ="Password must be between {min} and {max}" )
+    @Size(min=6,max=1000, message ="Password must be between {min} and {max}" )
     private String password;
 
     @Column(name = "user_fname")
@@ -50,13 +56,13 @@ public class User implements Serializable {
     @Column(name = "user_role")
     private String userRole;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Order order;
 
 

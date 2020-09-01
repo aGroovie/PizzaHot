@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.AddressDao;
 import pizza.hot.model.Address;
-import pizza.hot.model.Drink;
 
 import java.util.List;
+
 @Repository
 public class AddressDaoImpl implements AddressDao {
     @Override

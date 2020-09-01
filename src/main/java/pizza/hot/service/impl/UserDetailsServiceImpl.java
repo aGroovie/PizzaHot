@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import pizza.hot.dao.UserDao;
 import pizza.hot.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -23,22 +23,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-           User user = userDao.findByUsername(username);
-           if(user ==null){
-               throw new UsernameNotFoundException("User" + username + "does not exists!");
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User user = this.userDao.findByUsername(userName);
 
-           }
-           String role = user.getUserRole();
-        List<GrantedAuthority> grantlist = new ArrayList<>();
+        Set<GrantedAuthority> grantlist = new HashSet<>();
+        grantlist.add(new SimpleGrantedAuthority("ADMIN_ROLE"));
+        grantlist.add(new SimpleGrantedAuthority("CUSTOMER_ROLE"));
 
-        GrantedAuthority authority = new SimpleGrantedAuthority(role);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantlist);
 
-       grantlist.add(authority);
-
-        UserDetails userDetails = (UserDetails) new User();  //here might be a problem
-
-
-        return userDetails;
     }
 }

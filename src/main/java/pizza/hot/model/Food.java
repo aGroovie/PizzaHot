@@ -8,12 +8,9 @@ public abstract class Food {
 
     private String description;
 
-
-
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;
@@ -35,7 +32,7 @@ public abstract class Food {
         this.description = description;
     }
 
-    public Food (){
+    public Food() {
 
     }
 }

@@ -11,11 +11,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import pizza.hot.service.SecurityService;
 
-import java.io.ObjectInputStream;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
+
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     private UserDetailsService userDetailsService;
 
@@ -23,32 +28,27 @@ public class SecurityServiceImpl implements SecurityService {
     public void setUserDetailsService(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 
     @Override
     public String findLoggedInUserName() {
-        Object userdetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if(userdetails instanceof UserDetails){
-        return     ((UserDetails) userdetails).getUsername();
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if(userDetails instanceof UserDetails){
+            return ((UserDetails)  userDetails).getUsername();
+
         }
         return null;
     }
 
     @Override
     public void autoLogin(String username, String password) {
-
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
 
-authenticationManager.authenticate(authenticationToken);
-if(authenticationToken.isAuthenticated()){
-  SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,password
+        ,userDetails.getAuthorities());
 
-
-}
+        authenticationManager.authenticate(authenticationToken);
+        if(authenticationToken.isAuthenticated()){
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
     }
-}
-*/
+}*/
