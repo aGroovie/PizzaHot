@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.UserDao;
 import pizza.hot.model.User;
+import pizza.hot.validator.UserNameConstraint;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private EntityManager entityManager;
+
     @Autowired
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -62,23 +64,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-        User user = new User();
+        User user;
         try {
-            user = (User) entityManager.createNativeQuery(
-                    "SELECT * from users WHERE username = :username", User.class).
-                    setParameter("username", username).getSingleResult();
-
+            user = (User) entityManager.createQuery("from User u where u.username = :username")
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            user = null;
         }
-        catch (NoResultException nre){
 
-    }
-        finally {
-            session.close();
-        }
         return user;
-        }
-
+    }
 }

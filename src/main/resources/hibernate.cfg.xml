@@ -3,6 +3,7 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">root</property>
@@ -21,4 +22,5 @@
         <mapping class="pizza.hot.model.Address"/>
         <mapping class="pizza.hot.model.Order"/>
     </session-factory>
+
 </hibernate-configuration>

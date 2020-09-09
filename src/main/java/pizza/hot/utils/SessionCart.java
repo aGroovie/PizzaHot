@@ -1,10 +1,12 @@
 package pizza.hot.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import pizza.hot.model.Food;
+import pizza.hot.service.FoodService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,13 @@ public class SessionCart {
 
     private Map<Food, Integer> usercart = new HashMap<>();
     private double totalPrice;
+
+    FoodService foodService;
+
+    @Autowired
+    public void setFoodService(FoodService foodService) {
+        this.foodService = foodService;
+    }
 
     public SessionCart() {
 
@@ -37,13 +46,10 @@ public class SessionCart {
     }
 
     public void countTotalPrice() {
-        long price = 0;
-
-        for (Food food : usercart.keySet()) {
-            totalPrice += food.getPrice() * usercart.get(food);
-            System.out.println(price);
-        }
+        long price = foodService.getTotalPrice(usercart);
         this.totalPrice = price;
+
+
     }
 
     public void removeFromCart(Food food, int removeNum) {
@@ -54,6 +60,7 @@ public class SessionCart {
 
         }
     }
+
 
     public void addToCart(Food food, int addNum) {
 

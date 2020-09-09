@@ -27,7 +27,6 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "username")
-    @NotNull
     @Size(min=5,max=10, message = "Username must be between {min} and {max}")
    // @UserNameConstraint
     private String username;

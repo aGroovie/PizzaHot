@@ -2,30 +2,32 @@ package pizza.hot.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import pizza.hot.dao.UserDao;
-import pizza.hot.model.User;
+import pizza.hot.service.UserService;
 
-import javax.persistence.NoResultException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.AssertTrue;
 
 public class UsernameValidator implements ConstraintValidator<UserNameConstraint, String> {
-    UserDao userDao;
+
+    UserService userService;
+
+
+
+
 
     @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
+
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
-  if(userDao.findByUsername(username) != null){
-      return false;
-  }
-  return true;
+        return username != null && !userService.isAlreadyInUse(username);
 
     }
+
     @Override
     public void initialize(UserNameConstraint constraintAnnotation) {
 

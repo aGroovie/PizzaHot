@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.util.WebUtils;
 import pizza.hot.model.User;
 import pizza.hot.service.SecurityService;
 import pizza.hot.service.UserService;
+import pizza.hot.validator.UserNameConstraint;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -36,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String register(@ModelAttribute @Valid User user, BindingResult result) {
+    public String register(@ModelAttribute  User user, BindingResult result) {
         if (result.hasErrors()) {
             return "/registration";
         }

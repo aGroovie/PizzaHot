@@ -42,4 +42,14 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUsername(username);
     }
 
+    @Override
+    public boolean isAlreadyInUse(String username) {
+       if(userDao.findByUsername(username) != null){
+           return  true;
+       }
+       else {
+           return false;
+       }
+    }
+
 }

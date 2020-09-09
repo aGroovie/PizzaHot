@@ -14,15 +14,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.stereotype.Component;
 import pizza.hot.security.AuthProviderImpl;
 import pizza.hot.service.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }            //might be a problem
+
 
     @Autowired
     public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {

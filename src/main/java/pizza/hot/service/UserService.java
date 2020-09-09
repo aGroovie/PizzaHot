@@ -13,5 +13,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    boolean isAlreadyInUse(String username);
+
 
 }
