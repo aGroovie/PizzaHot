@@ -13,6 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+
 public class DrinkListController {
 
     DrinkService drinkService;
@@ -29,7 +30,7 @@ public class DrinkListController {
         }
         model.addAttribute("drink", drink);
         drinkService.saveDrink(drink);
-        return "redirect:/drink-list";
+        return "redirect:/admin/drink-list";
     }
 
     @GetMapping("/drink-list")
@@ -40,6 +41,6 @@ public class DrinkListController {
     @GetMapping(value = "/deleteDrinkById{id}")
     public String deleteDrinkById(@PathVariable Long id){
         drinkService.deleteDrinkById(id);
-        return "redirect:/drink-list";
+        return "redirect:/admin/drink-list";
     }
 }

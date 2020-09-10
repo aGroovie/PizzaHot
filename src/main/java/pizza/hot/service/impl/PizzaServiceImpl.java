@@ -39,4 +39,9 @@ public class PizzaServiceImpl implements PizzaService {
     public void updatePizzaById(Long id, Pizza newPizza) {
         pizzaDao.updatePizzaById(id, newPizza);
     }
+
+    @Override
+    public Pizza getPizzaById(Long id) {
+        return pizzaDao.getPizzaById(id);
+    }
 }

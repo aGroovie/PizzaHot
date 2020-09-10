@@ -16,4 +16,5 @@ public interface PizzaDao {
 
     void updatePizzaById(Long id, Pizza pizza);
 
+    Pizza getPizzaById(Long id);
 }

@@ -28,8 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = this.userDao.findByUsername(userName);
 
         Set<GrantedAuthority> grantlist = new HashSet<>();
-        grantlist.add(new SimpleGrantedAuthority("ADMIN_ROLE"));
-        grantlist.add(new SimpleGrantedAuthority("CUSTOMER_ROLE"));
+         grantlist.add(new SimpleGrantedAuthority(user.getUserRole().getRole()));
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantlist);
 

@@ -33,4 +33,9 @@ public class DrinkServiceImpl implements DrinkService {
 
         drinkDao.deleteDrinkById(id);
     }
+
+    @Override
+    public Drink getDrinkById(Long id) {
+        return drinkDao.getDrinkById(id);
+    }
 }

@@ -69,4 +69,10 @@ public class UserController {
         return "admin";
     }
 
+    @GetMapping(value = "/error403")
+        public String errorPage(){
+            return "error403";
+        }
+
+
 }

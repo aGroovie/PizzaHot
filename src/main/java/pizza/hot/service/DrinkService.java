@@ -8,4 +8,5 @@ public interface DrinkService {
     void saveDrink(Drink drink);
     List<Drink> findAll();
     void deleteDrinkById(Long id);
+    Drink getDrinkById(Long id);
 }

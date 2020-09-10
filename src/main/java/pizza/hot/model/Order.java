@@ -2,12 +2,9 @@ package pizza.hot.model;
 // many tables to this one
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import pizza.hot.utils.Cart;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity

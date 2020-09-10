@@ -28,6 +28,11 @@ public class Pizza extends Food implements Serializable {
     private Long size;
 
 
+    @Lob
+    @Column(name = "pizza_picture")
+    private Byte[] image;
+
+
     @Column(name = "pizza_desc")
     private String description;
 
@@ -88,33 +93,14 @@ public class Pizza extends Food implements Serializable {
     }
 
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pizza pizza = (Pizza) o;
-        return id.equals(pizza.id) &&
-                name.equals(pizza.name) &&
-                price.equals(pizza.price) &&
-                size.equals(pizza.size) &&
-                description.equals(pizza.description);
+    public Byte[] getImage() {
+        return image;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, price, size,  description);
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "Pizza{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", size=" + size +
-                ", description='" + description + '\'' +
-                '}';
-    }
+
+
 }

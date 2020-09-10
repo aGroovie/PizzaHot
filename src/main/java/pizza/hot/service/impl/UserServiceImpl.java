@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pizza.hot.config.EncrytedPasswordUtils;
 import pizza.hot.dao.UserDao;
+import pizza.hot.enums.Role;
 import pizza.hot.model.User;
 import pizza.hot.service.UserService;
 
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         String encryptedPassword = EncrytedPasswordUtils.encrytePassword(user.getPassword());
         user.setPassword(encryptedPassword);
-        user.setUserRole(User.ROLE_CUSTOMER);
+        user.setUserRole(Role.CUSTOMER);
         userDao.saveUser(user);
     }
 
@@ -51,5 +52,6 @@ public class UserServiceImpl implements UserService {
            return false;
        }
     }
+
 
 }

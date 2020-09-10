@@ -64,4 +64,15 @@ public class PizzaDaoImpl implements PizzaDao {
         session.close();
 
     }
+
+    @Override
+    public Pizza getPizzaById(Long id) {
+        Session session;
+        Pizza pizza;
+        session = HibernateUtils.getSessionFactory().openSession();
+        pizza = session.get(Pizza.class, id);
+        Hibernate.initialize(pizza);
+        session.close();
+        return pizza;
+    }
 }

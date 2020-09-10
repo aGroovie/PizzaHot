@@ -1,5 +1,6 @@
 package pizza.hot.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,6 +10,7 @@ import pizza.hot.dao.DrinkDao;
 import pizza.hot.model.Drink;
 
 import java.util.List;
+
 @Repository
 public class DrinkDaoImpl implements DrinkDao {
     @Override
@@ -50,5 +52,16 @@ public class DrinkDaoImpl implements DrinkDao {
         session.close();
 
 
+    }
+
+    @Override
+    public Drink getDrinkById(Long id) {
+        Session session;
+        Drink drink;
+        session = HibernateUtils.getSessionFactory().openSession();
+        drink = session.get(Drink.class, id);
+        Hibernate.initialize(drink);
+        session.close();
+        return drink;
     }
 }

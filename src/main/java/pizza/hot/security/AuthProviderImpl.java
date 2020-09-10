@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import pizza.hot.enums.Role;
 import pizza.hot.model.User;
 import pizza.hot.service.UserService;
 
@@ -38,11 +39,11 @@ public class AuthProviderImpl implements AuthenticationProvider {
      if(!password.equals(user.getPassword())){
          throw new BadCredentialsException("bad info");
      }
-        String role = user.getUserRole();
+        Role role = user.getUserRole();
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN_ROLE"));
         grantedAuthorities.add(new SimpleGrantedAuthority("CUSTOMER_ROLE"));
-        user.setUserRole(User.ROLE_CUSTOMER);
+        user.setUserRole(Role.CUSTOMER);
         return  new UsernamePasswordAuthenticationToken(user, role, grantedAuthorities );
     }
 

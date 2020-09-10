@@ -1,5 +1,7 @@
 package pizza.hot.model;
 
+import org.springframework.context.annotation.Scope;
+import pizza.hot.enums.Role;
 import pizza.hot.validator.UserNameConstraint;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Scope("session")
 @Table(name = "users")
 public class User implements Serializable {
 
@@ -53,7 +56,8 @@ public class User implements Serializable {
 
 
     @Column(name = "user_role")
-    private String userRole;
+    @Enumerated(EnumType.STRING)
+    private Role userRole;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Payment> payments = new HashSet<>();
@@ -113,11 +117,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getUserRole() {
+    public Role getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(Role userRole) {
         this.userRole = userRole;
     }
 
