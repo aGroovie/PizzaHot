@@ -30,8 +30,7 @@ public class PizzaListController {
 
 
     @PostMapping(value = "/savePizza")
-    public String save(@ModelAttribute("pizza") Pizza pizza) throws IOException {
-
+    public String save(@ModelAttribute("pizza") Pizza pizza) {
 
         pizzaService.addPizza(pizza);
         return "redirect:/admin/pizza-list";
@@ -46,29 +45,26 @@ public class PizzaListController {
     }
 
     @GetMapping(value = "deletePizzaById/{id}")
-    public String deletePizza(@PathVariable Long id) {
+    public String deletePizza(@PathVariable("id") Long id) {
         pizzaService.deletePizzaById(id);
         return "redirect:/admin/pizza-list";
     }
 
-    @GetMapping(value = {"updatePizzaById/{id}", "/deletePizzaById"})
-    public String getUpdatePizza(@PathVariable Long id, Model model, @ModelAttribute("pizza") Pizza pizza) {
+    @GetMapping(value = {"updatePizzaById/{id}", "/deletePizzaById/", "updatePizza"})
+    public String getUpdatePizza(@PathVariable("id") Long id, Model model, @ModelAttribute("pizza") Pizza pizza) {
 
         model.addAttribute("pizza", pizzaService.getPizzaById(id));
 
-        return "/new-pizza";
+
+        return "/edit-pizza";
 
 
     }
 
     @PostMapping(value = "updatePizzaById/{id}")
     public String updatePizza(@ModelAttribute("pizza") Pizza pizza, @PathVariable Long id) {
-        Pizza updatedPizza = pizzaService.getPizzaById(id);
-        updatedPizza.setName(pizza.getName());
-        updatedPizza.setPrice(pizza.getPrice());
-        updatedPizza.setDescription(pizza.getDescription());
-        updatedPizza.setProducts(pizza.getProducts());
         pizzaService.updatePizzaById(id, pizza);
+
         return "redirect:/admin/pizza-list";
     }
 

@@ -3,6 +3,7 @@ package pizza.hot.dao.impl;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
@@ -54,13 +55,22 @@ public class PizzaDaoImpl implements PizzaDao {
 
     @Override
     public void updatePizzaById(Long id, Pizza newPizza) {
+
         Pizza oldPizza;
+
         SessionFactory factory = HibernateUtils.getSessionFactory();
         Session session = factory.getCurrentSession();
-        oldPizza = session.get(Pizza.class, id);
-        oldPizza = newPizza;
+        Transaction tx = session.beginTransaction();
+        oldPizza = (Pizza) session.get(Pizza.class, id);
+
+        oldPizza.setPrice(newPizza.getPrice());
+        oldPizza.setName(newPizza.getName());
+        oldPizza.setDescription(newPizza.getDescription());
+        oldPizza.setProducts(newPizza.getProducts());
+
         session.update(oldPizza);
-        session.getTransaction().commit();
+        tx.commit();
+
         session.close();
 
     }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:form="http://www.w3.org/1999/xhtml">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EDIT PIZZA !</title>
+</head>
+<body>
+<form class="signup-form"  th:object="${pizza}" th:action="@{'/admin/updatePizzaById/' + ${id}}" method="post">
+    <div class="form-header">
+        <h1> EDIT Pizza</h1>
+    </div>
+
+    <div class="horizontal-group">
+        <div class="form-group left">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" id="name" class="form-input">
+
+            <label for="price">Price</label>
+            <input type="text" th:field="*{price}" id="price" class="form-input">
+
+            <label for="description">Description</label>
+            <input type="text" th:field="*{description}" id="description" class="form-input">
+
+
+            <input class="button" type="submit" value="savePizza">
+        </div>
+    </div>
+
+</form>
+
+</body>
+</html>

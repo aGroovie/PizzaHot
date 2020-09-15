@@ -23,7 +23,7 @@ public class DrinkListController {
         this.drinkService = drinkService;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/saveDrink")
     public String save(@Validated @ModelAttribute("drink") Drink drink, BindingResult result, Model model){
         if(result.hasErrors()){
             return "drink-list";
@@ -34,8 +34,10 @@ public class DrinkListController {
     }
 
     @GetMapping("/drink-list")
-    public List<Drink> getAllDrinks(){
-        return drinkService.findAll();
+    public String getAllDrinks(Model model){
+        model.addAttribute("drinks", drinkService.findAll());
+
+        return "drink-list";
     }
 
     @GetMapping(value = "/deleteDrinkById{id}")
@@ -43,4 +45,5 @@ public class DrinkListController {
         drinkService.deleteDrinkById(id);
         return "redirect:/admin/drink-list";
     }
+
 }
