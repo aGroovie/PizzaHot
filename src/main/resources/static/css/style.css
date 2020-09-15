@@ -63,11 +63,33 @@ html {
 
 }
 .top-image{
-    height: 10%;
-    width: 80%;
+    height: 200px;
+    width: 800px;
 }
 .logout-button{
     float: right;
     padding: 10px 25px;
     background-color: red;
+}
+.custom-table{
+    font-family: "Lucida Sans Unicode", "Lucida Grande",  sans-serif;
+    font-size: 15px;
+    max-width: 60%;
+    width: 70%;
+    text-align: center;
+    border-collapse: collapse;
+    border :7px solid #9baff1;
+    margin-left:auto;
+    margin-right:auto;
+
+}
+.form-header  {
+    background-color: #EFF0F1;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+.horizontal-group .left{
+    float:left;
+    width:49%;
 }

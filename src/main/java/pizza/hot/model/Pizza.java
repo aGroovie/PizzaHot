@@ -1,10 +1,9 @@
 package pizza.hot.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.*;
 
@@ -30,14 +29,17 @@ public class Pizza extends Food implements Serializable {
 
     @Lob
     @Column(name = "pizza_picture")
-    private Byte[] image;
+    private byte[] image;
 
 
     @Column(name = "pizza_desc")
     private String description;
 
-   @OneToMany(mappedBy = "pizza",fetch = FetchType.EAGER)
-   private Set<Product> products = new HashSet<>();
+    @Transient
+    private CommonsMultipartFile fileData;
+
+    @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
+    private Set<Product> products = new HashSet<>();
 
 
     public Pizza() {
@@ -92,15 +94,19 @@ public class Pizza extends Food implements Serializable {
         this.name = name;
     }
 
+    public CommonsMultipartFile getFileData() {
+        return fileData;
+    }
 
-    public Byte[] getImage() {
+    public void setFileData(CommonsMultipartFile fileData) {
+        this.fileData = fileData;
+    }
+
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
-
-
-
 }

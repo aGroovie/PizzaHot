@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
 <head>
     <meta charset="UTF-8">
     <title>ADMIN PAGE</title>
 
-</head>
-<body>
 
+    <div class="menu">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/registration">Registration</a></li>
+            <li><a href="/drink-selection">Our Drinks!</a></li>
+            <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+            <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a> </li>
+            <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a> </li>
+            <li><form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form></li>
+
+
+        </ul>
+        <br style="clear:left"/>
+    </div>
+<body>
+<table class="product-container">
+   <caption ADMIN PAGE></caption>
+    <thead>
+    <tr>
+    <th> List of Users</th>
+    <th> List of Pizzas</th>
+    <th> List of Drinks</th>
+    <th> Daily Report </th>
+    <tr>
+        <th><p> <a href="/admin/pizza-list">View/Edit Pizzas </a> </p></th>
+        <th><p> <a href="/admin/user-list">View/Edit Users </a> </p></th>
+        <th><p> <a href="/admin/drink-list">View/Edit Users </a> </p></th>
+        <th><p> <a href="/admin/daily-report">View/Edit Users </a> </p></th>
+
+    </thead>
+</table>
+</div>
 </body>
 </html>

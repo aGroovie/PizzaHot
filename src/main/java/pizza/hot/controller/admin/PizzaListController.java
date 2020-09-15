@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pizza.hot.dao.PizzaDao;
 import pizza.hot.model.Pizza;
-import pizza.hot.model.User;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.UserService;
 
-import java.util.List;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,30 +30,54 @@ public class PizzaListController {
 
 
     @PostMapping(value = "/savePizza")
-    public String save(@ModelAttribute("pizza") Pizza pizza) {
+    public String save(@ModelAttribute("pizza") Pizza pizza) throws IOException {
+
+
         pizzaService.addPizza(pizza);
         return "redirect:/admin/pizza-list";
     }
 
 
-
     @GetMapping("/pizza-list")
-    public String userList(Model model){
+    public String userList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
 
         return "pizza-list";
     }
 
     @GetMapping(value = "deletePizzaById/{id}")
-    public String deletePizza(@PathVariable Long id){
+    public String deletePizza(@PathVariable Long id) {
         pizzaService.deletePizzaById(id);
         return "redirect:/admin/pizza-list";
     }
 
-    @PostMapping(value = "updatePizzaById/{id, pizza}")
-    public String updatePizza(@ModelAttribute("pizza") Pizza pizza, @PathVariable Long id){
+    @GetMapping(value = {"updatePizzaById/{id}", "/deletePizzaById"})
+    public String getUpdatePizza(@PathVariable Long id, Model model, @ModelAttribute("pizza") Pizza pizza) {
+
+        model.addAttribute("pizza", pizzaService.getPizzaById(id));
+
+        return "/new-pizza";
+
+
+    }
+
+    @PostMapping(value = "updatePizzaById/{id}")
+    public String updatePizza(@ModelAttribute("pizza") Pizza pizza, @PathVariable Long id) {
+        Pizza updatedPizza = pizzaService.getPizzaById(id);
+        updatedPizza.setName(pizza.getName());
+        updatedPizza.setPrice(pizza.getPrice());
+        updatedPizza.setDescription(pizza.getDescription());
+        updatedPizza.setProducts(pizza.getProducts());
         pizzaService.updatePizzaById(id, pizza);
         return "redirect:/admin/pizza-list";
+    }
+
+
+    @GetMapping(value = "/new-pizza")
+    public String newPizza(@ModelAttribute("pizza") Pizza pizza) {
+
+        return "/new-pizza";
+
     }
 
 

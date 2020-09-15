@@ -29,7 +29,7 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String userList(Model model, Principal principal){
+    public String pizzaList(Model model, Principal principal){
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
        // model.addAttribute("principal",principal.getName());
         return "/main";

@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
 <head>
     <meta charset="UTF-8">
     <title>User List</title>
 </head>
-<body>
-<table>
+<body class="form-body">
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a> </li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a> </li>
+        <li><form method="post" th:action="@{/logout}">
+            <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+        </form></li>
+    </ul>
+    <br style="clear:left"/>
+</div>
+<table class="product-container">
     <caption> <b> List of Users</b></caption>
     <thead>
     <tr>
