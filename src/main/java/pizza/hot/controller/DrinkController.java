@@ -2,6 +2,7 @@ package pizza.hot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pizza.hot.model.Drink;
@@ -23,8 +24,9 @@ public class DrinkController {
 
 
     @GetMapping("/drink-selection")
-    public List<Drink> getAllDrinks(){
-        return drinkService.findAll();
+    public String getAllDrinks(Model model){
+        model.addAttribute("drinks" ,drinkService.findAll());
+        return "/drink-selection";
     }
 
 

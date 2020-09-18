@@ -27,16 +27,18 @@
         </ul>
         <br style="clear:left"/>
     </div>
-<table class="product-container">
+<table class="product-container" >
     <caption PIZZAS FOR YOU></caption>
 <thead>
 
 <tr>
     <th>Name</th>
     <th>Price</th>
-    <th>Size</th>
-    <th>Picture</th>
+    <th>LOOK AT IT!</th>
     <th>Description</th>
+    <th>Amount</th>
+    <th>ARE U READY</th>
+
 </tr>
 </thead>
 <tbody>
@@ -44,9 +46,13 @@
 <tr th:each="pizza : ${pizzas}">
     <td th:text="${pizza.name}"></td>
     <td th:text="${pizza.price}"></td>
-    <td th:text="${pizza.size}"></td>
-    <img class="product-image" th:src="@{'data:/images;base64,' + ${pizza.image}}" />
-    <td th:text="${pizza.description}"></td>
+    <td><img class="product-image" th:src="${pizza.pictureLink}"> </td>
+    <td class="center-description" th:text="${pizza.description}"></td>
+    <form th:action="@{/buyProduct}">
+        <input type="text" th:name="quantity"/>
+    </form>
+    <td><a th:href="@{buyProduct{id}/(id=${pizza.id})}">BUY NOW!</a></td>
+
 </tr>
 </tbody>
 </table>

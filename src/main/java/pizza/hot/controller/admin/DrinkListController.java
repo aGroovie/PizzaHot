@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Drink;
+import pizza.hot.model.Pizza;
 import pizza.hot.service.DrinkService;
 
 import java.util.List;
@@ -44,6 +45,24 @@ public class DrinkListController {
     public String deleteDrinkById(@PathVariable Long id){
         drinkService.deleteDrinkById(id);
         return "redirect:/admin/drink-list";
+    }
+
+
+    @PostMapping(value = "updateDrinkById/{id}")
+    public String updateDrink(@ModelAttribute("drink") Drink drink, @PathVariable Long id) {
+        drinkService.updateDrinkById(id, drink);
+        return "redirect:/admin/drink-list";
+    }
+
+    @GetMapping(value = {"updateDrinkById/{id}", "/updateDrinkById/", "updateDrink"})
+    public String getUpdateDrink(@PathVariable("id") Long id, Model model, @ModelAttribute("drink") Drink drink) {
+
+        model.addAttribute("drink",drinkService.getDrinkById(id) );
+
+
+        return "/edit-drink";
+
+
     }
 
 }

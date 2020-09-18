@@ -5,15 +5,17 @@ html {
 {
     border: 1px solid #ccc;
     padding: 5px;
-    width: 250px;
+    width: 900px;
+    height: 900px;
     margin: 10px ;
     display: inline-block;
-    text-align:left;
+    text-align:center;
 
 }
 .product-image {
-    width: 120px;
-    height: 80px;
+    position:center;
+    width: 200px;
+    height: 200px;
 }
 .form-body .form-input {
     font-size: 17px;
@@ -92,4 +94,17 @@ html {
 .horizontal-group .left{
     float:left;
     width:49%;
+}
+.center-description{
+    text-align: center;
+}
+
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+    border: 1px solid floralwhite !important;
 }

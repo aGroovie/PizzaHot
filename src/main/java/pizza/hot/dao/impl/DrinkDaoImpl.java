@@ -3,11 +3,13 @@ package pizza.hot.dao.impl;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.DrinkDao;
 import pizza.hot.model.Drink;
+import pizza.hot.model.Pizza;
 
 import java.util.List;
 
@@ -63,5 +65,27 @@ public class DrinkDaoImpl implements DrinkDao {
         Hibernate.initialize(drink);
         session.close();
         return drink;
+    }
+
+    @Override
+    public void updateDrinkById(Long id, Drink newDrink) {
+
+        Drink oldDrink;
+
+        SessionFactory factory = HibernateUtils.getSessionFactory();
+        Session session = factory.getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        oldDrink =  session.get(Drink.class, id);
+
+        oldDrink.setPrice(newDrink.getPrice());
+        oldDrink.setName(newDrink.getName());
+        oldDrink.setDescription(newDrink.getDescription());
+
+
+        session.update(oldDrink);
+        tx.commit();
+
+        session.close();
+
     }
 }

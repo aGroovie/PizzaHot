@@ -10,6 +10,7 @@ public interface FoodService {
 
     public Long getPizzaTotalPrice(Pizza pizza);
 
-    public Long getTotalPrice(Map<Food,Integer> food);
+    public Long getTotalPrice(Map<Food, Integer> food);
 
+    public Food getFoodById(Long id);
 }

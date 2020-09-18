@@ -29,14 +29,13 @@ public class Pizza extends Food implements Serializable {
 
     @Lob
     @Column(name = "pizza_picture")
-    private byte[] image;
+    private String pictureLink;
 
 
     @Column(name = "pizza_desc")
     private String description;
 
-    @Transient
-    private CommonsMultipartFile fileData;
+
 
     @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
@@ -94,19 +93,11 @@ public class Pizza extends Food implements Serializable {
         this.name = name;
     }
 
-    public CommonsMultipartFile getFileData() {
-        return fileData;
+    public String getPictureLink() {
+        return pictureLink;
     }
 
-    public void setFileData(CommonsMultipartFile fileData) {
-        this.fileData = fileData;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
     }
 }

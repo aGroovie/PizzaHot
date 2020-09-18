@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pizza.hot.model.Pizza;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.UserService;
 
-import java.security.Principal;
-import java.util.List;
-
 @Controller
 public class MainController {
+
+
 
     PizzaService pizzaService;
 
@@ -29,11 +27,21 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String pizzaList(Model model, Principal principal){
+    public String pizzaList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
-       // model.addAttribute("principal",principal.getName());
         return "/main";
 
 
-}
     }
+
+
+    @GetMapping("/403")
+    public String accessDenied(){
+        return "/403";
+    }
+
+
+
+
+
+}

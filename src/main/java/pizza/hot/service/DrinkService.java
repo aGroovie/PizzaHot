@@ -9,4 +9,6 @@ public interface DrinkService {
     List<Drink> findAll();
     void deleteDrinkById(Long id);
     Drink getDrinkById(Long id);
+    void updateDrinkById(Long id, Drink newDrink);
+
 }

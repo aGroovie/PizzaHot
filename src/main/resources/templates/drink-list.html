@@ -6,32 +6,38 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="form-body">
-<img class="top-image" src="../static/images/pizzahot.png"  th:src="@{images/pizzahot.png}"/>
+
+<body>
+<div class="form-body">
+
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{static/images/pizzahot.png}" alt="there should be logo"/>
 <div class="menu">
     <ul>
         <li><a href="/main">Home</a></li>
         <li><a href="/registration">Registration</a></li>
         <li><a href="/drink-selection">Our Drinks!</a></li>
         <li><a href="/pizzas">Our HOT Pizzas!</a></li>
-        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a> </li>
-        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a> </li>
-        <li><form method="post" th:action="@{/logout}">
-            <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
-        </form></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
 
 
     </ul>
     <br style="clear:left"/>
 </div>
 <table class="product-container">
-    <caption DRINK LIST TO EDIT ></caption>
+    <caption DRINK LIST TO EDIT></caption>
     <thead>
 
     <tr>
         <th>Name</th>
         <th>Price</th>
         <th>Size</th>
+        <td>Picture </td>
         <th>Description</th>
         <th>Delete</th>
         <th>EDIT</th>
@@ -43,12 +49,13 @@
         <td th:text="${drink.name}"></td>
         <td th:text="${drink.price}"></td>
         <td th:text="${drink.size}"></td>
-
+        <td class="product-image"  img th:src="${drink.picturelink}"></td>
         <td th:text="${drink.description}"></td>
         <td><a th:href="@{deleteDrinkById/{id}(id=${drink.id})}">Delete</a></td>
         <td><a th:href="@{updateDrinkById/{id}(id=${drink.id})}">Edit</a></td>
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>

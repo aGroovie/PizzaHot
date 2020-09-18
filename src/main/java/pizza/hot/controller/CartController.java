@@ -1,23 +1,41 @@
-/*
 package pizza.hot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import pizza.hot.model.Drink;
-import pizza.hot.model.Pizza;
-import pizza.hot.service.DrinkService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import pizza.hot.model.Food;
+import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
+import pizza.hot.service.UserService;
 import pizza.hot.utils.SessionCart;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@RequestMapping("/cart")
+
 public class CartController {
 
-    private SessionCart sessionCart;
-    private PizzaService pizzaService;
-    private DrinkService drinkService;
+    SessionCart sessionCart;
+
+
+    FoodService foodService;
+
+    PizzaService pizzaService;
+
+    UserService userService;
+
+    @Autowired
+    public void setSessionCart(SessionCart sessionCart) {
+        this.sessionCart = sessionCart;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setPizzaService(PizzaService pizzaService) {
@@ -25,61 +43,59 @@ public class CartController {
     }
 
     @Autowired
-    public void setDrinkService(DrinkService drinkService) {
-        this.drinkService = drinkService;
-    }
-
-    @Autowired
-    public void setSessionCart(SessionCart sessionCart) {
-        this.sessionCart = sessionCart;
+    public void setFoodService(FoodService foodService) {
+        this.foodService = foodService;
     }
 
 
-    @ModelAttribute
-    public void addCart(Model model) {
+    @GetMapping(value = {"/buyProduct{id}", "/buyProduct"})
+    public String listProductHandler(@PathVariable(value = "id") Long id, Model model
+    ) {   //  @RequestParam(value = "quantity") String quantity  tyt request param je? Posmotri pls ya vse pravilno visral ili net   kak eto sdelat prosto pole clya cifri vo view sdelat?
+
+        Food food;
+        food = foodService.getFoodById(id);
+        model.addAttribute("food", food);
+
+        sessionCart.addToCart(food, 2); // problem here
+
+        return "redirect:/shoppingCart";
+
+    }
+
+
+    @GetMapping(value = "/removeProduct{id}")
+    public String removeProductHandler(@PathVariable(value = "id") Long id
+            , Model model) {  // @RequestParam(value = "quantity") String quantity
+
+        Food food = foodService.getFoodById(id);
+
+        model.getAttribute("sessionCart");
+        sessionCart.removeFromCart(food, 1);
+        return "redirect:/shoppingCart";
+    }
+
+    @GetMapping("/shoppingCart")
+    public String ShoppingCartHandler(Model model) {
+
         model.addAttribute("sessionCart", sessionCart);
-    }
-    @PostMapping
-    public String addPizzaToCart(@RequestParam("PizzaId")Long pizzaId, @RequestParam("amount") String amount){
-        Pizza pizza = pizzaService.getPizzaById(pizzaId);
-        sessionCart.addToCart(pizza,Integer.parseInt(amount));
-        return "redirect:/cart";
-    }
+        model.addAttribute("userCart", sessionCart.getUserCart()); //ono rabotaet no mne kajetsya eto kostil
 
-    @DeleteMapping(value = "remove/{pizzaId}/")
-    public String removePizzaFromCart(@PathVariable Long pizzaId){
-        Pizza pizza = pizzaService.getPizzaById(pizzaId);
+        return "/shoppingCart";
 
-        sessionCart.removeFromCart(pizza, sessionCart.getUsercart().get(pizza));
-        return "redirect:/cart";
     }
-
 
     @PostMapping
-    public String addDrinkToCart(@RequestParam("DrinkId")Long drinkId, @RequestParam("amount") String amount){
-         Drink drink = drinkService.getDrinkById(drinkId);
-        sessionCart.addToCart(drink,Integer.parseInt(amount));
-        return "redirect:/cart";
+    public String CleanCartHandler() {
+
+        sessionCart.getUserCart().clear();
+        return "redirect:/main";
     }
 
-    @DeleteMapping(value ="remove/{drinkId}/")
-    public String removeDrinkFromCart(@PathVariable Long drinkId){
-        Drink drink = drinkService.getDrinkById(drinkId);
+    @PostMapping("/continueShopping")
+    public String continueShopping() {
 
-        sessionCart.removeFromCart(drink, sessionCart.getUsercart().get(drink));
-        return "redirect:/cart";
+        return "redirect:/main";
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
-*/

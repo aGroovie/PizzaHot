@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Drink extends Food implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "drink_id")
     private Long id;
 
     @Column(name = "drink_price")
@@ -26,6 +27,12 @@ public class Drink extends Food implements Serializable {
 
     @Column(name = "drink_description")
     private String description;
+
+
+    @Column(name = "drink_picture")
+    private String pictureLink;
+
+
 
 
     public Drink() {
@@ -74,31 +81,11 @@ public class Drink extends Food implements Serializable {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Drink drink = (Drink) o;
-        return id.equals(drink.id) &&
-                price.equals(drink.price) &&
-                name.equals(drink.name) &&
-                size.equals(drink.size) &&
-                description.equals(drink.description);
+    public String getPictureLink() {
+        return pictureLink;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, price, name, size, description);
-    }
-
-    @Override
-    public String toString() {
-        return "Drink{" +
-                "id=" + id +
-                ", price=" + price +
-                ", name='" + name + '\'' +
-                ", size=" + size +
-                ", description='" + description + '\'' +
-                '}';
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
     }
 }
