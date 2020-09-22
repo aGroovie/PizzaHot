@@ -1,4 +1,4 @@
-package pizza.hot.controller;
+package pizza.hot.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +27,7 @@ public class ProductListController {
         return "redirect:/product-list";
     }
 
-   @GetMapping("/product-list")
-    public List<Product> getAllProducts(){
-        return productService.findAllProducts();
-   }
+
 
    @GetMapping(value = "deleteProductById/{id}")
     String deleteProduct(@PathVariable Long id){

@@ -64,9 +64,11 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Address> addresses = new HashSet<>();
+/*
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Order order;
+*/
 
 
     public Long getId() {
@@ -141,11 +143,11 @@ public class User implements Serializable {
         this.addresses = addresses;
     }
 
-    public Order getOrder() {
+/*    public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
-    }
+    }*/
 }

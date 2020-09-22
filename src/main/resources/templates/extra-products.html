@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PIZZA TIIIIIME!</title>
+</head>
+
+
+<table class="product-container">
+<thead>
+    <tr>
+        <td>List Of products</td>
+</thead>
+    <tbody>
+        <td>
+            <th:block th:each="product : ${products}">
+                <input type="checkbox" name="prod" th:value="${product.id}" th:action="@{addProductById/{id}(id=${product.id})}" th:method="POST"/>
+                <label th:text="${product.name}"></label>
+                <label th:text="${product.price + '$'}"></label>
+            </th:block>
+        </td>
+
+    </tbody>
+
+</table>
+<li><a href="/shoppingCart">Shopping cart</a></li>
+<li><a href="/drink-selection">Skip to Drinks!</a></li>
+<body>

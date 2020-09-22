@@ -27,28 +27,24 @@
         </ul>
         <br style="clear:left"/>
     </div>
-    <table class="product-container" >
-        <caption PIZZAS FOR YOU></caption>
-        <thead>
+    <th:block th:each="drink :${drinks}">
+        <div class="card">
+            <img class="product-image" th:src="${drink.pictureLink}" alt="picture of pizza must be here">
+            <h1 th:text="${drink.name}"></h1>
+            <p class="price" th:text="${drink.price}  + '$' ">  </p>
+            <p th:text=" ${drink.description}"> </p>
+            <form action="/buyDrink" method="POST">
+                <input type="hidden" name="id" th:value="${drink.id}"/>
+                <label>
+                    <input type="text" name="quantity">
+                </label>
+                <p>
+                    <button>Add to Cart</button>
+                </p>
 
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>LOOK AT IT!</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr th:each="drink : ${drinks}">
-            <td th:text="${drink.name}"></td>
-            <td th:text="${drink.price}"></td>
-            <td><img class="product-image" th:src="${drink.pictureLink}"> </td>
-            <td class="center-description" th:text="${drink.description}"></td>
-        </tr>
-        </tbody>
-    </table>
-
+            </form>
+        </div>
+    </th:block>
 </div>
 </body>
 </html>

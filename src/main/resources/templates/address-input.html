@@ -6,11 +6,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>PIZZA TIIIIIME!</title>
+    <title>Enter your Address Details</title>
 </head>
-<body class="center-body">
-
+<body>
 <img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="form-body">
     <div class="menu">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -29,26 +29,25 @@
         </ul>
         <br style="clear:left"/>
     </div>
-    <th:block th:each="pizza :${pizzas}">
-        <div class="card">
-            <img class="product-image" th:src="${pizza.pictureLink}" alt="picture of pizza must be here">
-            <h1 th:text="${pizza.name}"></h1>
-            <p class="price" th:text="${pizza.price}  + '$' ">  </p>
-            <p th:text=" ${pizza.description}"> </p>
-            <form action="/buyPizza" method="POST">
-                <input type="hidden" name="id" th:value="${pizza.id}"/>
-                <input type="checkbox" name="size" value="15">15 Cm<Br>
-                <input type="checkbox" name="size" value="30">30 Cm<Br>
-                <label>
-                    <input type="text" name="quantity">
-                </label>
-                <p>
-                    <button>Add to Cart</button>
-                </p>
+<div class="form-body">
+    <form class="signup-form" action="/address-input" th:object="${address}" method="post">
+        <h1> Address Information </h1>
+        <label for="city">City</label>
+        <input type="text" th:field="*{city}" id="city" class="form-input">
+        <label for="street">Street</label>
+        <input type="text" th:field="*{street}" id="street" class="form-input">
+        <label for="houseNumber">House Number</label>
+        <input type="text" th:field="*{houseNumber}" id="houseNumber" class="form-input">
+        <label for="apartmentNumber">Apartment Number</label>
+        <input type="text" th:field="*{apartmentNumber}" id="apartmentNumber" class="form-input">
+        <label for="zip">Zip Code</label>
+        <input type="text" th:field="*{zip}" id="zip" class="form-input">
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" th:field="*{phoneNumber}" id="phoneNumber" class="form-input">
 
-            </form>
-        </div>
-    </th:block>
 
+        <input class="button" type="submit" value="Continue to Payment">
+    </form>
+</div>
 </body>
 </html>

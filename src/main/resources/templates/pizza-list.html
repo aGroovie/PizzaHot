@@ -1,53 +1,58 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
 
 <head>
     <meta charset="UTF-8">
-    <title>PIZZA TIIIIIME!</title>
+    <title>Here you can eddit Pizzas</title>
 </head>
 <body>
-<img class="top-image" src="../static/images/pizzahot.png"  th:src="@{images/pizzahot.png}"/>
-<div class="menu">
-    <ul>
-        <li><a href="/main">Home</a></li>
-        <li><a href="/registration">Registration</a></li>
-        <li><a href="/drink-selection">Our Drinks!</a></li>
-        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
-        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a> </li>
-        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a> </li>
-        <li><form method="post" th:action="@{/logout}">
-            <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
-        </form></li>
+
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="form-body">
+    <div class="menu">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/registration">Registration</a></li>
+            <li><a href="/drink-selection">Our Drinks!</a></li>
+            <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+            <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+            <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+                </form>
+            </li>
 
 
-    </ul>
-    <br style="clear:left"/>
+        </ul>
+        <br style="clear:left"/>
+    </div>
+    <table class="product-container">
+        <caption><b> List of Pizzas</b></caption>
+        <thead>
+        <tr>
+            <th>Pizza Name</th>
+            <th>Pizza price</th>
+            <th>Pizza size</th>
+
+            <th>Pizza description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pizza : ${pizzas}">
+            <td th:text="${pizza.name}"></td>
+            <td th:text="${pizza.price}"></td>
+            <td th:text="${pizza.size}"></td>
+            <td th:text="${pizza.description}"></td>
+            <td><a th:href="@{deletePizzaById/{id}(id=${pizza.id})}">Delete</a></td>
+            <td><a th:href="@{updatePizzaById/{id}(id=${pizza.id})}">Edit</a></td>
+        </tr>
+
+        </tbody>
+    </table>
 </div>
-<table class="product-container">
-<caption> <b> List of Pizzas</b></caption>
-<thead>
-<tr>
-    <th>Pizza Name</th>
-    <th>Pizza price</th>
-    <th>Pizza size</th>=
-    <th>Pizza description</th>
-</tr>
-</thead>
-    <tbody>
-    <tr th:each="pizza : ${pizzas}">
-        <td th:text="${pizza.name}"></td>
-        <td th:text="${pizza.price}"></td>
-        <td th:text="${pizza.size}"></td>
-        <td th:text="${pizza.description}"></td>
-        <td><a th:href="@{deletePizzaById/{id}(id=${pizza.id})}">Delete</a></td>
-        <td><a th:href="@{updatePizzaById/{id}(id=${pizza.id})}">Edit</a></td>
-</tr>
-
-    </tbody>
-</table>
-
-
 </body>
 </html>

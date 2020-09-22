@@ -6,13 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pizza.hot.model.Food;
+import pizza.hot.model.Pizza;
+import pizza.hot.model.Product;
 import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
+import pizza.hot.service.ProductService;
 import pizza.hot.service.UserService;
 import pizza.hot.utils.SessionCart;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 
@@ -25,17 +27,16 @@ public class CartController {
 
     PizzaService pizzaService;
 
-    UserService userService;
+
+
+    ProductService productService;
+
 
     @Autowired
     public void setSessionCart(SessionCart sessionCart) {
         this.sessionCart = sessionCart;
     }
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Autowired
     public void setPizzaService(PizzaService pizzaService) {
@@ -48,17 +49,19 @@ public class CartController {
     }
 
 
-    @GetMapping(value = {"/buyProduct{id}", "/buyProduct"})
-    public String listProductHandler(@PathVariable(value = "id") Long id, Model model
-    ) {   //  @RequestParam(value = "quantity") String quantity  tyt request param je? Posmotri pls ya vse pravilno visral ili net   kak eto sdelat prosto pole clya cifri vo view sdelat?
+    @PostMapping(value = "/buyPizza")           //razdelit mb pizza i drink controlleri hz gabe? ?
+    public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
+                                     @RequestParam(value = "size") String size, Model model
+    ) {
 
-        Food food;
-        food = foodService.getFoodById(id);
-        model.addAttribute("food", food);
+        Pizza pizza;
+        pizza = pizzaService.getPizzaById(id);
+        foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
+        model.addAttribute("pizza", pizza);
 
-        sessionCart.addToCart(food, 2); // problem here
+        sessionCart.addToCart(pizza, Integer.parseInt(quantity)); // problem here
 
-        return "redirect:/shoppingCart";
+        return "redirect:/extra-products";
 
     }
 
@@ -74,6 +77,7 @@ public class CartController {
         return "redirect:/shoppingCart";
     }
 
+
     @GetMapping("/shoppingCart")
     public String ShoppingCartHandler(Model model) {
 
@@ -84,18 +88,18 @@ public class CartController {
 
     }
 
+/*
     @PostMapping
     public String CleanCartHandler() {
 
         sessionCart.getUserCart().clear();
         return "redirect:/main";
     }
+*/
 
     @PostMapping("/continueShopping")
     public String continueShopping() {
 
         return "redirect:/main";
     }
-
-
 }

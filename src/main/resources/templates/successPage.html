@@ -8,9 +8,10 @@
     <meta charset="UTF-8">
     <title>PIZZA TIIIIIME!</title>
 </head>
-<body class="center-body">
+<body>
 
 <img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="form-body">
     <div class="menu">
         <ul>
             <li><a href="/main">Home</a></li>
@@ -29,26 +30,13 @@
         </ul>
         <br style="clear:left"/>
     </div>
-    <th:block th:each="pizza :${pizzas}">
-        <div class="card">
-            <img class="product-image" th:src="${pizza.pictureLink}" alt="picture of pizza must be here">
-            <h1 th:text="${pizza.name}"></h1>
-            <p class="price" th:text="${pizza.price}  + '$' ">  </p>
-            <p th:text=" ${pizza.description}"> </p>
-            <form action="/buyPizza" method="POST">
-                <input type="hidden" name="id" th:value="${pizza.id}"/>
-                <input type="checkbox" name="size" value="15">15 Cm<Br>
-                <input type="checkbox" name="size" value="30">30 Cm<Br>
-                <label>
-                    <input type="text" name="quantity">
-                </label>
-                <p>
-                    <button>Add to Cart</button>
-                </p>
+<body>
+<div class="form-body">
 
-            </form>
-        </div>
-    </th:block>
 
+  
+    <h3 style="color:red;">Thank you for the purchase!!</h3>
+
+</div>
 </body>
 </html>

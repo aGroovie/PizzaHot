@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter your Address Details</title>
+</head>
+<body>
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="form-body">
+    <div class="menu">
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/registration">Registration</a></li>
+            <li><a href="/drink-selection">Our Drinks!</a></li>
+            <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+            <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+            <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+                </form>
+            </li>
+
+
+        </ul>
+        <br style="clear:left"/>
+    </div>
+<div class="form-body">
+    <form class="signup-form" action="/payment-input" th:object="${payment}" method="post">
+        <h1> Payment Information </h1>
+        <label for="name">CARDHOLDER NAME</label>
+        <input type="text" th:field="*{name}" id="name" class="form-input">
+        <label for="city">City</label>
+        <input type="text" th:field="*{city}" id="city" class="form-input">
+        <label for="street">Street</label>
+        <input type="text" th:field="*{street}" id="street" class="form-input">
+        <label for="state">State</label>
+        <input type="text" th:field="*{state}" id="state" class="form-input">
+        <label for="zip">Zip Code</label>
+        <input type="text" th:field="*{zip}" id="zip" class="form-input">
+        <label for="phone">Phone number</label>
+        <input type="text" th:field="*{phone}" id="phone" class="form-input">
+        <label for="ccNumber">Credit Card number</label>
+        <input type="text" th:field="*{ccNumber}" id="ccNumber" class="form-input">
+        <label for="ccExpiration">Expiration Date</label>
+        <input type="text" th:field="*{ccExpiration}" id="ccExpiration" class="form-input">
+        <label for="ccCVV">CCVV CODE</label>
+        <input type="text" th:field="*{ccCVV}" id="ccCVV" class="form-input">
+        <input class="button" type="submit" value="Continue to Payment">
+    </form>
+</div>
+</body>
+</html>

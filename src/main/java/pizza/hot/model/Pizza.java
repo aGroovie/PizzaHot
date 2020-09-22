@@ -1,7 +1,6 @@
 package pizza.hot.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +23,7 @@ public class Pizza extends Food implements Serializable {
     private Long price;
 
     @Column(name = "pizza_size")
-    private Long size;
+    private int size;
 
 
     @Lob
@@ -69,11 +68,11 @@ public class Pizza extends Food implements Serializable {
         this.price = price;
     }
 
-    public Long getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

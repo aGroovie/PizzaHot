@@ -91,4 +91,12 @@ public class FoodServiceImpl implements FoodService {
         }
 
     }
+
+    @Override
+    public void pizzaPriceSetter(int size, Food food) {
+        Long currentPrice = food.getPrice();
+        if (size > 15) {
+            food.setPrice(currentPrice + currentPrice / 3);
+        }
+    }
 }

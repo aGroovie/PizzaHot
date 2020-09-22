@@ -14,7 +14,7 @@ html {
 }
 .product-image {
     position:center;
-    width: 200px;
+    width: 300px;
     height: 200px;
 }
 .form-body .form-input {
@@ -98,13 +98,37 @@ html {
 .center-description{
     text-align: center;
 }
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: 30px;
+    text-align: center;
+    font-family: arial, serif;
+    background-color: chocolate;
+    display: inline-block
+}
 
+.price {
+    color: grey;
+    font-size: 22px;
+}
 
-.table-bordered > thead > tr > th,
-.table-bordered > tbody > tr > th,
-.table-bordered > tfoot > tr > th,
-.table-bordered > thead > tr > td,
-.table-bordered > tbody > tr > td,
-.table-bordered > tfoot > tr > td {
-    border: 1px solid floralwhite !important;
+.card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.card button:hover {
+    opacity: 0.7;
+}
+.center-body{
+    width: 80%;
+    margin: 0 auto;
 }

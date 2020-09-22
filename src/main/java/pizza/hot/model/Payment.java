@@ -49,32 +49,32 @@ public class Payment implements Serializable {
 
     @NotNull
     @Column(name = "payment_phone")
-    @Size(min=11)
+    @Size(min=9)
     private String phone;
 
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "payment_date", nullable = false)
+    @Column(name = "payment_date")
     private Date date;
 
-   @CreditCardNumber(message = "Please, enter a valid credit card number")
-    @Column(name = "payment_cc")
+  // @CreditCardNumber(message = "Please, enter a valid credit card number")
+    @Column(name = "payment_card")
     private String ccNumber;
-
+/*
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
-            message = "Must be formatted MM/YY")
+            message = "Must be formatted MM/YY")*/
     @Column(name = "payment_ccexp")
     private String ccExpiration;
 
-    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
-    @Column(name = "payment_vv")
+   /* @Digits(integer = 3, fraction = 0, message = "Invalid CVV") */
+    @Column(name = "payment_cvv")
     private String ccCVV;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy ="payment")
+    @OneToOne(mappedBy ="payment",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     Order order;
 
    public  Payment(){
