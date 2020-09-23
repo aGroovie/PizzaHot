@@ -65,8 +65,8 @@ html {
 
 }
 .top-image{
-    height: 200px;
-    width: 800px;
+    height: 250px;
+    width: 1068px;
 }
 .logout-button{
     float: right;
@@ -129,6 +129,6 @@ html {
     opacity: 0.7;
 }
 .center-body{
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
 }

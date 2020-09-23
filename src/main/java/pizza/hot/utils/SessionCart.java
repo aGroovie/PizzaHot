@@ -11,22 +11,27 @@ import pizza.hot.service.FoodService;
 import pizza.hot.service.impl.FoodServiceImpl;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
 @Service
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionCart {
 
-    Map<Food, Integer> userCart = new HashMap<>();
+    Map<Food, Integer> userCart = new LinkedHashMap<>();
     private long totalPrice;
 
-    FoodService foodService = new FoodServiceImpl();
-
+    FoodService foodService;
 
 
     public void setUserCart(Map<Food, Integer> userCart) {
         this.userCart = userCart;
     }
 
+    @Autowired
+    public void setFoodService(FoodService foodService) {
+        this.foodService = foodService;
+    }
 
     public SessionCart() {
 

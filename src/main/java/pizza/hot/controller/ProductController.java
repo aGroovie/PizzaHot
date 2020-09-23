@@ -3,18 +3,17 @@ package pizza.hot.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Pizza;
-import pizza.hot.model.Product;
+import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.ProductService;
 import pizza.hot.utils.SessionCart;
 
-import java.util.HashSet;
+import java.util.*;
 
 @Controller
+@SessionAttributes("pizza")
 public class ProductController {
 
     ProductService productService;
@@ -22,6 +21,9 @@ public class ProductController {
     PizzaService pizzaService;
 
     SessionCart sessionCart;
+
+    FoodService foodService;
+
 
     @Autowired
     public void setSessionCart(SessionCart sessionCart) {
@@ -38,24 +40,35 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @Autowired
+    public void setFoodService(FoodService foodService) {
+        this.foodService = foodService;
+    }
 
 
     @GetMapping("/extra-products")
     public String showProducts(Model model) {
-        Pizza pizza = (Pizza) model.getAttribute("pizza");
+         model.getAttribute("pizza");
+        model.getAttribute("sessionCart");
         model.addAttribute("products", productService.findAllProducts());
-        return "extra-products";
+        return "extra-selection";
     }
 
 
-    @PostMapping(value = "addProductById/{id}")
-    String addProductToPizzaById(@PathVariable Long id, Model model) {
-        Product product = productService.getProductById(id);
+    @PostMapping(value = "/addProductById")
+    String addProductToPizzaById(@RequestParam(value = "id") List<String> ids,Model model ) {
         Pizza pizza = (Pizza) model.getAttribute("pizza");
-        pizza.getProducts().add(product);
 
-        return "redirect:/extra-products";
+
+        foodService.addProductsToPizza(ids,pizza);
+
+
+        foodService.pizzaPriceSetter(pizza.getSize(), pizza);
+        sessionCart.addToCart(pizza, 1); // problem here
+
+        return "redirect:/drink-selection";
     }
+
 
 }
 

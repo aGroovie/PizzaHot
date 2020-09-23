@@ -2,12 +2,7 @@ package pizza.hot.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
@@ -15,7 +10,9 @@ import pizza.hot.model.Product;
 import pizza.hot.service.DrinkService;
 import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
+import pizza.hot.service.ProductService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +25,12 @@ public class FoodServiceImpl implements FoodService {
 
     private DrinkService drinkService;
 
+    private ProductService productService;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Autowired
     public void setPizzaService(PizzaService pizzaService) {
@@ -99,4 +102,13 @@ public class FoodServiceImpl implements FoodService {
             food.setPrice(currentPrice + currentPrice / 3);
         }
     }
+
+    @Override
+    public void addProductsToPizza(List<String> ids, Pizza pizza) {
+        for(String id : ids){
+        Product product  = productService.getProductById(Long.parseLong(id));
+        pizza.getProducts().add(product);
+       }
+    }
+
 }

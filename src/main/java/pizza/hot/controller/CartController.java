@@ -3,10 +3,8 @@ package pizza.hot.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
 import pizza.hot.model.Product;
@@ -17,7 +15,7 @@ import pizza.hot.service.UserService;
 import pizza.hot.utils.SessionCart;
 
 @Controller
-
+@SessionAttributes("pizza")
 public class CartController {
 
     SessionCart sessionCart;
@@ -26,7 +24,6 @@ public class CartController {
     FoodService foodService;
 
     PizzaService pizzaService;
-
 
 
     ProductService productService;
@@ -50,16 +47,16 @@ public class CartController {
 
 
     @PostMapping(value = "/buyPizza")           //razdelit mb pizza i drink controlleri hz gabe? ?
-    public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
-                                     @RequestParam(value = "size") String size, Model model
+    public String listProductHandler(@RequestParam(value = "id") Long id,
+                                     @RequestParam(value = "size") String size,
+                                     ModelMap model
     ) {
 
-        Pizza pizza;
-        pizza = pizzaService.getPizzaById(id);
+        Pizza pizza = pizzaService.getPizzaById(id);
         foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
         model.addAttribute("pizza", pizza);
 
-        sessionCart.addToCart(pizza, Integer.parseInt(quantity)); // problem here
+        sessionCart.addToCart(pizza, 1); // problem here
 
         return "redirect:/extra-products";
 
@@ -71,7 +68,6 @@ public class CartController {
             , Model model) {  // @RequestParam(value = "quantity") String quantity
 
         Food food = foodService.getFoodById(id);
-
         model.getAttribute("sessionCart");
         sessionCart.removeFromCart(food, 1);
         return "redirect:/shoppingCart";

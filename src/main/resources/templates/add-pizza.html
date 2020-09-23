@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PIZZA TIIIIIME!</title>
+</head>
+<body class="center-body">
+
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+
+
+    </ul>
+    <br style="clear:left"/>
+</div>
+
+<form class="signup-form" th:object="${pizza}" action="/admin/add-pizza" method="post">
+<div class="form-header">
+    <h1> EDIT Pizza</h1>
+</div>
+
+<div class="horizontal-group">
+    <div class="form-group left">
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" id="name" class="form-input">
+
+        <label for="price">Price</label>
+        <input type="text" th:field="*{price}" id="price" class="form-input">
+
+        <label for="description">Description</label>
+        <input type="text" th:field="*{description}" id="description" class="form-input">
+
+        <label for="pictureLink">Picture Link</label>
+        <input type="text" th:field="*{pictureLink}" id="pictureLink" class="form-input">
+
+        <input class="button" type="submit" value="savePizza">
+    </div>
+</div>
+
+</form>
+
+</body>

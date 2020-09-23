@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Here you can eddit Pizzas</title>
+    <title>PIZZA TIIIIIME!</title>
 </head>
 <body>
 
@@ -30,30 +30,13 @@
         </ul>
         <br style="clear:left"/>
     </div>
-    <table class="product-container">
-        <caption><b> List of Pizzas</b></caption>
-        <thead>
-        <tr>
-            <th>Pizza Name</th>
-            <th>Pizza price</th>
-            <th>Pizza size</th>
+<body>
+<div class="form-body">
 
-            <th>Pizza description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="pizza : ${pizzas}">
-            <td th:text="${pizza.name}"></td>
-            <td th:text="${pizza.price}"></td>
-            <td th:text="${pizza.size}"></td>
-            <td th:text="${pizza.description}"></td>
-            <td><a th:href="@{deletePizzaById/{id}(id=${pizza.id})}">Delete</a></td>
-            <td><a th:href="@{updatePizzaById/{id}(id=${pizza.id})}">Edit</a></td>
-        </tr>
 
-        </tbody>
-    </table>
-    <a href="/admin/add-pizza">Add Pizza </a>
+<div class="page-title">Access Denied!</div>
+<h3 style="color:red;">Sorry, you can not access this page!</h3>
+
 </div>
 </body>
 </html>

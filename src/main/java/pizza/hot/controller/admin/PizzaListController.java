@@ -50,6 +50,18 @@ public class PizzaListController {
         return "redirect:/admin/pizza-list";
     }
 
+
+    @GetMapping(value = "/add-pizza")
+    public String getAddPizza(@ModelAttribute("pizza") Pizza pizza){
+        return "/add-pizza";
+    }
+
+    @PostMapping(value = "/add-pizza")
+        public String addPizza(@ModelAttribute("pizza") Pizza pizza){
+            pizzaService.addPizza(pizza);
+            return "redirect:/admin/pizza-list";
+        }
+
     @GetMapping(value = {"updatePizzaById/{id}", "/deletePizzaById/", "updatePizza"})
     public String getUpdatePizza(@PathVariable("id") Long id, Model model, @ModelAttribute("pizza") Pizza pizza) {
 

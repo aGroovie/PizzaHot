@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a> </li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a> </li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a> </li>
+        <li><form method="post" th:action="@{/logout}">
+            <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+        </form></li>
+    </ul>
+    <br style="clear:left"/>
+</div>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Price</td>
+        <td>LOOK AT DIS</td>
+        <td>Remove</td>
+        <td>AMOUNT</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="food: ${sessionCart.getUserCart()}">
+        <td th:text="${food.key.name}"></td>
+        <td th:text="${food.key.price}"></td>
+        <td><img class="product-image" th:src="${food.key.pictureLink}"> </td>
+        <td><a th:href="@{removeProduct{id}/(id=${food.key.id})}">remove</a></td>
+    </tr>
+    </tbody>
+    <p  align="center" th:text="${sessionCart.getTotalPrice()}"> TOTAL price </p>
+
+</table>
+</body>
+<li><a href="/address-input">CheckOut</a></li>
+</html>

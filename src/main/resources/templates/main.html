@@ -17,6 +17,7 @@
             <li><a href="/registration">Registration</a></li>
             <li><a href="/drink-selection">Our Drinks!</a></li>
             <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+            <li><a href="/shoppingCart">Shopping cart!</a> </li>
             <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
             <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
             <li>
@@ -37,11 +38,8 @@
             <p th:text=" ${pizza.description}"> </p>
             <form action="/buyPizza" method="POST">
                 <input type="hidden" name="id" th:value="${pizza.id}"/>
-                <input type="checkbox" name="size" value="15">15 Cm<Br>
-                <input type="checkbox" name="size" value="30">30 Cm<Br>
-                <label>
-                    <input type="text" name="quantity">
-                </label>
+                <input type="radio" name="size" value="15">15 Cm<Br>
+                <input type="radio" name="size" value="30">30 Cm<Br>
                 <p>
                     <button>Add to Cart</button>
                 </p>

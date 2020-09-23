@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>PIZZA TIIIIIME!</title>
 </head>
 <h3>Enter user name and password:</h3>
-<form name='f' th:action="@{/login}" method='POST'>
+<form class="form-input" name='f' th:action="@{/login}" method='POST'>
     <table>
         <tr>
             <td>User:</td>

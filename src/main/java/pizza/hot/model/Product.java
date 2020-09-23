@@ -94,31 +94,11 @@ public class Product  extends Food implements Serializable {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) &&
-                price.equals(product.price) &&
-                name.equals(product.name) &&
-                type == product.type &&
-                description.equals(product.description);
-    }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, price, name, type, description);
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", price=" + price +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", description='" + description + '\'' +
-                '}';
-    }
+
 }

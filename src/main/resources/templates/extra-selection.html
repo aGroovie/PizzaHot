@@ -16,17 +16,24 @@
         <td>List Of products</td>
 </thead>
     <tbody>
-        <td>
-            <th:block th:each="product : ${products}">
-                <input type="checkbox" name="prod" th:value="${product.id}" th:action="@{addProductById/{id}(id=${product.id})}" th:method="POST"/>
+            <form th:action="@{/addProductById}" method="POST">
+            <th:block  th:each="product : ${products} ">
                 <label th:text="${product.name}"></label>
                 <label th:text="${product.price + '$'}"></label>
+                <label th:text="${product.price + product.price % 30 + '$'}"></label>
+                    <label>
+                        <input type="checkbox" name="id" th:value="${product.id}">
+                    </label><Br>
             </th:block>
-        </td>
+                <p>
+                    <button>Add to Cart</button>
+                </p>
+            </form>
 
     </tbody>
 
 </table>
+<li><a href="/main">Get more Pizzaaaaaaas!</a></li>
 <li><a href="/shoppingCart">Shopping cart</a></li>
 <li><a href="/drink-selection">Skip to Drinks!</a></li>
 <body>
