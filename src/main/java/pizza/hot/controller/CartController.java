@@ -15,7 +15,7 @@ import pizza.hot.service.UserService;
 import pizza.hot.utils.SessionCart;
 
 @Controller
-@SessionAttributes("pizza")
+@SessionAttributes({"sessionCart","userCart","pizza"})
 public class CartController {
 
     SessionCart sessionCart;
@@ -54,18 +54,16 @@ public class CartController {
 
         Pizza pizza = pizzaService.getPizzaById(id);
         foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
-        model.addAttribute("pizza", pizza);
-
         sessionCart.addToCart(pizza, 1); // problem here
-
+        model.addAttribute("pizza", pizza);
         return "redirect:/extra-products";
 
     }
 
 
-    @GetMapping(value = "/removeProduct{id}")
+    @PostMapping(value = "/removeProduct{id}")
     public String removeProductHandler(@PathVariable(value = "id") Long id
-            , Model model) {  // @RequestParam(value = "quantity") String quantity
+            , Model model, @RequestParam(value = "quantity",required = false) String quantity) {
 
         Food food = foodService.getFoodById(id);
         model.getAttribute("sessionCart");

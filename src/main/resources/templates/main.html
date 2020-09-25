@@ -14,7 +14,7 @@
     <div class="menu">
         <ul>
             <li><a href="/main">Home</a></li>
-            <li><a href="/registration">Registration</a></li>
+            <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
             <li><a href="/drink-selection">Our Drinks!</a></li>
             <li><a href="/pizzas">Our HOT Pizzas!</a></li>
             <li><a href="/shoppingCart">Shopping cart!</a> </li>
@@ -34,7 +34,7 @@
         <div class="card">
             <img class="product-image" th:src="${pizza.pictureLink}" alt="picture of pizza must be here">
             <h1 th:text="${pizza.name}"></h1>
-            <p class="price" th:text="${pizza.price}  + '$' ">  </p>
+            <p class="price" th:text="${pizza.price} + ' $' +'  /  ' + ${pizza.price + pizza.price / 3 + '  $'} ">  </p>
             <p th:text=" ${pizza.description}"> </p>
             <form action="/buyPizza" method="POST">
                 <input type="hidden" name="id" th:value="${pizza.id}"/>

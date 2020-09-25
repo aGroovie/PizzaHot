@@ -1,5 +1,7 @@
 package pizza.hot.model;
 
+import java.util.Objects;
+
 public abstract class Food {
     private Long id;
 
@@ -54,4 +56,5 @@ public abstract class Food {
     public Food() {
 
     }
+
 }

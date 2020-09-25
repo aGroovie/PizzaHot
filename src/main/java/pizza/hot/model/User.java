@@ -64,11 +64,11 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Address> addresses = new HashSet<>();
-/*
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Order order;
-*/
+
+    
 
 
     public Long getId() {

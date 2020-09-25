@@ -9,14 +9,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import pizza.hot.model.Address;
+import pizza.hot.model.Order;
 import pizza.hot.model.Payment;
 import pizza.hot.model.User;
 import pizza.hot.service.AddressService;
+import pizza.hot.service.OrderService;
 import pizza.hot.service.PaymentService;
 import pizza.hot.service.UserService;
+import pizza.hot.utils.SessionCart;
 
 @Controller
+@SessionAttributes({"address", "payment", "user"})
 public class UserController {
 
     private UserService userService;
@@ -24,6 +29,21 @@ public class UserController {
     private AddressService addressService;
 
     private PaymentService paymentService;
+
+    private SessionCart sessionCart;
+
+    private OrderService orderService;
+
+    @Autowired
+    public UserController setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+        return this;
+    }
+
+    @Autowired
+    public void setSessionCart(SessionCart sessionCart) {
+        this.sessionCart = sessionCart;
+    }
 
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
@@ -64,19 +84,21 @@ public class UserController {
     }
 
     @PostMapping("/address-input")
-    public String addAddress(@ModelAttribute Address address) {
+    public String addAddress(@ModelAttribute Address address, Model model) {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-             username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
-             username = principal.toString();
+            username = principal.toString();
         }
+
         User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
         address.setUser(user);
         user.getAddresses().add(address);
-
         addressService.saveAddress(address);
+
         return "redirect:/payment-input";
     }
 
@@ -88,11 +110,11 @@ public class UserController {
     }
 
     @PostMapping("/payment-input")
-    public String addPayment(@ModelAttribute Payment payment) {
+    public String addPayment(@ModelAttribute Payment payment, Model model) {
         String username;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
+            username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
         }
@@ -102,13 +124,25 @@ public class UserController {
         payment.setUser(user);
         user.getPayments().add(payment);
         paymentService.savePayment(payment);
+        model.addAttribute("payment");
 
         return "redirect:/successPage";
     }
 
 
     @GetMapping("/successPage")
-    public String successPage() {
+    public String successPage(Model model) {
+        Payment payment = (Payment) model.getAttribute("payment");
+
+        User user = (User) model.getAttribute("user");
+        user = userService.findByUsername(user.getUsername());
+        long total = sessionCart.getTotalPrice();
+        Order order = new Order();
+        java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+        order.setAll(user, payment, total, date);
+
+        orderService.saveOrder(order);
+
         return "successPage";
     }
 

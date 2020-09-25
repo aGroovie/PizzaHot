@@ -30,4 +30,16 @@ public class PaymentServiceImpl implements PaymentService {
     public void deletePaymentById(Long id) {
           paymentDao.deletePaymentById(id);
     }
+
+    @Override
+    public Payment getPaymentById(Long id) {
+        return paymentDao.getPaymentById(id);
+    }
+
+    @Override
+    public Payment getPaymentByIdAndCvv(Long id, String cVV) {
+        return paymentDao.getPaymentByIdAndCvv(id, cVV);
+    }
+
+
 }

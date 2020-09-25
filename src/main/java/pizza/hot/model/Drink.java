@@ -88,4 +88,18 @@ public class Drink extends Food implements Serializable {
     public void setPictureLink(String pictureLink) {
         this.pictureLink = pictureLink;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Drink drink = (Drink) o;
+        return id.equals(drink.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
+    }
 }

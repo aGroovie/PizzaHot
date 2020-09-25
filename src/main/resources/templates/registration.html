@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
 
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
 </head>
-<body>
+<body class="center-body">
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a> </li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+
+
+    </ul>
+    <br style="clear:left"/>
+</div>
 <div class="form-body">
 <form class="signup-form" action="/registration" th:object="${user}" method="post">
     <h1> Registration </h1>

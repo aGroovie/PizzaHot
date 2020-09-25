@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body class="center-body">
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
 <div class="menu">
     <ul>
         <li><a href="/main">Home</a></li>
@@ -38,12 +39,11 @@
         <td th:text="${food.key.name}"></td>
         <td th:text="${food.key.price}"></td>
         <td><img class="product-image" th:src="${food.key.pictureLink}"> </td>
-        <td><a th:href="@{removeProduct{id}/(id=${food.key.id})}">remove</a></td>
+        <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post"> <button> Remove</button></form> </td>
     </tr>
     </tbody>
-    <p  align="center" th:text="${sessionCart.getTotalPrice()}"> TOTAL price </p>
-
 </table>
+<p  align="center" th:text="${sessionCart.getTotalPrice()}"> TOTAL price </p>
 </body>
 <li><a href="/address-input">CheckOut</a></li>
 </html>

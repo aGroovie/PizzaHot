@@ -13,6 +13,7 @@ import java.util.Date;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
@@ -82,6 +83,16 @@ public class Order {
 
     public void setDailyReport(DailyReport dailyReport) {
         this.dailyReport = dailyReport;
+    }
+
+
+
+    public void setAll(User user, Payment payment, Long total, Date date ){
+        this.user = user;
+        this.payment = payment;
+        this.total = total;
+        this.date = date;
+
     }
 
 
