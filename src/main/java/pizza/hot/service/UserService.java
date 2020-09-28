@@ -15,5 +15,6 @@ public interface UserService {
 
     boolean isAlreadyInUse(String username);
 
+    String getUsernameFromSession(Object principal);
 
 }

@@ -9,4 +9,5 @@ public interface AddressDao {
     void saveAddress(Address address);
     List<Address> findAll();
     void deleteAddressById(Long id);
+    Address getAddressById(Long id);
 }

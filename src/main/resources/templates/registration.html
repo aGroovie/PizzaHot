@@ -15,7 +15,7 @@
         <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
         <li><a href="/drink-selection">Our Drinks!</a></li>
         <li><a href="/pizzas">Our HOT Pizzas!</a></li>
-        <li><a href="/shoppingCart">Shopping cart!</a> </li>
+        <li><a href="/shoppingCart">Shopping cart!</a></li>
         <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
         <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
         <li>
@@ -24,27 +24,31 @@
             </form>
         </li>
 
-
     </ul>
     <br style="clear:left"/>
 </div>
 <div class="form-body">
-<form class="signup-form" action="/registration" th:object="${user}" method="post">
-    <h1> Registration </h1>
-    <label for="username">Username</label>
-    <input type="text" th:field="*{username}" id="username" class="form-input">
-    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Such username already exists!</p>
-    <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" class="form-input">
-    <label for="firstName">First name</label>
-    <input type="text" th:field="*{firstName}" id="firstName" class="form-input">
-    <label for="secondName">Second name</label>
-    <input type="text" th:field="*{secondName}" id="secondName" class="form-input">
-    <label for="email">Email</label>
-    <input type="text" th:field="*{email}" id="email" class="form-input">
-
-<input class="button" type="submit" value="Register">
-</form>
+    <form class="signup-form" action="/registration" th:object="${user}" method="post">
+        <h1> Registration </h1>
+        <label for="username">Username</label>
+        <input type="text" th:field="*{username}" id="username" class="form-input">
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Such username already exists!</p>
+        <label for="password">Password</label>
+        <input type="text" th:field="*{password}" id="password" class="form-input">
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password must be between {min} and {max}</p>
+        <label for="firstName">First name</label>
+        <input type="text" th:field="*{firstName}" id="firstName" class="form-input">
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name must be between {min} and
+            {max}</p>
+        <label for="secondName">Second name</label>
+        <input type="text" th:field="*{secondName}" id="secondName" class="form-input">
+        <p th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}">Second name must be between {min} and
+            {max}</p>
+        <label for="email">Email</label>
+        <input type="text" th:field="*{email}" id="email" class="form-input">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">please enter the correct email</p>
+        <input class="button" type="submit" value="Register">
+    </form>
 </div>
 
 </body>

@@ -6,11 +6,15 @@ import pizza.hot.dao.PaymentDao;
 import pizza.hot.model.Payment;
 import pizza.hot.service.PaymentService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
     PaymentDao paymentDao;
+
     @Autowired
     public void setPaymentDao(PaymentDao paymentDao) {
         this.paymentDao = paymentDao;
@@ -18,17 +22,21 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void savePayment(Payment payment) {
-          paymentDao.savePayment(payment);
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String curDate = formatter.format(date);
+        payment.setDate(curDate);
+        paymentDao.savePayment(payment);
     }
 
     @Override
     public List<Payment> findAll() {
-        return  paymentDao.findAll();
+        return paymentDao.findAll();
     }
 
     @Override
     public void deletePaymentById(Long id) {
-          paymentDao.deletePaymentById(id);
+        paymentDao.deletePaymentById(id);
     }
 
     @Override

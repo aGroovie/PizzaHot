@@ -1,5 +1,6 @@
 package pizza.hot.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.AddressDao;
 import pizza.hot.model.Address;
+import pizza.hot.model.Product;
 
 import java.util.List;
 
@@ -49,4 +51,18 @@ public class AddressDaoImpl implements AddressDao {
 
         session.close();
     }
+
+    @Override
+    public Address getAddressById(Long id) {
+        Address address;
+
+
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        address = session.get(Address.class, id);
+        Hibernate.initialize(address);
+
+        session.close();
+        return address;
+    }
+
 }

@@ -9,6 +9,7 @@
     <title>PIZZA TIIIIIME!</title>
 </head>
 <body class="center-body">
+
 <img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
 <div class="menu">
     <ul>
@@ -24,25 +25,8 @@
                 <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
             </form>
         </li>
+
+
     </ul>
     <br style="clear:left"/>
 </div>
-            <form th:action="@{/addProductById}" method="POST">
-            <th:block  th:each="product : ${products} ">
-                <label th:text="${product.name}"></label>
-                <label th:text="${product.price + '$'}"></label>
-                <label th:text="${product.price + product.price / 3 + '$'}"></label>
-                    <label>
-                        <input type="checkbox" name="id" th:value="${product.id}">
-                    </label><Br>
-            </th:block>
-                <p>
-                    <button>Add to Cart</button>
-                </p>
-            </form>
-
-<li><a href="/main">Get more Pizzaaaaaaas!</a></li>
-<li><a href="/shoppingCart">Shopping cart</a></li>
-<li><a href="/drink-selection">Skip to Drinks!</a></li>
-</body>
-</html>

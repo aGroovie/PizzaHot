@@ -1,6 +1,8 @@
 package pizza.hot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,15 +52,20 @@ public class DrinkController {
     public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
                                      Model model
     ) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
 
-        Drink drink;
-        drink = drinkService.getDrinkById(id);
+            Drink drink;
+            drink = drinkService.getDrinkById(id);
 
-        model.addAttribute("drink", drink);
+            model.addAttribute("drink", drink);
 
-        sessionCart.addToCart(drink, Integer.parseInt(quantity)); // problem here
+            sessionCart.addToCart(drink, Integer.parseInt(quantity)); // problem here
+            return "redirect:/shoppingCart";
 
-        return "redirect:/shoppingCart";
+        } else {
+            return "/login";
+        }
 
     }
 

@@ -30,18 +30,33 @@
         <br style="clear:left"/>
     </div>
 <div class="form-body">
+   <div  th:if="${user.getAddresses() !=null}"  th:each="address : ${user.getAddresses()}">
+       <td th:text="${address.street}"></td>
+       <td th:text="${address.apartmentNumber}"></td>
+       <td th:text="${address.houseNumber}"></td>
+       <form action="/address-input" method="POST">
+           <input type="hidden" name="addressId" th:value="${address.id}"/>
+           <p>
+               <button>Select This address</button>
+           </p>
+       </form>
+   </div>
     <form class="signup-form" action="/address-input" th:object="${address}" method="post">
         <h1> Address Information </h1>
         <label for="city">City</label>
         <input type="text" th:field="*{city}" id="city" class="form-input">
+        <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City name length must be between {min} and {max}</p>
         <label for="street">Street</label>
         <input type="text" th:field="*{street}" id="street" class="form-input">
         <label for="houseNumber">House Number</label>
         <input type="text" th:field="*{houseNumber}" id="houseNumber" class="form-input">
         <label for="apartmentNumber">Apartment Number</label>
+        <p th:if="${#fields.hasErrors('houseNumber')}" th:errors="*{houseNumber}">Please, enter the valid house number</p>
         <input type="text" th:field="*{apartmentNumber}" id="apartmentNumber" class="form-input">
+        <p th:if="${#fields.hasErrors('apartmentNumber')}" th:errors="*{apartmentNumber}">Please, enter the valid apartment number</p>
         <label for="zip">Zip Code</label>
         <input type="text" th:field="*{zip}" id="zip" class="form-input">
+        <p th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">Zip code must be 5 digits</p>
         <label for="phoneNumber">Phone number</label>
         <input type="text" th:field="*{phoneNumber}" id="phoneNumber" class="form-input">
 

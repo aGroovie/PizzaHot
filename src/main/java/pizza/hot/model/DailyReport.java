@@ -1,11 +1,9 @@
 package pizza.hot.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,9 +22,8 @@ public class DailyReport implements Serializable {
     @Column(name = "report_earnings")
     private  Long earnings;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "report_date", nullable = false)
-    private Date date;
+    private String date;
 
    @OneToMany(mappedBy = "dailyReport")
     private Set<Order> orders = new HashSet<>();
@@ -52,11 +49,11 @@ public class DailyReport implements Serializable {
         this.earnings = earnings;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -68,15 +65,6 @@ public class DailyReport implements Serializable {
         this.orders = orders;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DailyReport that = (DailyReport) o;
-        return id.equals(that.id) &&
-                earnings.equals(that.earnings) &&
-                date.equals(that.date);
-    }
 
     @Override
     public int hashCode() {

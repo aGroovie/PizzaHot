@@ -24,26 +24,36 @@
     </ul>
     <br style="clear:left"/>
 </div>
-<table class="table table-bordered">
+<th:block>
+    <span th:if="${!sessionCart.getUserCart().isEmpty()}">
+<table class="product-container">
     <thead>
     <tr>
         <td>Name</td>
         <td>Price</td>
         <td>LOOK AT DIS</td>
-        <td>Remove</td>
         <td>AMOUNT</td>
+        <td>Remove</td>
     </tr>
     </thead>
     <tbody>
     <tr th:each="food: ${sessionCart.getUserCart()}">
         <td th:text="${food.key.name}"></td>
-        <td th:text="${food.key.price}"></td>
+        <td th:text="${food.key.price + ' $ '}"></td>
         <td><img class="product-image" th:src="${food.key.pictureLink}"> </td>
         <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post"> <button> Remove</button></form> </td>
+        <td th:text="${food.getValue()}"> </td>
     </tr>
+
     </tbody>
 </table>
-<p  align="center" th:text="${sessionCart.getTotalPrice()}"> TOTAL price </p>
+        <li><a href="/address-input">CheckOut</a></li>
+         <p   align="center" th:text="${'Total   ' + sessionCart.getTotalPrice() + ' $'}">  </p>
+    </span>
+    <span th:if="${sessionCart.getUserCart().isEmpty()}">
+        <li>YOUR SHOPPING CART IS EMPTY!</li>
+    </span>
+
+</th:block>
 </body>
-<li><a href="/address-input">CheckOut</a></li>
 </html>

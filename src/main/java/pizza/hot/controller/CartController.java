@@ -1,6 +1,8 @@
 package pizza.hot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -51,12 +53,18 @@ public class CartController {
                                      @RequestParam(value = "size") String size,
                                      ModelMap model
     ) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            Pizza pizza = pizzaService.getPizzaById(id);
+            foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
+            sessionCart.addToCart(pizza, 1); // problem here
+            model.addAttribute("pizza", pizza);
+            return "redirect:/extra-products";
+        }
 
-        Pizza pizza = pizzaService.getPizzaById(id);
-        foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
-        sessionCart.addToCart(pizza, 1); // problem here
-        model.addAttribute("pizza", pizza);
-        return "redirect:/extra-products";
+      else {
+          return "/login";
+        }
 
     }
 

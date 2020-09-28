@@ -6,6 +6,8 @@ import pizza.hot.dao.OrderDao;
 import pizza.hot.model.Order;
 import pizza.hot.service.OrderService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,6 +22,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void saveOrder(Order order) {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String curDate = formatter.format(date);
+        order.setDate(curDate);
         orderDao.saveOrder(order);
     }
 

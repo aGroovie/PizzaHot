@@ -32,4 +32,11 @@ public class AdressServiceImpl implements AddressService {
     public void deleteAddressById(Long id) {
               addressDao.deleteAddressById(id);
     }
+
+    @Override
+    public Address getAddressById(Long id) {
+ return        addressDao.getAddressById(id);
+    }
+
+
 }

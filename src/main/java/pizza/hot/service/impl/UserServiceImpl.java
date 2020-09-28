@@ -1,6 +1,8 @@
 package pizza.hot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pizza.hot.config.EncrytedPasswordUtils;
 import pizza.hot.dao.UserDao;
@@ -45,12 +47,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isAlreadyInUse(String username) {
-       if(userDao.findByUsername(username) != null){
-           return  true;
-       }
-       else {
-           return false;
-       }
+        if (userDao.findByUsername(username) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String getUsernameFromSession(Object principal) {
+        String username;
+        principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return username = ((UserDetails) principal).getUsername();
+        } else {
+            return username = principal.toString();
+        }
     }
 
 

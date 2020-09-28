@@ -4,7 +4,6 @@ package pizza.hot.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
 
 
 @Entity
@@ -18,7 +17,7 @@ public class Order {
     private Long id;
 
     @Column(name = "order_date")
-    private Date date;
+    private String date;
 
 
     @Column(name = "order_total")
@@ -29,7 +28,7 @@ public class Order {
     private Payment payment;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -45,7 +44,7 @@ public class Order {
         return id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -57,7 +56,7 @@ public class Order {
         this.id = id;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -87,11 +86,11 @@ public class Order {
 
 
 
-    public void setAll(User user, Payment payment, Long total, Date date ){
+    public void setAll(User user, Payment payment, Long total){
         this.user = user;
         this.payment = payment;
         this.total = total;
-        this.date = date;
+
 
     }
 

@@ -28,6 +28,18 @@
         </ul>
         <br style="clear:left"/>
     </div>
+    <div class="form-body">
+        <div  th:if="${user.getPayments() !=null}"  th:each="payment: ${user.getPayments()}">
+            <td th:text="${payment.name}"></td>
+            <td th:text="${payment.ccNumber}"></td>
+            <td th:text="${payment.ccExpiration}"></td>
+            <form action="/payment-input" method="POST">
+                <input type="hidden" name="paymentId" th:value="${payment.id}"/>
+                <p>
+                    <button>Select This Payment </button>
+                </p>
+            </form>
+        </div>
 <div class="form-body">
     <form class="signup-form" action="/payment-input" th:object="${payment}" method="post">
         <h1> Payment Information </h1>

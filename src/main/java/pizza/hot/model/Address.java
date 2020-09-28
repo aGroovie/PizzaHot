@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 @Entity
 @Table(name ="user_address")
@@ -29,7 +30,7 @@ public class Address {
 
     @Column(name = "address_house_number")
     @NotNull
-    @Digits(integer = 3, fraction = 0)
+    @Digits(integer = 3, fraction = 0,message = "Please, enter the valid house number")
     private int houseNumber;
 
     @Column(name = "address_apartment_number")
@@ -37,11 +38,11 @@ public class Address {
     @Digits(integer = 3, fraction = 0)
     private int apartmentNumber;
 
-    @Column(name = "address_phone_number")
+    @Column(name = "address_phone_number")   // Custom validator with phone number to do
     @NotNull
     private String phoneNumber;
 
-    @Column(name ="address_zip")
+    @Column(name ="address_zip") //Custom validator for zip
     @NotNull
     private int zip;
 

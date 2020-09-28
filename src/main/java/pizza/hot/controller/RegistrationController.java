@@ -2,14 +2,11 @@ package pizza.hot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Address;
 import pizza.hot.model.Order;
 import pizza.hot.model.Payment;
@@ -22,7 +19,7 @@ import pizza.hot.utils.SessionCart;
 
 @Controller
 @SessionAttributes({"address", "payment", "user"})
-public class UserController {
+public class RegistrationController {
 
     private UserService userService;
 
@@ -35,7 +32,7 @@ public class UserController {
     private OrderService orderService;
 
     @Autowired
-    public UserController setOrderService(OrderService orderService) {
+    public RegistrationController setOrderService(OrderService orderService) {
         this.orderService = orderService;
         return this;
     }
@@ -68,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String register(@ModelAttribute User user, BindingResult result) {
+    public String register(@Validated @ModelAttribute User user, BindingResult result) {
         if (result.hasErrors()) {
             return "/registration";
         }
@@ -79,52 +76,57 @@ public class UserController {
 
     @GetMapping("/address-input")
     public String getAddress(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userService.getUsernameFromSession(principal);
+
+        User user = userService.findByUsername(username);
         model.addAttribute("address", new Address());
+        model.addAttribute("user", user);
         return "/address-input";
     }
 
     @PostMapping("/address-input")
-    public String addAddress(@ModelAttribute Address address, Model model) {
-        String username;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
+    public String addAddress(@Validated @ModelAttribute Address address, Model model, @RequestParam(value = "addressId",
+            required = false) String addressId, BindingResult result) {
+        if (result.hasErrors()) {
+            return "/address-input";
         }
+        User user = (User) model.getAttribute("user");
+        if (addressId != null) {
+            address = addressService.getAddressById(Long.parseLong(addressId));
 
-        User user = userService.findByUsername(username);
-        model.addAttribute("user", user);
+        }
         address.setUser(user);
         user.getAddresses().add(address);
         addressService.saveAddress(address);
-
+        model.addAttribute("user", user);
         return "redirect:/payment-input";
     }
 
 
     @GetMapping("/payment-input")
     public String getPayment(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userService.getUsernameFromSession(principal);
+
+        User user = userService.findByUsername(username);
+        model.addAttribute("user", user);
         model.addAttribute("payment", new Payment());
         return "/payment-input";
     }
 
     @PostMapping("/payment-input")
-    public String addPayment(@ModelAttribute Payment payment, Model model) {
-        String username;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        User user = userService.findByUsername(username);
-        java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
-        payment.setDate(date);
+    public String addPayment(@ModelAttribute Payment payment, Model model, @RequestParam(value = "paymentId",required = false) String paymentId) {
+        User user = (User) model.getAttribute("user");
+
+        if (paymentId != null) {
+            payment = paymentService.getPaymentById(Long.parseLong(paymentId));
+        }                                                           //logika naryshena ono sohranyaet daje kogda ne nado po syti no ne poly4alos inache sdelat s if else
         payment.setUser(user);
         user.getPayments().add(payment);
         paymentService.savePayment(payment);
-        model.addAttribute("payment");
+        model.addAttribute("user", user);
+        model.addAttribute("payment",payment);
 
         return "redirect:/successPage";
     }
@@ -132,14 +134,13 @@ public class UserController {
 
     @GetMapping("/successPage")
     public String successPage(Model model) {
-        Payment payment = (Payment) model.getAttribute("payment");
+       Payment payment = (Payment) model.getAttribute("payment");
 
         User user = (User) model.getAttribute("user");
         user = userService.findByUsername(user.getUsername());
         long total = sessionCart.getTotalPrice();
         Order order = new Order();
-        java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
-        order.setAll(user, payment, total, date);
+        order.setAll(user, payment, total);
 
         orderService.saveOrder(order);
 

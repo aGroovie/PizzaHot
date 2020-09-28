@@ -51,7 +51,7 @@ public class User implements Serializable {
 
     @Column(name = "user_email")
     @NotNull
-    @Email
+    @Email(message = "please enter the correct email")
     private String email;
 
 
@@ -59,14 +59,14 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role userRole;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Order order;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Set<Order> orders = new HashSet<>();
 
     
 

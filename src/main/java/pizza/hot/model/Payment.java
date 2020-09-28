@@ -1,17 +1,12 @@
 package pizza.hot.model;
 
 
-import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Table(name ="payment_info")
@@ -53,9 +48,8 @@ public class Payment implements Serializable {
     private String phone;
 
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "payment_date")
-    private Date date;
+    private String date;
 
   // @CreditCardNumber(message = "Please, enter a valid credit card number")
     @Column(name = "payment_card")
@@ -74,7 +68,7 @@ public class Payment implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy ="payment",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy ="payment",cascade = CascadeType.ALL)
     Order order;
 
    public  Payment(){
@@ -137,11 +131,11 @@ public class Payment implements Serializable {
         this.phone = phone;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
