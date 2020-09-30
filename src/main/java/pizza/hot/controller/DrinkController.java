@@ -48,26 +48,7 @@ public class DrinkController {
     }
 
 
-    @PostMapping(value = "/buyDrink")           //razdelit mb pizza i drink controlleri hz gabe? ?
-    public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
-                                     Model model
-    ) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
 
-            Drink drink;
-            drink = drinkService.getDrinkById(id);
-
-            model.addAttribute("drink", drink);
-
-            sessionCart.addToCart(drink, Integer.parseInt(quantity)); // problem here
-            return "redirect:/shoppingCart";
-
-        } else {
-            return "/login";
-        }
-
-    }
 
 
 }

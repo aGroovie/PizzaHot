@@ -3,6 +3,7 @@ package pizza.hot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
@@ -18,7 +19,7 @@ import java.util.Set;
 
 @Service
 
-
+@Transactional
 public class FoodServiceImpl implements FoodService {
 
     private PizzaService pizzaService;
@@ -110,5 +111,7 @@ public class FoodServiceImpl implements FoodService {
         pizza.getProducts().add(product);
        }
     }
+
+
 
 }

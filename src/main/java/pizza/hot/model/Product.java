@@ -36,8 +36,8 @@ public class Product  extends Food implements Serializable {
     @Column(name = "product_description")
     private String description;
 
-   @ManyToOne
-   @PrimaryKeyJoinColumn
+   @ManyToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "pizza_id")
    private Pizza pizza;
 
 

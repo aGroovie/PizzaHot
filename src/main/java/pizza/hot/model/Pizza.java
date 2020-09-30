@@ -35,10 +35,23 @@ public class Pizza extends Food implements Serializable {
     private String description;
 
 
-
-    @OneToMany(mappedBy = "pizza", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pizza",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Product> products = new HashSet<>();
 
+
+    @ManyToOne
+    @JoinColumn(name = "pizza_id", insertable = false, updatable = false)
+    Order order;
+
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public Pizza setOrder(Order order) {
+        this.order = order;
+        return this;
+    }
 
     public Pizza() {
 

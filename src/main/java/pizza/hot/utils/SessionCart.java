@@ -77,6 +77,9 @@ public class SessionCart {
         this.countTotalPrice();
 
     }
+    public void clearCart(){
+        userCart.clear();
+    }
 
 
 }

@@ -17,13 +17,6 @@ import java.util.Set;
 public class User implements Serializable {
 
 
-
-    public static final String ROLE_ADMIN = "ADMIN_ROLE";
-    public static final String ROLE_CUSTOMER = "CUSTOMER_ROLE";
-
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -59,17 +52,23 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role userRole;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch =FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
 
-    
+    public Set<Order> getOrders() {
+        return orders;
+    }
 
+    public User setOrders(Set<Order> orders) {
+        this.orders = orders;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -143,11 +142,4 @@ public class User implements Serializable {
         this.addresses = addresses;
     }
 
-/*    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }*/
 }

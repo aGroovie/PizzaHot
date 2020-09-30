@@ -4,6 +4,8 @@ package pizza.hot.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -23,12 +25,12 @@ public class Order {
     @Column(name = "order_total")
     private Long total;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -38,7 +40,32 @@ public class Order {
    private DailyReport dailyReport;
 
 
+    @OneToMany(mappedBy = "order")
+    Set<Drink> drinks = new HashSet<>();
 
+    @OneToMany(mappedBy = "order")
+    Set<Pizza> pizzas = new HashSet<>();
+
+
+    public Set<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+    public Order setPizzas(Set<Pizza> pizzas) {
+        this.pizzas = pizzas;
+        return this;
+    }
+
+    public Set<Drink> getDrinks() {
+        return drinks;
+    }
+
+
+
+    public Order setDrinks(Set<Drink> drinks) {
+        this.drinks = drinks;
+        return this;
+    }
 
     public Long getId() {
         return id;

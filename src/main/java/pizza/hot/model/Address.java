@@ -46,7 +46,7 @@ public class Address {
     @NotNull
     private int zip;
 
-    @ManyToOne
+    @ManyToOne(cascade =CascadeType.MERGE,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

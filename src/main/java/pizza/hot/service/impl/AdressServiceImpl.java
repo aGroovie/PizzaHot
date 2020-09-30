@@ -20,22 +20,22 @@ public class AdressServiceImpl implements AddressService {
 
     @Override
     public void saveAddress(Address address) {
-         addressDao.saveAddress(address);
+        addressDao.saveAddress(address);
     }
 
     @Override
     public List<Address> findAll() {
-        return  addressDao.findAll();
+        return addressDao.findAll();
     }
 
     @Override
     public void deleteAddressById(Long id) {
-              addressDao.deleteAddressById(id);
+        addressDao.deleteAddressById(id);
     }
 
     @Override
     public Address getAddressById(Long id) {
- return        addressDao.getAddressById(id);
+        return addressDao.getAddressById(id);
     }
 
 

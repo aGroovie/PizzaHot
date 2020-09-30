@@ -7,17 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
 import pizza.hot.model.Product;
-import pizza.hot.service.FoodService;
-import pizza.hot.service.PizzaService;
-import pizza.hot.service.ProductService;
-import pizza.hot.service.UserService;
+import pizza.hot.service.*;
 import pizza.hot.utils.SessionCart;
 
+import javax.transaction.Transactional;
+
 @Controller
-@SessionAttributes({"sessionCart","userCart","pizza"})
+@SessionAttributes({"sessionCart", "userCart", "pizza"})
 public class CartController {
 
     SessionCart sessionCart;
@@ -27,8 +27,17 @@ public class CartController {
 
     PizzaService pizzaService;
 
+    DrinkService drinkService;
+
 
     ProductService productService;
+    @Autowired
+    public CartController setDrinkService(DrinkService drinkService) {
+        this.drinkService = drinkService;
+        return this;
+    }
+
+
 
 
     @Autowired
@@ -47,12 +56,14 @@ public class CartController {
         this.foodService = foodService;
     }
 
-
     @PostMapping(value = "/buyPizza")           //razdelit mb pizza i drink controlleri hz gabe? ?
     public String listProductHandler(@RequestParam(value = "id") Long id,
                                      @RequestParam(value = "size") String size,
                                      ModelMap model
     ) {
+        if (size == null) {
+            return "redirect:/main";
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             Pizza pizza = pizzaService.getPizzaById(id);
@@ -60,10 +71,28 @@ public class CartController {
             sessionCart.addToCart(pizza, 1); // problem here
             model.addAttribute("pizza", pizza);
             return "redirect:/extra-products";
+        } else {
+            return "/login";
         }
 
-      else {
-          return "/login";
+    }
+    @PostMapping(value = "/buyDrink")           //razdelit mb pizza i drink controlleri hz gabe? ?
+    public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
+                                     Model model
+    ) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+
+            Drink drink;
+            drink = drinkService.getDrinkById(id);
+
+            model.addAttribute("drink", drink);
+
+            sessionCart.addToCart(drink, Integer.parseInt(quantity)); // problem here
+            return "redirect:/shoppingCart";
+
+        } else {
+            return "/login";
         }
 
     }
@@ -71,7 +100,7 @@ public class CartController {
 
     @PostMapping(value = "/removeProduct{id}")
     public String removeProductHandler(@PathVariable(value = "id") Long id
-            , Model model, @RequestParam(value = "quantity",required = false) String quantity) {
+            , Model model, @RequestParam(value = "quantity", required = false) String quantity) {
 
         Food food = foodService.getFoodById(id);
         model.getAttribute("sessionCart");

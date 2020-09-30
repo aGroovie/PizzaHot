@@ -56,7 +56,10 @@ public class ProductController {
 
 
     @PostMapping(value = "/addProductById")
-    String addProductToPizzaById(@RequestParam(value = "id") List<String> ids,Model model ) {
+    String addProductToPizzaById(@RequestParam(value = "id",required = false) List<String> ids,Model model ) {
+        if(ids == null){
+            return "redirect:/drink-selection";
+        }
         Pizza pizza = (Pizza) model.getAttribute("pizza");
 
 

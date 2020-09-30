@@ -7,10 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pizza.hot.model.Address;
-import pizza.hot.model.Order;
-import pizza.hot.model.Payment;
-import pizza.hot.model.User;
+import pizza.hot.model.*;
 import pizza.hot.service.AddressService;
 import pizza.hot.service.OrderService;
 import pizza.hot.service.PaymentService;
@@ -86,11 +83,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/address-input")
-    public String addAddress(@Validated @ModelAttribute Address address, Model model, @RequestParam(value = "addressId",
+    public String addAddress(@ModelAttribute Address address, Model model, @RequestParam(value = "addressId",
             required = false) String addressId, BindingResult result) {
-        if (result.hasErrors()) {
-            return "/address-input";
-        }
+
         User user = (User) model.getAttribute("user");
         if (addressId != null) {
             address = addressService.getAddressById(Long.parseLong(addressId));
@@ -116,17 +111,20 @@ public class RegistrationController {
     }
 
     @PostMapping("/payment-input")
-    public String addPayment(@ModelAttribute Payment payment, Model model, @RequestParam(value = "paymentId",required = false) String paymentId) {
-        User user = (User) model.getAttribute("user");
+    public String addPayment(@ModelAttribute Payment payment, Model model, @RequestParam(value = "paymentId", required = false) String paymentId) {
+        User user = (User) model.getAttribute("user"); //logika naryshena ono sohranyaet daje kogda ne nado po syti no ne poly4alos inache sdelat s if else
 
         if (paymentId != null) {
             payment = paymentService.getPaymentById(Long.parseLong(paymentId));
-        }                                                           //logika naryshena ono sohranyaet daje kogda ne nado po syti no ne poly4alos inache sdelat s if else
-        payment.setUser(user);
+            model.addAttribute("payment", payment);
+            return "redirect:/successPage";
+
+        }
         user.getPayments().add(payment);
+        payment.setUser(user);
         paymentService.savePayment(payment);
         model.addAttribute("user", user);
-        model.addAttribute("payment",payment);
+        model.addAttribute("payment", payment);
 
         return "redirect:/successPage";
     }
@@ -134,46 +132,28 @@ public class RegistrationController {
 
     @GetMapping("/successPage")
     public String successPage(Model model) {
-       Payment payment = (Payment) model.getAttribute("payment");
+        Payment payment = (Payment) model.getAttribute("payment");
 
         User user = (User) model.getAttribute("user");
         user = userService.findByUsername(user.getUsername());
         long total = sessionCart.getTotalPrice();
+
+
         Order order = new Order();
+
+        for (Food food : sessionCart.getUserCart().keySet()) {
+            if (food instanceof Drink) {
+
+                order.getDrinks().add((Drink) food);
+            } else {
+                order.getPizzas().add((Pizza) food);
+            }
+        }
         order.setAll(user, payment, total);
 
         orderService.saveOrder(order);
-
+        sessionCart.clearCart();
         return "successPage";
-    }
-
-
-    @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
-        if (error != null) {
-            model.addAttribute("error", "User name or password incorrect");
-        }
-        if (logout != null) {
-            model.addAttribute("message", "Logged out successfully");
-        }
-        return "login";
-    }
-
-    @GetMapping(value = "/logoutSuccessful")
-    public String logoutSuccessfulPage(Model model) {
-        model.addAttribute("title", "Logout");
-        return "logoutSuccessfulPage";
-    }
-
-
-    @GetMapping(value = "/admin")
-    public String admin(Model model) {
-        return "admin";
-    }
-
-    @GetMapping(value = "/error403")
-    public String errorPage() {
-        return "403";
     }
 
 

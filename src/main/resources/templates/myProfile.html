@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
@@ -31,23 +31,41 @@
     </ul>
     <br style="clear:left"/>
 </div>
-<th:block th:each="pizza :${pizzas}">
-    <div class="card">
-        <img class="product-image" th:src="${pizza.pictureLink}" alt="picture of pizza must be here">
-        <h1 th:text="${pizza.name}"></h1>
-        <p class="price" th:text="${pizza.price} + ' $' +'  /  ' + ${pizza.price + pizza.price / 3 + '  $'} "></p>
-        <p th:text=" ${pizza.description}"></p>
-        <form action="/buyPizza" method="POST">
-            <input type="hidden" name="id" th:value="${pizza.id}"/>
-            <input type="radio" name="size" value="15">15 Cm<Br>
-            <input type="radio" name="size" value="30">30 Cm<Br>
-            <p>
-                <button>Add to Cart</button>
-            </p>
-
-        </form>
+<div>
+<th:block>
+<h1 th:align="right" th:text=" ${'Welcome, ' + user.firstName}"> </h1>
+   </th:block>
+<div class="left-block">
+    <h1>Credit Cards</h1>
+<div class="info-card" th:each="payment : ${user.getPayments()}">
+    <a th:text="${payment.ccNumber}"></a>
+    <a th:text="${payment.ccExpiration}"></a>
+    <form action="/deletePaymentById" method="POST">
+    <input type="hidden" name="id" th:value="${payment.id}"/>
+    <button class="getButton"> Remove Credit Card</button>
+    </form>
+</div>
+</div>
+<div class="right-block">
+    <h1>Addresses</h1>
+<div class="info-card" th:each="address: ${user.getAddresses()}">
+    <a th:text="${address.street}"></a>
+    <a th:text="${address.houseNumber}"></a>
+    <form action="/deleteAddressById" method="POST">
+    <input type="hidden" name="addressId" th:value="${address.id}"/>
+    <button class="getButton"> Remove Address</button>
+    </form>
+</div>
+</div>
+</div>
+    <div>
+<div class="order-card" th:each="order: ${user.getOrders()}">
+    <p>Order Date</p>
+    <a th:text="${order.getDate()}"></a>
+    <p> Order Total $</p>
+    <a th:text="${order.getTotal()}"></a>
     </div>
-</th:block>
+</div>
 
 </body>
 </html>

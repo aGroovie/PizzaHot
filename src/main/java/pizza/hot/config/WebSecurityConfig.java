@@ -64,6 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
+        http.authorizeRequests().mvcMatchers("/myProfile","address-input","payment-input").fullyAuthenticated();
+
         http.authorizeRequests().and().formLogin()//
                 .loginPage("/login")//
                 .defaultSuccessUrl("/main")//

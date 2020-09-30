@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+
 @Component
 @Entity
 @Table(name = "drinks")
@@ -32,8 +33,18 @@ public class Drink extends Food implements Serializable {
     @Column(name = "drink_picture")
     private String pictureLink;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drink_id", insertable = false, updatable = false)
+    Order order;
 
+    public Order getOrder() {
+        return order;
+    }
 
+    public Drink setOrder(Order order) {
+        this.order = order;
+        return this;
+    }
 
     public Drink() {
 

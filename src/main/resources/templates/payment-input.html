@@ -29,14 +29,14 @@
         <br style="clear:left"/>
     </div>
     <div class="form-body">
-        <div  th:if="${user.getPayments() !=null}"  th:each="payment: ${user.getPayments()}">
+        <div class="order-card" th:if="${user.getPayments() !=null}"  th:each="payment: ${user.getPayments()}">
             <td th:text="${payment.name}"></td>
             <td th:text="${payment.ccNumber}"></td>
             <td th:text="${payment.ccExpiration}"></td>
             <form action="/payment-input" method="POST">
                 <input type="hidden" name="paymentId" th:value="${payment.id}"/>
                 <p>
-                    <button>Select This Payment </button>
+                    <button class="getButton">Select This Payment </button>
                 </p>
             </form>
         </div>
@@ -61,8 +61,12 @@
         <input type="text" th:field="*{ccExpiration}" id="ccExpiration" class="form-input">
         <label for="ccCVV">CCVV CODE</label>
         <input type="text" th:field="*{ccCVV}" id="ccCVV" class="form-input">
-        <input class="button" type="submit" value="Continue to Payment">
+        <input class="getButton" type="submit" value="Continue to Payment">
     </form>
+
 </div>
+    </div>
+</div>
+
 </body>
 </html>

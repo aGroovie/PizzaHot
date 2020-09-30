@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name ="payment_info")
-@EntityListeners(AuditingEntityListener.class)
 public class Payment implements Serializable {
 
 
@@ -64,12 +63,11 @@ public class Payment implements Serializable {
     @Column(name = "payment_cvv")
     private String ccCVV;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy ="payment",cascade = CascadeType.ALL)
-    Order order;
+
 
    public  Payment(){
 
@@ -171,11 +169,4 @@ public class Payment implements Serializable {
         this.user = user;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

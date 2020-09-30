@@ -8,8 +8,6 @@ import pizza.hot.model.Pizza;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.UserService;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/admin")
 public class PizzaListController {

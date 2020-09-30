@@ -7,10 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Drink;
-import pizza.hot.model.Pizza;
 import pizza.hot.service.DrinkService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
