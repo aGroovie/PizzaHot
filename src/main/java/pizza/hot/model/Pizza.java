@@ -20,7 +20,7 @@ public class Pizza extends Food implements Serializable {
     private String name;
 
     @Column(name = "pizza_price")
-    private Long price;
+    private float price;
 
     @Column(name = "pizza_size")
     private int size;
@@ -39,19 +39,7 @@ public class Pizza extends Food implements Serializable {
     private Set<Product> products = new HashSet<>();
 
 
-    @ManyToOne
-    @JoinColumn(name = "pizza_id", insertable = false, updatable = false)
-    Order order;
 
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public Pizza setOrder(Order order) {
-        this.order = order;
-        return this;
-    }
 
     public Pizza() {
 
@@ -73,11 +61,11 @@ public class Pizza extends Food implements Serializable {
         this.id = id;
     }
 
-    public Long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

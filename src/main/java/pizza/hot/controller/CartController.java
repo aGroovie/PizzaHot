@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
-import pizza.hot.model.Product;
-import pizza.hot.service.*;
+import pizza.hot.service.DrinkService;
+import pizza.hot.service.FoodService;
+import pizza.hot.service.PizzaService;
 import pizza.hot.utils.SessionCart;
-
-import javax.transaction.Transactional;
 
 @Controller
 @SessionAttributes({"sessionCart", "userCart", "pizza"})
@@ -29,15 +28,11 @@ public class CartController {
 
     DrinkService drinkService;
 
-
-    ProductService productService;
     @Autowired
     public CartController setDrinkService(DrinkService drinkService) {
         this.drinkService = drinkService;
         return this;
     }
-
-
 
 
     @Autowired
@@ -56,9 +51,9 @@ public class CartController {
         this.foodService = foodService;
     }
 
-    @PostMapping(value = "/buyPizza")           //razdelit mb pizza i drink controlleri hz gabe? ?
+    @PostMapping(value = "/buyPizza")
     public String listProductHandler(@RequestParam(value = "id") Long id,
-                                     @RequestParam(value = "size") String size,
+                                     @RequestParam(value = "size", required = false) String size,
                                      ModelMap model
     ) {
         if (size == null) {
@@ -67,8 +62,9 @@ public class CartController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             Pizza pizza = pizzaService.getPizzaById(id);
-            foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
-            sessionCart.addToCart(pizza, 1); // problem here
+            pizza.setSize(Integer.valueOf(size));
+          foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
+            sessionCart.addToCart(pizza, 1);
             model.addAttribute("pizza", pizza);
             return "redirect:/extra-products";
         } else {
@@ -76,8 +72,9 @@ public class CartController {
         }
 
     }
-    @PostMapping(value = "/buyDrink")           //razdelit mb pizza i drink controlleri hz gabe? ?
-    public String listProductHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "quantity") String quantity,
+
+    @PostMapping(value = "/buyDrink")
+    public String listProductHandler(@RequestParam(value = "id") Long id,
                                      Model model
     ) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -88,7 +85,7 @@ public class CartController {
 
             model.addAttribute("drink", drink);
 
-            sessionCart.addToCart(drink, Integer.parseInt(quantity)); // problem here
+            sessionCart.addToCart(drink, 1); // problem here
             return "redirect:/shoppingCart";
 
         } else {
@@ -97,14 +94,23 @@ public class CartController {
 
     }
 
+    @PostMapping(value = "addProduct")
+    public String increaseAmountHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "description")
+            String description) {
+
+        sessionCart.increaseProductQuantity(id, description);
+
+        return "redirect:/shoppingCart";
+    }
+
 
     @PostMapping(value = "/removeProduct{id}")
     public String removeProductHandler(@PathVariable(value = "id") Long id
-            , Model model, @RequestParam(value = "quantity", required = false) String quantity) {
+            , Model model, @RequestParam(value = "description") String description) {
 
         Food food = foodService.getFoodById(id);
         model.getAttribute("sessionCart");
-        sessionCart.removeFromCart(food, 1);
+        sessionCart.removeFromCart(food, 1, description);
         return "redirect:/shoppingCart";
     }
 
@@ -113,20 +119,18 @@ public class CartController {
     public String ShoppingCartHandler(Model model) {
 
         model.addAttribute("sessionCart", sessionCart);
-        model.addAttribute("userCart", sessionCart.getUserCart()); //ono rabotaet no mne kajetsya eto kostil
+        model.addAttribute("userCart", sessionCart.getUserCart());
 
         return "/shoppingCart";
 
     }
 
-/*
-    @PostMapping
+    @PostMapping("/clearCart")
     public String CleanCartHandler() {
 
         sessionCart.getUserCart().clear();
-        return "redirect:/main";
+        return "redirect:/shoppingCart";
     }
-*/
 
     @PostMapping("/continueShopping")
     public String continueShopping() {

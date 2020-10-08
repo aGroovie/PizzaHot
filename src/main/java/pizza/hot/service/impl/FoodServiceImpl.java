@@ -45,26 +45,29 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
 
-    public Long getPizzaTotalPrice(Pizza pizza) {
+    public float getPizzaTotalPrice(Pizza pizza) {
 
-        Long totalPrice = pizza.getPrice();
+        float totalPrice = pizza.getPrice();
 
         Set<Product> products = pizza.getProducts();
         for (Product product : products) {
-
             if (pizza.getSize() == 30) {
-                totalPrice += product.getPrice() + product.getPrice() / 3;
+
+
+
+                totalPrice += ( product.getPrice() + product.getPrice()) /2 ;
             } else {
                 totalPrice += product.getPrice();
-            }
-        }
 
+            }
+
+        }
         return totalPrice;
     }
 
     @Override
-    public Long getTotalPrice(Map<Food, Integer> food) {
-        long price = 0L;
+    public float getTotalPrice(Map<Food, Integer> food) {
+        float price = 0f;
 
         for (Food fud : food.keySet()) {
             if (fud instanceof Pizza) {
@@ -74,8 +77,6 @@ public class FoodServiceImpl implements FoodService {
                 price += fud.getPrice() * food.get(fud);
 
             }
-            //     System.out.println(price);
-
         }
         return price;
     }
@@ -98,7 +99,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void pizzaPriceSetter(int size, Food food) {
-        Long currentPrice = food.getPrice();
+        float currentPrice = food.getPrice();
         if (size > 15) {
             food.setPrice(currentPrice + currentPrice / 3);
         }
@@ -106,12 +107,19 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void addProductsToPizza(List<String> ids, Pizza pizza) {
-        for(String id : ids){
-        Product product  = productService.getProductById(Long.parseLong(id));
-        pizza.getProducts().add(product);
-       }
-    }
+        StringBuffer sb = new StringBuffer(pizza.getDescription());
+        sb.append(" With extras : ");
+        for (String id : ids) {
+            Product product = productService.getProductById(Long.parseLong(id));
+            if(pizza.getSize() == 30){
+                product.setPrice(product.getPrice() + product.getPrice() /2);
+            }
+            sb.append(product.getName() + " " + product.getPrice() + "$ ");
 
+            pizza.getProducts().add(product);
+        }
+        pizza.setDescription(sb.toString());
+    }
 
 
 }

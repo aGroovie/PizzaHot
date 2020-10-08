@@ -4,8 +4,8 @@ package pizza.hot.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Entity
@@ -23,7 +23,7 @@ public class Order {
 
 
     @Column(name = "order_total")
-    private Long total;
+    private float total;
 
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
@@ -40,32 +40,22 @@ public class Order {
    private DailyReport dailyReport;
 
 
-    @OneToMany(mappedBy = "order")
-    Set<Drink> drinks = new HashSet<>();
+@ElementCollection
+@CollectionTable(name = "pizzas_in_order")
+@MapKeyJoinColumn(name = "pizza_id") //po order_pizza_id toje joinil
+@Column(name = "pizza_quantity")
+private Map<Pizza, Integer> pizzas = new HashMap();
 
-    @OneToMany(mappedBy = "order")
-    Set<Pizza> pizzas = new HashSet<>();
-
-
-    public Set<Pizza> getPizzas() {
+    public Map<Pizza, Integer> getPizzas() {
         return pizzas;
     }
 
-    public Order setPizzas(Set<Pizza> pizzas) {
+    public Order setPizzas(Map<Pizza, Integer> pizzas) {
         this.pizzas = pizzas;
         return this;
     }
 
-    public Set<Drink> getDrinks() {
-        return drinks;
-    }
 
-
-
-    public Order setDrinks(Set<Drink> drinks) {
-        this.drinks = drinks;
-        return this;
-    }
 
     public Long getId() {
         return id;
@@ -87,11 +77,11 @@ public class Order {
         this.date = date;
     }
 
-    public Long getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -111,9 +101,10 @@ public class Order {
         this.dailyReport = dailyReport;
     }
 
+    public Order() {
+    }
 
-
-    public void setAll(User user, Payment payment, Long total){
+    public void setAll(User user, Payment payment, float total){
         this.user = user;
         this.payment = payment;
         this.total = total;

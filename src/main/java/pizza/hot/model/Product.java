@@ -5,11 +5,8 @@ import org.springframework.stereotype.Component;
 import pizza.hot.enums.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Component
 @Entity
@@ -24,8 +21,7 @@ public class Product  extends Food implements Serializable {
 
 
     @Column(name = "product_price")
-    @NotNull
-    private Long price;
+    private float price;
 
     @Column(name = "product_name")
     private String name;
@@ -52,11 +48,11 @@ public class Product  extends Food implements Serializable {
         this.id = id;
     }
 
-    public Long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

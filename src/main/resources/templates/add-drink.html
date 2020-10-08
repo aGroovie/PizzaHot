@@ -14,11 +14,10 @@
 <div class="menu">
     <ul>
         <li><a href="/main">Home</a></li>
-        <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
+        <li><a href="/registration">Registration</a></li>
         <li><a href="/drink-selection">Our Drinks!</a></li>
         <li><a href="/pizzas">Our HOT Pizzas!</a></li>
         <li><a href="/shoppingCart">Shopping cart!</a></li>
-        <li><a sec:authorize="isFullyAuthenticated()" href="/myProfile"> My profile</a></li>
         <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
         <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
         <li>
@@ -31,23 +30,34 @@
     </ul>
     <br style="clear:left"/>
 </div>
-<th:block th:each="pizza :${pizzas}">
-    <div class="card">
-        <img class="product-image" th:src="${pizza.pictureLink}" alt="picture of pizza must be here">
-        <h1 th:text="${pizza.name}"></h1>
-        <p class="price" th:text="${#numbers.formatDecimal(pizza.price,2,2)} + ' $' +'  /  ' + ${#numbers.formatDecimal(pizza.price + pizza.price / 3,2,2) + '  $'} "></p>
-        <p th:text=" ${pizza.description}"></p>
-        <form action="/buyPizza" method="POST">
-            <input type="hidden" name="id" th:value="${pizza.id}"/>
-            <input type="radio" name="size" value="15">15 Cm<Br>
-            <input type="radio" name="size" value="30">30 Cm<Br>
-            <p>
-                <button>Add to Cart</button>
-            </p>
 
-        </form>
+<form class="signup-form" th:object="${drink}" action="/admin/add-drink" method="POST">
+    <div class="form-header">
+        <h1> Add Drink</h1>
     </div>
-</th:block>
+
+    <div class="horizontal-group">
+        <div class="form-group left">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" id="name" class="form-input">
+
+            <label for="price">Price</label>
+            <input type="text" th:field="*{price}" id="price" class="form-input">
+
+
+            <label for="size"> Size</label>
+            <input type="text" th:field="*{size}" id="size" class="form-input">
+
+            <label for="description">Description</label>
+            <input type="text" th:field="*{description}" id="description" class="form-input">
+
+            <label for="pictureLink">Picture Link</label>
+            <input type="text" th:field="*{pictureLink}" id="pictureLink" class="form-input">
+
+            <input class="button" type="submit" value="saveDrink">
+        </div>
+    </div>
+
+</form>
 
 </body>
-</html>

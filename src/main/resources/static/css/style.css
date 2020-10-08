@@ -52,7 +52,7 @@ html {
 
 .menu ul li a{
     text-align: center;
-    float: left; text-decoration: none;
+    float: left; text-decoration: sandybrown;
     color: white;
     padding: 10.5px 11px;
     background-color: #333; }
@@ -72,7 +72,7 @@ html {
 .logout-button{
     float: right;
     padding: 10px 25px;
-    background-color: red;
+    background-color: rgba(232, 127, 78, 0.83);
 }
 .custom-table{
     font-family: "Lucida Sans Unicode", "Lucida Grande",  sans-serif;

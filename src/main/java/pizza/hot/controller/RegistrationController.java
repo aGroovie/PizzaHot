@@ -112,7 +112,7 @@ public class RegistrationController {
 
     @PostMapping("/payment-input")
     public String addPayment(@ModelAttribute Payment payment, Model model, @RequestParam(value = "paymentId", required = false) String paymentId) {
-        User user = (User) model.getAttribute("user"); //logika naryshena ono sohranyaet daje kogda ne nado po syti no ne poly4alos inache sdelat s if else
+        User user = (User) model.getAttribute("user");
 
         if (paymentId != null) {
             payment = paymentService.getPaymentById(Long.parseLong(paymentId));
@@ -136,7 +136,7 @@ public class RegistrationController {
 
         User user = (User) model.getAttribute("user");
         user = userService.findByUsername(user.getUsername());
-        long total = sessionCart.getTotalPrice();
+        float total = sessionCart.getTotalPrice();
 
 
         Order order = new Order();
@@ -144,9 +144,9 @@ public class RegistrationController {
         for (Food food : sessionCart.getUserCart().keySet()) {
             if (food instanceof Drink) {
 
-                order.getDrinks().add((Drink) food);
+            //    order.getDrinks().add((Drink) food);
             } else {
-                order.getPizzas().add((Pizza) food);
+         order.getPizzas().put((Pizza) food, sessionCart.getUserCart().get(food));
             }
         }
         order.setAll(user, payment, total);

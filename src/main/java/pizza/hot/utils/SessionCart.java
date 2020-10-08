@@ -6,6 +6,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import pizza.hot.model.Food;
+import pizza.hot.model.Pizza;
+import pizza.hot.model.Product;
 import pizza.hot.service.FoodService;
 
 import java.util.LinkedHashMap;
@@ -16,7 +18,8 @@ import java.util.Map;
 public class SessionCart {
 
     Map<Food, Integer> userCart = new LinkedHashMap<>();
-    private long totalPrice;
+
+    private float totalPrice;
 
     FoodService foodService;
 
@@ -38,26 +41,26 @@ public class SessionCart {
         this.userCart = userCart;
     }
 
-    public long getTotalPrice() {
-        long price = foodService.getTotalPrice(userCart);
+    public float getTotalPrice() {
+        float price = foodService.getTotalPrice(userCart);
         return totalPrice;
     }
 
-    public void setTotalPrice(long totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 
     public void countTotalPrice() {
-        long price = foodService.getTotalPrice(userCart);
+        float price = foodService.getTotalPrice(userCart);
         this.totalPrice = price;
 
 
     }
 
-    public void removeFromCart(Food food, int removeNum) {
+    public void removeFromCart(Food food, int removeNum, String description) {
 
         for (Food fud : userCart.keySet()) {
-            if (fud.getId().equals(food.getId())) {
+            if (fud.getId().equals(food.getId()) && fud.getDescription().equals(description)) {
                 food = fud;
             }
         }
@@ -77,9 +80,27 @@ public class SessionCart {
         this.countTotalPrice();
 
     }
-    public void clearCart(){
+
+    public void increaseProductQuantity(Long id, String description) {
+        for (Food food : userCart.keySet()) {
+            if (id.equals(food.getId()) && description.equals(food.getDescription())) {
+                int curAmount = userCart.get(food);
+                userCart.put(food, curAmount + 1);
+            }
+        }
+
+        this.countTotalPrice();
+    }
+
+
+    public void clearCart() {
         userCart.clear();
     }
+
+
+
+
+
 
 
 }

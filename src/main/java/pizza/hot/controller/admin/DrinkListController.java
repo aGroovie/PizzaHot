@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Drink;
+import pizza.hot.model.Pizza;
 import pizza.hot.service.DrinkService;
 
 @Controller
@@ -22,8 +23,8 @@ public class DrinkListController {
     }
 
     @PostMapping(value = "/saveDrink")
-    public String save(@Validated @ModelAttribute("drink") Drink drink, BindingResult result, Model model){
-        if(result.hasErrors()){
+    public String save(@Validated @ModelAttribute("drink") Drink drink, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "drink-list";
         }
         model.addAttribute("drink", drink);
@@ -32,29 +33,22 @@ public class DrinkListController {
     }
 
     @GetMapping("/drink-list")
-    public String getAllDrinks(Model model){
+    public String getAllDrinks(Model model) {
         model.addAttribute("drinks", drinkService.findAll());
 
         return "drink-list";
     }
 
-    @GetMapping(value = "/deleteDrinkById{id}")
-    public String deleteDrinkById(@PathVariable Long id){
+    @GetMapping(value = "deleteDrinkById/{id}")
+    public String deleteDrinkById(@PathVariable("id") Long id) {
         drinkService.deleteDrinkById(id);
         return "redirect:/admin/drink-list";
     }
 
-
-    @PostMapping(value = "updateDrinkById/{id}")
-    public String updateDrink(@ModelAttribute("drink") Drink drink, @PathVariable Long id) {
-        drinkService.updateDrinkById(id, drink);
-        return "redirect:/admin/drink-list";
-    }
-
-    @GetMapping(value = {"updateDrinkById/{id}", "/updateDrinkById/", "updateDrink"})
+    @GetMapping(value = {"updateDrinkById/{id}", "/deleteDrinkById/", "updateDrink"})
     public String getUpdateDrink(@PathVariable("id") Long id, Model model, @ModelAttribute("drink") Drink drink) {
 
-        model.addAttribute("drink",drinkService.getDrinkById(id) );
+        model.addAttribute("drink", drinkService.getDrinkById(id));
 
 
         return "/edit-drink";
@@ -62,4 +56,22 @@ public class DrinkListController {
 
     }
 
+    @PostMapping(value = "updateDrinkById/{id}")
+    public String updateDrink(@ModelAttribute("drink") Drink drink, @PathVariable Long id) {
+        drinkService.updateDrinkById(id, drink);
+        return "redirect:/admin/drink-list";
+    }
+
+
+
+    @GetMapping(value = "/add-drink")
+    public String getAddDrink(@ModelAttribute("drink") Drink drink) {
+        return "/add-drink";
+    }
+
+    @PostMapping(value = "/add-drink")
+    public String addDrink(@ModelAttribute("drink") Drink drink) {
+        drinkService.saveDrink(drink);
+        return "redirect:/admin/drink-list";
+    }
 }

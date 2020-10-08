@@ -8,9 +8,9 @@ import java.util.Map;
 
 public interface FoodService {
 
-    public Long getPizzaTotalPrice(Pizza pizza);
+    public float getPizzaTotalPrice(Pizza pizza);
 
-    public Long getTotalPrice(Map<Food, Integer> food);
+    public float getTotalPrice(Map<Food, Integer> food);
 
     public Food getFoodById(Long id);
 

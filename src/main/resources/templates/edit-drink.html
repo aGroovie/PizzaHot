@@ -9,9 +9,9 @@
     <title>EDIT PIZZA !</title>
 </head>
 <body>
-<form class="signup-form"  th:object="${drink}" th:action="@{'/admin/updateDrinkById/' + ${id}}" method="post">
+<form class="signup-form" th:object="${drink}" th:action="@{'/admin/updateDrinkById/' + ${id}}" method="post">
     <div class="form-header">
-        <h1> EDIT Pizza</h1>
+        <h1> EDIT Drink</h1>
     </div>
 
     <div class="horizontal-group">
@@ -21,6 +21,9 @@
 
             <label for="price">Price</label>
             <input type="text" th:field="*{price}" id="price" class="form-input">
+
+            <label for="size">Size</label>
+            <input type="text" th:field="*{size}" id="size" class="form-input">
 
             <label for="description">Description</label>
             <input type="text" th:field="*{description}" id="description" class="form-input">

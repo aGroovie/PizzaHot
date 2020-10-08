@@ -30,8 +30,8 @@
             <form th:action="@{/addProductById}" method="POST">
             <th:block  th:each="product : ${products} ">
                 <label th:text="${product.name}"></label>
-                <label th:text="${product.price + '$'}"></label>
-                <label th:text="${product.price + product.price / 3 + '$'}"></label>
+                <label th:text="${#numbers.formatDecimal(product.price,1,2)+ '$'}"></label>
+                <label th:text="${#numbers.formatDecimal(product.price + product.price / 2,1,2) + '$'}"></label>
                     <label>
                         <input type="checkbox" name="id" th:value="${product.id}">
                     </label><Br>

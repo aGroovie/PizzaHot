@@ -1,11 +1,9 @@
 package pizza.hot.model;
 
-import java.util.Objects;
-
 public abstract class Food {
     private Long id;
 
-    private Long price;
+    private float price;
 
     private String name;
 
@@ -21,11 +19,11 @@ public abstract class Food {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

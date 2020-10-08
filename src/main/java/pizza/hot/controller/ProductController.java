@@ -62,11 +62,7 @@ public class ProductController {
         }
         Pizza pizza = (Pizza) model.getAttribute("pizza");
 
-
         foodService.addProductsToPizza(ids,pizza);
-
-
-        foodService.pizzaPriceSetter(pizza.getSize(), pizza);
         sessionCart.addToCart(pizza, 1); // problem here
 
         return "redirect:/drink-selection";

@@ -13,7 +13,7 @@
 <div class="menu">
     <ul>
         <li><a href="/main">Home</a></li>
-        <li><a href="/registration">Registration</a></li>
+        <li><a sec:authorize="isAnonymous()"href="/registration">Registration</a></li>
         <li><a href="/drink-selection">Our Drinks!</a></li>
         <li><a href="/pizzas">Our HOT Pizzas!</a></li>
         <li><a href="/shoppingCart">Shopping cart!</a></li>
@@ -35,8 +35,9 @@
         <td>Name</td>
         <td>Price</td>
         <td>  </td>
-        <td> Extras </td>
+        <td>Extras</td>
            <td>Remove</td>
+        <td>Add</td>
         <td>AMOUNT</td>
 
     </tr>
@@ -46,15 +47,26 @@
         <td th:text="${food.key.name}"></td>
         <td th:text="${food.key.price + ' $ '}"></td>
         <td><img class="product-image" th:src="${food.key.pictureLink}"> </td>
-        <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post"> <button
-                class="getButton"> Remove</button></form> </td>
+        <td th:width="80px" th:text="${food.key.getDescription()}"></td>
+        <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post">
+                <input type="hidden" name="description" th:value="${food.key.description}">
+            <button class="getButton"> -</button></form> </td>
+        <td>     <form action="/addProduct" method="POST">
+            <input type="hidden" name="id" th:value="${food.key.id}"/>
+            <input type="hidden" name="description" th:value="${food.key.description}">
+            <button class="getButton"> + </button></form></td>
         <td th:text="${food.getValue()}"> </td>
     </tr>
-
     </tbody>
+
 </table>
-        <li><a href="/address-input">CheckOut</a></li>
-         <p align="center" th:text="${'Total   ' + sessionCart.getTotalPrice() + ' $'}">  </p>
+        <form action="/clearCart" method="POST">
+            <button class="getButton"> Clear Cart</button>
+        </form>
+                <form action="/address-input" method="GET">
+            <button class="getButton"> CheckOut</button>
+        </form>
+         <p align="center" th:text="${'Total   ' + #numbers.formatDecimal(sessionCart.getTotalPrice(),2,2) + ' $'}">  </p>
     </span>
     <span th:if="${sessionCart.getUserCart().isEmpty()}">
         <h1 th:align="center">YOUR SHOPPING CART IS EMPTY!</h1>

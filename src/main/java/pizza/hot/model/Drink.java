@@ -18,7 +18,7 @@ public class Drink extends Food implements Serializable {
     private Long id;
 
     @Column(name = "drink_price")
-    private Long price;
+    private float price;
 
     @Column(name = "drink_name")
     private String name;
@@ -33,18 +33,8 @@ public class Drink extends Food implements Serializable {
     @Column(name = "drink_picture")
     private String pictureLink;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drink_id", insertable = false, updatable = false)
-    Order order;
 
-    public Order getOrder() {
-        return order;
-    }
 
-    public Drink setOrder(Order order) {
-        this.order = order;
-        return this;
-    }
 
     public Drink() {
 
@@ -58,11 +48,11 @@ public class Drink extends Food implements Serializable {
         this.id = id;
     }
 
-    public Long getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

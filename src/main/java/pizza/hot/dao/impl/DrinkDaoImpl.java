@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.DrinkDao;
 import pizza.hot.model.Drink;
-import pizza.hot.model.Pizza;
 
 import java.util.List;
 
@@ -79,6 +78,7 @@ public class DrinkDaoImpl implements DrinkDao {
 
         oldDrink.setPrice(newDrink.getPrice());
         oldDrink.setName(newDrink.getName());
+        oldDrink.setSize(newDrink.getSize());
         oldDrink.setDescription(newDrink.getDescription());
 
 
