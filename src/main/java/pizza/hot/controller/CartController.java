@@ -62,9 +62,9 @@ public class CartController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             Pizza pizza = pizzaService.getPizzaById(id);
-            pizza.setSize(Integer.valueOf(size));
-          foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
-            sessionCart.addToCart(pizza, 1);
+            pizza.setSize(Integer.parseInt(size));
+            foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
+            // sessionCart.addToCart(pizza, 1);
             model.addAttribute("pizza", pizza);
             return "redirect:/extra-products";
         } else {
@@ -85,7 +85,7 @@ public class CartController {
 
             model.addAttribute("drink", drink);
 
-            sessionCart.addToCart(drink, 1); // problem here
+            sessionCart.addToCart(drink); // problem here
             return "redirect:/shoppingCart";
 
         } else {
@@ -98,7 +98,9 @@ public class CartController {
     public String increaseAmountHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "description")
             String description) {
 
-        sessionCart.increaseProductQuantity(id, description);
+        Food food = foodService.getFoodById(id);
+        food.setDescription(description);
+        sessionCart.addToCart(food);
 
         return "redirect:/shoppingCart";
     }
@@ -110,7 +112,7 @@ public class CartController {
 
         Food food = foodService.getFoodById(id);
         model.getAttribute("sessionCart");
-        sessionCart.removeFromCart(food, 1, description);
+        sessionCart.removeFromCart(food, description);
         return "redirect:/shoppingCart";
     }
 

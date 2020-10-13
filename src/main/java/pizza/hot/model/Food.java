@@ -1,5 +1,7 @@
 package pizza.hot.model;
 
+import java.util.Objects;
+
 public abstract class Food {
     private Long id;
 
@@ -55,4 +57,17 @@ public abstract class Food {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Food)) return false;
+        Food food = (Food) o;
+        return Objects.equals(id, food.id) &&
+                Objects.equals(description, food.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description);
+    }
 }

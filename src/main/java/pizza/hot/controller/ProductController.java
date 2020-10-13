@@ -57,13 +57,14 @@ public class ProductController {
 
     @PostMapping(value = "/addProductById")
     String addProductToPizzaById(@RequestParam(value = "id",required = false) List<String> ids,Model model ) {
+        Pizza pizza = (Pizza) model.getAttribute("pizza");
         if(ids == null){
+            sessionCart.addToCart(pizza); // problem here
             return "redirect:/drink-selection";
         }
-        Pizza pizza = (Pizza) model.getAttribute("pizza");
 
         foodService.addProductsToPizza(ids,pizza);
-        sessionCart.addToCart(pizza, 1); // problem here
+        sessionCart.addToCart(pizza); // problem here
 
         return "redirect:/drink-selection";
     }

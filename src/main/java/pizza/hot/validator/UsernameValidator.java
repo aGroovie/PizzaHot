@@ -1,19 +1,15 @@
 package pizza.hot.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import pizza.hot.dao.UserDao;
+import org.springframework.stereotype.Service;
 import pizza.hot.service.UserService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.AssertTrue;
-
+@Service
 public class UsernameValidator implements ConstraintValidator<UserNameConstraint, String> {
 
     UserService userService;
-
-
-
 
 
     @Autowired

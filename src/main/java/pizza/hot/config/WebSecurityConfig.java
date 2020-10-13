@@ -72,9 +72,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/error403")//\
                 .usernameParameter("username")//
                 .passwordParameter("password")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/main").and().logout()
+                .and().logout().deleteCookies("JSESSIONID")
+                .logoutUrl("/logout").logoutSuccessUrl("/main").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/main");
+                .logoutSuccessUrl("/main").and().rememberMe().key("uniqueAndSecret");
     }
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {

@@ -1,5 +1,6 @@
 package pizza.hot.dao.impl;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pizza.hot.config.HibernateUtils;
 import pizza.hot.dao.UserDao;
+import pizza.hot.model.Pizza;
 import pizza.hot.model.User;
 import pizza.hot.validator.UserNameConstraint;
 
@@ -43,11 +45,11 @@ public class UserDaoImpl implements UserDao {
         session.getTransaction().begin();
 
         Query query = session.createNativeQuery("SELECT * FROM users").addEntity(User.class);
-        List<User> userlist = query.list();
+        List<User> userList = query.list();
 
         session.close();
 
-        return userlist;
+        return userList;
     }
 
     @Override
@@ -73,6 +75,17 @@ public class UserDaoImpl implements UserDao {
             user = null;
         }
 
+        return user;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        Session session;
+        User user;
+        session = HibernateUtils.getSessionFactory().openSession();
+        user = session.get(User.class, id);
+        Hibernate.initialize(user);
+        session.close();
         return user;
     }
 }

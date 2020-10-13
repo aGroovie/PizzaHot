@@ -17,4 +17,6 @@ public interface UserService {
 
     String getUsernameFromSession(Object principal);
 
+    User getUserById(Long id);
+
 }

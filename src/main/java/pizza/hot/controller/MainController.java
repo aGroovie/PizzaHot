@@ -30,10 +30,7 @@ public class MainController {
     public String pizzaList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
         return "/main";
-
-
     }
-
 
     @GetMapping("/403")
     public String accessDenied(){

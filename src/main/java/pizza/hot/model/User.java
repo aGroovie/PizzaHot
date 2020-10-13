@@ -52,13 +52,13 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role userRole;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.EAGER)   //pay attention to this
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch =FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch =FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 
     public Set<Order> getOrders() {

@@ -57,50 +57,46 @@ public class SessionCart {
 
     }
 
-    public void removeFromCart(Food food, int removeNum, String description) {
-
-        for (Food fud : userCart.keySet()) {
-            if (fud.getId().equals(food.getId()) && fud.getDescription().equals(description)) {
-                food = fud;
+    public void removeFromCart(Food food, String description) {
+        food.setDescription(description);
+        for (Food foodToCheck : userCart.keySet()) {
+            if (foodToCheck.equals(food)) {
+                food = foodToCheck;
             }
         }
         int currentProductsCount = userCart.get(food);
-        if (currentProductsCount <= removeNum) {
+        if (currentProductsCount <= 1) {
             userCart.remove(food);
         } else {
-            userCart.put(food, currentProductsCount - removeNum);
+            userCart.put(food, currentProductsCount - 1);
         }
         this.countTotalPrice();
     }
 
 
-    public void addToCart(Food food, int addNum) {
-
-        userCart.put(food, addNum);
-        this.countTotalPrice();
-
-    }
-
-    public void increaseProductQuantity(Long id, String description) {
-        for (Food food : userCart.keySet()) {
-            if (id.equals(food.getId()) && description.equals(food.getDescription())) {
-                int curAmount = userCart.get(food);
-                userCart.put(food, curAmount + 1);
+    public void addToCart(Food food) {
+        boolean isFoodAlreadyInCart = false;
+        Food foodToIncrease = null;
+        for (Food foodToCheck : userCart.keySet()) {
+            if (foodToCheck.equals(food)) {
+                isFoodAlreadyInCart = true;
+                foodToIncrease = foodToCheck;
             }
         }
+        if (isFoodAlreadyInCart) {
+            int curAmountOfProduct = userCart.get(foodToIncrease);
+            userCart.put(foodToIncrease, curAmountOfProduct + 1);
 
+        }
+        if (!isFoodAlreadyInCart) {
+            userCart.put(food, 1);
+        }
         this.countTotalPrice();
     }
-
 
     public void clearCart() {
         userCart.clear();
     }
-
-
-
-
-
 
 
 }

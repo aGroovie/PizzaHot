@@ -104,14 +104,15 @@ public class Pizza extends Food implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Pizza)) return false;
         if (!super.equals(o)) return false;
         Pizza pizza = (Pizza) o;
-        return id.equals(pizza.id);
+        return Objects.equals(id, pizza.id) &&
+                Objects.equals(description, pizza.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
+        return Objects.hash(super.hashCode(), id, description);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pizza.hot.model.User;
 import pizza.hot.service.UserService;
 
 @Controller
@@ -30,7 +31,7 @@ public class UserListController {
 
 
    @GetMapping(value = "deleteUserById/{id}")
-    public String deletePizza(@PathVariable Long id){
+    public String deleteUser(@PathVariable Long id){
         userService.deleteUserById(id);
         return "redirect:/admin/user-list";
     }
@@ -43,5 +44,12 @@ public class UserListController {
             model.addAttribute("message","Logged out successfully");
         }
         return "login";
+    }
+
+    @GetMapping(value = "showUserWithId/{id}")
+    public String showUser(Model model, @PathVariable Long id){
+          User user = userService.getUserById(id);
+          model.addAttribute("user", user);
+        return "show-user-info";
     }
 }

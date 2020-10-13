@@ -39,6 +39,7 @@
         <td th:text="${user.secondName}"></td>
         <td th:text="${user.email}"></td>
         <td><a th:href="@{deleteUserById/{id}(id=${user.id})}">Delete</a></td>
+        <td><a th:href="@{showUserWithId/{id}(id=${user.id})}">Show more info</a></td>
 
     </tr>
     </tbody>

@@ -9,6 +9,27 @@
     <title>PIZZA TIIIIIME!</title>
 </head>
 <body class="center-body">
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a></li>
+        <li><a sec:authorize="isFullyAuthenticated()" href="/myProfile"> My profile</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+
+
+    </ul>
+    <br style="clear:left"/>
+</div>
 <h3>Enter user name and password:</h3>
 <form class="form-input" name='f' th:action="@{/login}" method='POST'>
     <table>
@@ -20,6 +41,12 @@
             <td>Password:</td>
             <td><input type='password' name='password' /></td>
         </tr>
+        </tr>
+        <tr>
+            <td>Remember Me:</td>
+            <td><input type="checkbox" name="remember-me" /></td>
+        </tr>
+        <tr>
         <tr>
             <td><input name="submit" type="submit" value="submit" /></td>
         </tr>

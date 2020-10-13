@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link href="../static/css/style.css" th:href="@{../static/css/style.css}" rel="stylesheet" type="text/css">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+</head>
+<body class="center-body">
+
+<img class="top-image" src="../static/images/pizzahot.png" th:src="@{images/pizzahot.png}"/>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a></li>
+        <li><a sec:authorize="isFullyAuthenticated()" href="/myProfile"> My profile</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+
+
+    </ul>
+    <br style="clear:left"/>
+</div>
+
+<div class="left-block">
+    <h1>Credit Cards</h1>
+    <div class="info-card" th:each="payment : ${user.getPayments()}">
+        <a th:text="${payment.ccNumber}"></a>
+        <a th:text="${payment.ccExpiration}"></a>
+        <a th:text="${payment.ccCVV}"></a>
+        <a th:text="${payment.street}"></a>
+        <form action="/deletePaymentById" method="POST">
+            <input type="hidden" name="id" th:value="${payment.id}"/>
+            <button class="getButton"> Remove Credit Card</button>
+        </form>
+    </div>
+</div>
+<div class="right-block">
+    <h1>Addresses</h1>
+    <div class="info-card" th:each="address: ${user.getAddresses()}">
+        <a th:text="${address.getZip()}"></a>
+        <a th:text="${address.street}"></a>
+        <a th:text="${address.houseNumber}"></a>
+        <a th:text="${address.apartmentNumber}"></a>
+        <form action="/deleteAddressById" method="POST">
+            <input type="hidden" name="addressId" th:value="${address.id}"/>
+            <button class="getButton"> Remove Address</button>
+        </form>
+    </div>
+</div>
+<div class="left-block">
+    <h1> Orders</h1>
+    <div class="order-card" th:each="order: ${user.getOrders()}">
+        <p>Order Date</p>
+        <a th:text="${order.getDate()}"></a>
+        <p> Order Total $</p>
+        <a th:text="${order.getTotal()}"></a>
+    </div>
+</div>
+</body>
+</html>

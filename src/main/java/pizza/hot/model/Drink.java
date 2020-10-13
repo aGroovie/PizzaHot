@@ -93,14 +93,15 @@ public class Drink extends Food implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Drink)) return false;
         if (!super.equals(o)) return false;
         Drink drink = (Drink) o;
-        return id.equals(drink.id);
+        return Objects.equals(id, drink.id) &&
+                Objects.equals(description, drink.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
+        return Objects.hash(super.hashCode(), id, description);
     }
 }
