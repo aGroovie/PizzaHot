@@ -4,60 +4,51 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.ProductDao;
 import pizza.hot.model.Product;
 
 import java.util.List;
 @Repository
+@Transactional
+
 public class ProductDaoImpl implements ProductDao {
+
+    @Autowired
+    SessionFactory sessionFactory;
     @Override
     public void saveProduct(Product product) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
         session.saveOrUpdate(product);
-        session.getTransaction().commit();
 
-        session.close();
     }
 
     @Override
     public List<Product> findAllProducts() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-
-        session.getTransaction().begin();
-        Query query = session.createNativeQuery("SELECT * FROM products").addEntity(Product.class);
-        List<Product> productList = query.list();
-
-        session.close();
-        return productList;
+      return  sessionFactory.getCurrentSession().createQuery("FROM Product ").getResultList();
     }
 
     @Override
     public void deleteProductById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
+        Session session = this.sessionFactory.getCurrentSession();
 
-        session.getTransaction().begin();
+
         Query query = session.createNativeQuery("DELETE  FROM products where product_id = :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
     }
 
     @Override
     public Product getProductById(Long id) {
         Product product;
-
-        Session session = HibernateUtils.getSessionFactory().openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         product = session.get(Product.class, id);
-        Hibernate.initialize(product);
+      session.evict(product);
 
-        session.close();
+
         return product;
     }
 }

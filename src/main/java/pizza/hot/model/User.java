@@ -24,7 +24,7 @@ public class User implements Serializable {
 
     @Column(name = "username")
     @Size(min=5,max=10, message = "Username must be between {min} and {max}")
-   // @UserNameConstraint
+    @UserNameConstraint
     private String username;
 
     @Column(name = "user_pw")

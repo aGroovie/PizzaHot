@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 @Service
 public class UsernameValidator implements ConstraintValidator<UserNameConstraint, String> {
 
-    UserService userService;
+    private UserService userService;
 
 
     @Autowired
@@ -18,7 +18,6 @@ public class UsernameValidator implements ConstraintValidator<UserNameConstraint
     }
 
     @Override
-
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         return username != null && !userService.isAlreadyInUse(username);
 

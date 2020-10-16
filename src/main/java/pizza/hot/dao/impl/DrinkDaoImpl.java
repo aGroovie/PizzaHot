@@ -5,64 +5,56 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.DrinkDao;
 import pizza.hot.model.Drink;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class DrinkDaoImpl implements DrinkDao {
+
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public void saveDrink(Drink drink) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+
+        Session session = this.sessionFactory.getCurrentSession();
+
 
         session.saveOrUpdate(drink);
 
-        session.getTransaction().commit();
-        session.close();
+
     }
 
     @Override
     public List<Drink> findAll() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
-        Query query = session.createNativeQuery("SELECT * FROM drinks").addEntity(Drink.class);
-        List<Drink> drinkList = query.list();
-
-        session.close();
-
-        return drinkList;
+        return  sessionFactory.getCurrentSession().createQuery("FROM Drink ").getResultList();
 
     }
 
     @Override
     public void deleteDrinkById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
 
         Query query = session.createNativeQuery("DELETE FROM drinks where drink_id = :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
 
 
     }
 
     @Override
     public Drink getDrinkById(Long id) {
-        Session session;
         Drink drink;
-        session = HibernateUtils.getSessionFactory().openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         drink = session.get(Drink.class, id);
-        Hibernate.initialize(drink);
-        session.close();
+
         return drink;
     }
 
@@ -71,10 +63,8 @@ public class DrinkDaoImpl implements DrinkDao {
 
         Drink oldDrink;
 
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        Transaction tx = session.beginTransaction();
-        oldDrink =  session.get(Drink.class, id);
+        Session session = this.sessionFactory.getCurrentSession();
+        oldDrink = session.get(Drink.class, id);
 
         oldDrink.setPrice(newDrink.getPrice());
         oldDrink.setName(newDrink.getName());
@@ -83,9 +73,8 @@ public class DrinkDaoImpl implements DrinkDao {
 
 
         session.update(oldDrink);
-        tx.commit();
 
-        session.close();
+
 
     }
 }

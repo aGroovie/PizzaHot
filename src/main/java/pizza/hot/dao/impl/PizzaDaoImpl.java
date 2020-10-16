@@ -5,51 +5,46 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.PizzaDao;
 import pizza.hot.model.Pizza;
 
 import java.util.List;
 
 @Repository
+@Transactional
+
 public class PizzaDaoImpl implements PizzaDao {
+
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public void addPizza(Pizza pizza) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
 
         session.saveOrUpdate(pizza);
-        session.getTransaction().commit();
 
-        session.close();
+
     }
 
     @Override
     public List<Pizza> getAllPizzas() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        return sessionFactory.getCurrentSession().createQuery("FROM Pizza").getResultList();
 
-        Query query = session.createNativeQuery("SELECT * FROM base_pizzas").addEntity(Pizza.class);
-        List<Pizza> pizzaList = query.list();
 
-        session.close();
-
-        return pizzaList;
     }
 
     @Override
     public void deletePizzaById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
 
+        Session session = this.sessionFactory.getCurrentSession();
         Query query = session.createNativeQuery("DELETE FROM base_pizzas where pizza_id= :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
 
     }
 
@@ -58,9 +53,8 @@ public class PizzaDaoImpl implements PizzaDao {
 
         Pizza oldPizza;
 
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        Transaction tx = session.beginTransaction();
+
+        Session session = this.sessionFactory.getCurrentSession();
         oldPizza = (Pizza) session.get(Pizza.class, id);
 
         oldPizza.setPrice(newPizza.getPrice());
@@ -69,20 +63,17 @@ public class PizzaDaoImpl implements PizzaDao {
         oldPizza.setProducts(newPizza.getProducts());
 
         session.update(oldPizza);
-        tx.commit();
 
-        session.close();
 
     }
 
     @Override
     public Pizza getPizzaById(Long id) {
-        Session session;
         Pizza pizza;
-        session = HibernateUtils.getSessionFactory().openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         pizza = session.get(Pizza.class, id);
-        Hibernate.initialize(pizza);
-        session.close();
+        session.evict(pizza);
+
         return pizza;
     }
 }

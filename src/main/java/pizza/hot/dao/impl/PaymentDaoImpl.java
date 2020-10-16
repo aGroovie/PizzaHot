@@ -6,16 +6,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.PaymentDao;
 import pizza.hot.model.Payment;
-import pizza.hot.model.Pizza;
-import pizza.hot.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 @Repository
+@Transactional
+
 public class PaymentDaoImpl implements PaymentDao {
 
 
@@ -26,51 +27,38 @@ public class PaymentDaoImpl implements PaymentDao {
         this.entityManager = entityManager;
     }
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public void savePayment(Payment payment) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
 
         session.saveOrUpdate(payment);
-        session.getTransaction().commit();
 
-        session.close();
     }
 
     @Override
     public List<Payment> findAll() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
-        Query query = session.createNativeQuery("SELECT * FROM payment_info").addEntity(Payment.class);
-        List<Payment> paymentList = query.list();
-
-        session.close();
-
-        return paymentList;
+        return  sessionFactory.getCurrentSession().createQuery("FROM Payment ").getResultList();
     }
 
     @Override
     public void deletePaymentById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
 
         Query query = session.createNativeQuery("DELETE FROM payment_info where payment_id= :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
     }
     @Override
     public Payment getPaymentById(Long id) {
-        Session session;
+
         Payment payment;
-        session = HibernateUtils.getSessionFactory().openSession();
+        Session session = this.sessionFactory.getCurrentSession();
+
         payment = session.get(Payment.class, id);
-        Hibernate.initialize(payment);
-        session.close();
+
         return payment;
     }
 

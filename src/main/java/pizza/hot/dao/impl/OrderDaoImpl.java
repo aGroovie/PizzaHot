@@ -1,53 +1,45 @@
 package pizza.hot.dao.impl;
 
-import org.aspectj.weaver.ast.Or;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.OrderDao;
 import pizza.hot.model.Order;
-import pizza.hot.model.Payment;
 
 import java.util.List;
+
 @Repository
+@Transactional
+
 public class OrderDaoImpl implements OrderDao {
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public void saveOrder(Order order) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
+        Session session = this.sessionFactory.getCurrentSession();
         session.saveOrUpdate(order);
-        session.getTransaction().commit();
 
-        session.close();
+
     }
 
     @Override
     public List<Order> findAll() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
-        Query query = session.createNativeQuery("SELECT * FROM orders").addEntity(Order.class);
-        List<Order> orderList = query.list();
-
-        session.close();
-
-        return orderList;
+        return sessionFactory.getCurrentSession().createQuery("FROM Order ").getResultList();
     }
 
     @Override
     public void deleteOrderById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
+
 
         Query query = session.createNativeQuery("DELETE FROM orders where order_id= :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
+
     }
 }

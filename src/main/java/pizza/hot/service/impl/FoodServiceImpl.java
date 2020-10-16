@@ -13,6 +13,7 @@ import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.ProductService;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,8 +53,6 @@ public class FoodServiceImpl implements FoodService {
         Set<Product> products = pizza.getProducts();
         for (Product product : products) {
             if (pizza.getSize() == 30) {
-
-
 
                 totalPrice += ( product.getPrice() + product.getPrice()) /2 ;
             } else {

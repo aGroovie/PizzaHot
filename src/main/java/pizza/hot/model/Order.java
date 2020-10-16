@@ -4,8 +4,9 @@ package pizza.hot.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -37,25 +38,19 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "report_id")
-   private DailyReport dailyReport;
+    private DailyReport dailyReport;
 
+    @OneToMany
+    private Set<CartItem> cartItems = new HashSet<>();
 
-@ElementCollection
-@CollectionTable(name = "pizzas_in_order")
-@MapKeyJoinColumn(name = "pizza_id") //po order_pizza_id toje joinil
-@Column(name = "pizza_quantity")
-private Map<Pizza, Integer> pizzas = new HashMap();
-
-    public Map<Pizza, Integer> getPizzas() {
-        return pizzas;
+    public Set<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public Order setPizzas(Map<Pizza, Integer> pizzas) {
-        this.pizzas = pizzas;
+    public Order setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
         return this;
     }
-
-
 
     public Long getId() {
         return id;
@@ -104,7 +99,7 @@ private Map<Pizza, Integer> pizzas = new HashMap();
     public Order() {
     }
 
-    public void setAll(User user, Payment payment, float total){
+    public void setAll(User user, Payment payment, float total) {
         this.user = user;
         this.payment = payment;
         this.total = total;

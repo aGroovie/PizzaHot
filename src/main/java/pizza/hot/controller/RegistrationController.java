@@ -143,10 +143,15 @@ public class RegistrationController {
 
         for (Food food : sessionCart.getUserCart().keySet()) {
             if (food instanceof Drink) {
-
-            //    order.getDrinks().add((Drink) food);
+                CartItem itemDrink = new CartItem();
+                itemDrink.setDrink((Drink) food);
+                itemDrink.setDrinkQuantity(sessionCart.getUserCart().get(food));
+                order.getCartItems().add(itemDrink);
             } else {
-         order.getPizzas().put((Pizza) food, sessionCart.getUserCart().get(food));
+                CartItem itemPizza = new CartItem();
+                itemPizza.setPizza((Pizza) food);
+                itemPizza.setPizzaQuantity(sessionCart.getUserCart().get(food));
+                order.getCartItems().add(itemPizza);
             }
         }
         order.setAll(user, payment, total);

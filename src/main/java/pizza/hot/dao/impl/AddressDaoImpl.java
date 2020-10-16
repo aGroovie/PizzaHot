@@ -4,65 +4,48 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.AddressDao;
 import pizza.hot.model.Address;
-import pizza.hot.model.Product;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class AddressDaoImpl implements AddressDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+
     @Override
     public void saveAddress(Address address) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
+        Session session = this.sessionFactory.getCurrentSession();
         session.saveOrUpdate(address);
-        session.getTransaction().commit();
 
-        session.close();
     }
 
     @Override
     public List<Address> findAll() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
-        Query query = session.createNativeQuery("SELECT * FROM user_address").addEntity(Address.class);
-        List<Address> addressList = query.list();
-
-        session.close();
-
-        return addressList;
+        return  sessionFactory.getCurrentSession().createQuery("FROM Address ").getResultList();
     }
 
     @Override
     public void deleteAddressById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
 
+        Session session = this.sessionFactory.getCurrentSession();
         Query query = session.createNativeQuery("DELETE FROM user_address where address_id = :id").setParameter("id", id);
-        query.executeUpdate();
+      query.executeUpdate();
 
-        session.close();
     }
 
     @Override
     public Address getAddressById(Long id) {
-        Address address;
-
-
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        address = session.get(Address.class, id);
-        Hibernate.initialize(address);
-
-        session.close();
-        return address;
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.get(Address.class, id);
     }
 
 }

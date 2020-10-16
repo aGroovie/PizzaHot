@@ -6,17 +6,18 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pizza.hot.config.HibernateUtils;
+import org.springframework.transaction.annotation.Transactional;
+import pizza.hot.config.HibernateConf;
 import pizza.hot.dao.UserDao;
-import pizza.hot.model.Pizza;
 import pizza.hot.model.User;
-import pizza.hot.validator.UserNameConstraint;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
+@Transactional
+
 public class UserDaoImpl implements UserDao {
 
     private EntityManager entityManager;
@@ -26,42 +27,30 @@ public class UserDaoImpl implements UserDao {
         this.entityManager = entityManager;
     }
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public void saveUser(User user) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
+        Session session = this.sessionFactory.getCurrentSession();
         session.saveOrUpdate(user);
-        session.getTransaction().commit();
 
-        session.close();
+
     }
 
     @Override
     public List<User> getAllUsers() {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
-
-        Query query = session.createNativeQuery("SELECT * FROM users").addEntity(User.class);
-        List<User> userList = query.list();
-
-        session.close();
-
-        return userList;
+     return  sessionFactory.getCurrentSession().createQuery("FROM User ").getResultList();
     }
 
     @Override
     public void deleteUserById(Long id) {
-        SessionFactory factory = HibernateUtils.getSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.getTransaction().begin();
+        Session session = this.sessionFactory.getCurrentSession();
+
 
         Query query = session.createNativeQuery("DELETE FROM users where user_id= :id").setParameter("id", id);
         query.executeUpdate();
 
-        session.close();
     }
 
     @Override
@@ -80,12 +69,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(Long id) {
-        Session session;
         User user;
-        session = HibernateUtils.getSessionFactory().openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         user = session.get(User.class, id);
-        Hibernate.initialize(user);
-        session.close();
+
+
         return user;
     }
 }
