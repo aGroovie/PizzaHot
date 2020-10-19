@@ -34,7 +34,7 @@ public class Product  extends Food implements Serializable {
 
    @ManyToOne(cascade = CascadeType.ALL)
    @JoinColumn(name = "pizza_id")
-   private Pizza pizza;
+   private ModifiedPizza ModifiedPizza;
 
 
     public Product() {
@@ -72,12 +72,13 @@ public class Product  extends Food implements Serializable {
         this.type = type;
     }
 
-    public Pizza getPizza() {
-        return pizza;
+    public pizza.hot.model.ModifiedPizza getModifiedPizza() {
+        return ModifiedPizza;
     }
 
-    public void setPizza(Pizza pizza) {
-        this.pizza = pizza;
+    public Product setModifiedPizza(pizza.hot.model.ModifiedPizza modifiedPizza) {
+        ModifiedPizza = modifiedPizza;
+        return this;
     }
 
     @Override

@@ -57,10 +57,10 @@ public class SessionCart {
 
     }
 
-    public void removeFromCart(Food food, String description) {
-        food.setDescription(description);
+    public void removeFromCart(String name, String description) {
+        Food food = null;
         for (Food foodToCheck : userCart.keySet()) {
-            if (foodToCheck.equals(food)) {
+            if (foodToCheck.getName().equals(name) && foodToCheck.getDescription().equals(description)) {
                 food = foodToCheck;
             }
         }
@@ -78,7 +78,7 @@ public class SessionCart {
         boolean isFoodAlreadyInCart = false;
         Food foodToIncrease = null;
         for (Food foodToCheck : userCart.keySet()) {
-            if (foodToCheck.equals(food)) {
+            if (foodToCheck.getName().equals(food.getName()) && foodToCheck.getDescription().equals(food.getDescription())) {
                 isFoodAlreadyInCart = true;
                 foodToIncrease = foodToCheck;
             }
@@ -86,6 +86,7 @@ public class SessionCart {
         if (isFoodAlreadyInCart) {
             int curAmountOfProduct = userCart.get(foodToIncrease);
             userCart.put(foodToIncrease, curAmountOfProduct + 1);
+            foodToIncrease = null;
 
         }
         if (!isFoodAlreadyInCart) {

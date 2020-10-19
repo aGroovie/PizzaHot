@@ -12,21 +12,36 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne
-    private Pizza pizza;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pizza_in_order")
+    private ModifiedPizza modifiedPizza;
 
     @Column(name = "pizza_quantity")
-    private  int pizzaQuantity;
+    private int pizzaQuantity;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "drink_in_order")
     private Drink drink;
 
     @Column(name = "drink_quantity")
-    private  int drinkQuantity;
+    private int drinkQuantity;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public CartItem setOrder(Order order) {
+        this.order = order;
+        return this;
+    }
 
     public Long getId() {
         return id;
@@ -37,12 +52,12 @@ public class CartItem {
         return this;
     }
 
-    public Pizza getPizza() {
-        return pizza;
+    public ModifiedPizza getModifiedPizza() {
+        return modifiedPizza;
     }
 
-    public CartItem setPizza(Pizza pizza) {
-        this.pizza = pizza;
+    public CartItem setModifiedPizza(ModifiedPizza modifiedPizza) {
+        this.modifiedPizza = modifiedPizza;
         return this;
     }
 

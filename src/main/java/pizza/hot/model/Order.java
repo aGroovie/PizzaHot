@@ -40,7 +40,8 @@ public class Order {
     @JoinColumn(name = "report_id")
     private DailyReport dailyReport;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+
     private Set<CartItem> cartItems = new HashSet<>();
 
     public Set<CartItem> getCartItems() {

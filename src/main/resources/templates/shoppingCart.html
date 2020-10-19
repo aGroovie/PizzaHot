@@ -50,10 +50,12 @@
         <td th:width="80px" th:text="${food.key.getDescription()}"></td>
         <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post">
                 <input type="hidden" name="description" th:value="${food.key.description}">
+                           <input type="hidden" name="name" th:value="${food.key.name}">
             <button class="getButton"> -</button></form> </td>
         <td>     <form action="/addProduct" method="POST">
             <input type="hidden" name="id" th:value="${food.key.id}"/>
             <input type="hidden" name="description" th:value="${food.key.description}">
+               <input type="hidden" name="name" th:value="${food.key.name}">
             <button class="getButton"> + </button></form></td>
         <td th:text="${food.getValue()}"> </td>
     </tr>

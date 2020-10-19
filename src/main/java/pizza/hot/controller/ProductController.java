@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pizza.hot.model.ModifiedPizza;
 import pizza.hot.model.Pizza;
 import pizza.hot.service.FoodService;
+import pizza.hot.service.ModPizzaService;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.ProductService;
 import pizza.hot.utils.SessionCart;
@@ -24,6 +26,13 @@ public class ProductController {
 
     FoodService foodService;
 
+    ModPizzaService modPizzaService;
+
+    @Autowired
+    public ProductController setModPizzaService(ModPizzaService modPizzaService) {
+        this.modPizzaService = modPizzaService;
+        return this;
+    }
 
     @Autowired
     public void setSessionCart(SessionCart sessionCart) {
@@ -48,7 +57,7 @@ public class ProductController {
 
     @GetMapping("/extra-products")
     public String showProducts(Model model) {
-         model.getAttribute("pizza");
+        model.getAttribute("pizza");
         model.getAttribute("sessionCart");
         model.addAttribute("products", productService.findAllProducts());
         return "extra-selection";
@@ -56,15 +65,18 @@ public class ProductController {
 
 
     @PostMapping(value = "/addProductById")
-    String addProductToPizzaById(@RequestParam(value = "id",required = false) List<String> ids,Model model ) {
+    String addProductToPizzaById(@RequestParam(value = "id", required = false) List<String> ids, Model model) {
         Pizza pizza = (Pizza) model.getAttribute("pizza");
-        if(ids == null){
-            sessionCart.addToCart(pizza); // problem here
+        ModifiedPizza modifiedPizza = modPizzaService.clonePizza(pizza);
+
+
+        if (ids == null) {
+            sessionCart.addToCart(modifiedPizza); // problem here
             return "redirect:/drink-selection";
         }
 
-        foodService.addProductsToPizza(ids,pizza);
-        sessionCart.addToCart(pizza); // problem here
+        foodService.addProductsToPizza(ids, modifiedPizza);
+        sessionCart.addToCart(modifiedPizza); // problem here
 
         return "redirect:/drink-selection";
     }

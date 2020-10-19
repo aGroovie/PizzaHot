@@ -34,8 +34,6 @@ public class Drink extends Food implements Serializable {
     private String pictureLink;
 
 
-
-
     public Drink() {
 
     }

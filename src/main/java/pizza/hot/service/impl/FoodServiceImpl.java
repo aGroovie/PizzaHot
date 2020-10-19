@@ -4,10 +4,7 @@ package pizza.hot.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pizza.hot.model.Drink;
-import pizza.hot.model.Food;
-import pizza.hot.model.Pizza;
-import pizza.hot.model.Product;
+import pizza.hot.model.*;
 import pizza.hot.service.DrinkService;
 import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
@@ -46,13 +43,13 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
 
-    public float getPizzaTotalPrice(Pizza pizza) {
+    public float getPizzaTotalPrice(ModifiedPizza modifiedPizza) {
 
-        float totalPrice = pizza.getPrice();
+        float totalPrice = modifiedPizza.getPrice();
 
-        Set<Product> products = pizza.getProducts();
+        Set<Product> products = modifiedPizza.getProducts();
         for (Product product : products) {
-            if (pizza.getSize() == 30) {
+            if (modifiedPizza.getSize() == 30) {
 
                 totalPrice += ( product.getPrice() + product.getPrice()) /2 ;
             } else {
@@ -69,8 +66,8 @@ public class FoodServiceImpl implements FoodService {
         float price = 0f;
 
         for (Food fud : food.keySet()) {
-            if (fud instanceof Pizza) {
-                price += getPizzaTotalPrice((Pizza) fud) * food.get(fud);
+            if (fud instanceof ModifiedPizza) {
+                price += getPizzaTotalPrice((ModifiedPizza) fud) * food.get(fud);
 
             } else {
                 price += fud.getPrice() * food.get(fud);
@@ -105,19 +102,19 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void addProductsToPizza(List<String> ids, Pizza pizza) {
-        StringBuffer sb = new StringBuffer(pizza.getDescription());
+    public void addProductsToPizza(List<String> ids, ModifiedPizza modifiedPizza) {
+        StringBuffer sb = new StringBuffer(modifiedPizza.getDescription());
         sb.append(" With extras : ");
         for (String id : ids) {
             Product product = productService.getProductById(Long.parseLong(id));
-            if(pizza.getSize() == 30){
+            if(modifiedPizza.getSize() == 30){
                 product.setPrice(product.getPrice() + product.getPrice() /2);
             }
             sb.append(product.getName() + " " + product.getPrice() + "$ ");
 
-            pizza.getProducts().add(product);
+            modifiedPizza.getProducts().add(product);
         }
-        pizza.setDescription(sb.toString());
+        modifiedPizza.setDescription(sb.toString());
     }
 
 

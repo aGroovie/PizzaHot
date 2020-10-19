@@ -60,7 +60,6 @@ public class PizzaDaoImpl implements PizzaDao {
         oldPizza.setPrice(newPizza.getPrice());
         oldPizza.setName(newPizza.getName());
         oldPizza.setDescription(newPizza.getDescription());
-        oldPizza.setProducts(newPizza.getProducts());
 
         session.update(oldPizza);
 
@@ -72,7 +71,6 @@ public class PizzaDaoImpl implements PizzaDao {
         Pizza pizza;
         Session session = this.sessionFactory.getCurrentSession();
         pizza = session.get(Pizza.class, id);
-        session.evict(pizza);
 
         return pizza;
     }

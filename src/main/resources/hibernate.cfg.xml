@@ -22,6 +22,7 @@
         <mapping class="pizza.hot.model.Address"/>
         <mapping class="pizza.hot.model.Order"/>
         <mapping class="pizza.hot.model.CartItem"/>
+        <mapping class="pizza.hot.model.ModifiedPizza"/>
     </session-factory>
 
 </hibernate-configuration>

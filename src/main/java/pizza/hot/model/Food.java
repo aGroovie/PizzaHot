@@ -1,7 +1,6 @@
 package pizza.hot.model;
 
 import java.util.Objects;
-
 public abstract class Food {
     private Long id;
 

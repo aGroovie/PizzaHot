@@ -3,13 +3,15 @@ package pizza.hot.model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "base_pizzas")
+@Table(name = "modified_pizzas")
 @EntityListeners(AuditingEntityListener.class)
-public class Pizza extends Food implements Serializable {
+public class ModifiedPizza extends Food {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,36 +35,47 @@ public class Pizza extends Food implements Serializable {
     @Column(name = "pizza_desc")
     private String description;
 
+    @OneToMany(mappedBy = "ModifiedPizza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Product> products = new HashSet<>();
+
+    @OneToOne
+    @JoinColumn(name = "pizza_base")
+    Pizza pizza;
 
 
-    @Override
+    public Pizza getPizza() {
+        return pizza;
+    }
+
+    public ModifiedPizza setPizza(Pizza pizza) {
+        this.pizza = pizza;
+        return this;
+    }
+
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
+
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public float getPrice() {
         return price;
     }
 
-    @Override
     public void setPrice(float price) {
         this.price = price;
+
     }
 
     public int getSize() {
@@ -73,27 +86,30 @@ public class Pizza extends Food implements Serializable {
         this.size = size;
     }
 
-    @Override
     public String getPictureLink() {
         return pictureLink;
     }
 
-    @Override
     public void setPictureLink(String pictureLink) {
         this.pictureLink = pictureLink;
+
     }
 
-    @Override
     public String getDescription() {
         return description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public Set<Product> getProducts() {
+        return products;
+    }
 
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
 
 }

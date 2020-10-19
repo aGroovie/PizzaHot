@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
+import pizza.hot.model.ModifiedPizza;
 import pizza.hot.model.Pizza;
 import pizza.hot.service.DrinkService;
 import pizza.hot.service.FoodService;
@@ -96,9 +97,9 @@ public class CartController {
 
     @PostMapping(value = "addProduct")
     public String increaseAmountHandler(@RequestParam(value = "id") Long id, @RequestParam(value = "description")
-            String description) {
-
+            String description, @RequestParam(value = "name") String name) {
         Food food = foodService.getFoodById(id);
+        food.setName(name);
         food.setDescription(description);
         sessionCart.addToCart(food);
 
@@ -108,11 +109,11 @@ public class CartController {
 
     @PostMapping(value = "/removeProduct{id}")
     public String removeProductHandler(@PathVariable(value = "id") Long id
-            , Model model, @RequestParam(value = "description") String description) {
+            , Model model, @RequestParam(value = "description") String description,
+                                       @RequestParam(value = "name") String name) {
 
-        Food food = foodService.getFoodById(id);
         model.getAttribute("sessionCart");
-        sessionCart.removeFromCart(food, description);
+        sessionCart.removeFromCart(name, description);
         return "redirect:/shoppingCart";
     }
 

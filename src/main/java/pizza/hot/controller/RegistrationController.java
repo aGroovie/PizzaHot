@@ -8,10 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.*;
-import pizza.hot.service.AddressService;
-import pizza.hot.service.OrderService;
-import pizza.hot.service.PaymentService;
-import pizza.hot.service.UserService;
+import pizza.hot.service.*;
 import pizza.hot.utils.SessionCart;
 
 @Controller
@@ -27,6 +24,14 @@ public class RegistrationController {
     private SessionCart sessionCart;
 
     private OrderService orderService;
+
+    private ModPizzaService modPizzaService;
+
+    @Autowired
+    public RegistrationController setModPizzaService(ModPizzaService modPizzaService) {
+        this.modPizzaService = modPizzaService;
+        return this;
+    }
 
     @Autowired
     public RegistrationController setOrderService(OrderService orderService) {
@@ -140,20 +145,24 @@ public class RegistrationController {
 
 
         Order order = new Order();
-
+        CartItem itemDrink = new CartItem();
+        CartItem itemPizza = new CartItem();
         for (Food food : sessionCart.getUserCart().keySet()) {
             if (food instanceof Drink) {
-                CartItem itemDrink = new CartItem();
+
+                itemDrink.setOrder(order);
                 itemDrink.setDrink((Drink) food);
                 itemDrink.setDrinkQuantity(sessionCart.getUserCart().get(food));
                 order.getCartItems().add(itemDrink);
-            } else {
-                CartItem itemPizza = new CartItem();
-                itemPizza.setPizza((Pizza) food);
+            }
+            if (food instanceof ModifiedPizza) {
+                itemPizza.setOrder(order);
+                itemPizza.setModifiedPizza((ModifiedPizza) food);
                 itemPizza.setPizzaQuantity(sessionCart.getUserCart().get(food));
                 order.getCartItems().add(itemPizza);
             }
         }
+
         order.setAll(user, payment, total);
 
         orderService.saveOrder(order);
