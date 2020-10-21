@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-<link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+<link th:href="@{../css/style.css}" rel="stylesheet" type="text/css">
 
 <head>
     <meta charset="UTF-8">
@@ -30,3 +30,33 @@
     </ul>
     <br style="clear:left"/>
 </div>
+<form action="/filterOrders" method="post">
+    <input type="text" name="date">Please, enter date in format "dd-MM-yyyy" (without "" )<Br>
+    <p>
+        <button>Search </button>
+    </p>
+</form>
+    <table class="product-container">
+        <caption><b>Orders</b></caption>
+        <thead>
+        <tr>
+            <th>Order Date</th>
+            <th>Order total</th>
+            <th>Order User</th>
+            <th>Order Information</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.date}"></td>
+            <td th:text="${order.total}"></td>
+            <td th:text="${order.user.firstName}"></td>
+            <td><a th:href="@{showOrderWithId/{id}(id=${order.id})}">Show more info</a></td>
+        </tr>
+
+        </tbody>
+        <p th:text=" 'Total earnings for this date' + ${total} "><p/>
+    </table>
+
+</body>
+</html>

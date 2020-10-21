@@ -55,14 +55,14 @@ public class ModPizzaServiceImpl implements ModPizzaService {
         String pictureLink = pizza.getPictureLink();
         int size = pizza.getSize();
         float price = pizza.getPrice();
-
+        Long id = pizza.getId();
         modifiedPizza.setName(name);
         modifiedPizza.setDescription(description);
         modifiedPizza.setPictureLink(pictureLink);
         modifiedPizza.setSize(size);
         modifiedPizza.setPrice(price);
         modifiedPizza.setPizza(pizza);
-
+        modifiedPizza.setId(id);
         return modifiedPizza;
     }
 }

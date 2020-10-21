@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<link th:href="@{../css/style.css}" rel="stylesheet" type="text/css">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+</head>
+<body class="center-body">
+
+<img class="top-image"  th:src="@{images/pizzahot.png}"/>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a href="/shoppingCart">Shopping cart!</a></li>
+        <li><a sec:authorize="isFullyAuthenticated()" href="/myProfile"> My profile</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+
+
+    </ul>
+    <br style="clear:left"/>
+</div>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Information</title>
+</head>
+<body>
+<div align="center" class="order-card" th:each="cartItem : ${order.getCartItems()}">
+    <a th:text="${cartItem?.modifiedPizza?.name}"></a>
+    <a th:text="${cartItem.modifiedPizza?.description}"></a>
+    <a th:text="${cartItem?.drink?.name}"></a>
+    <p>Quantity :</p>
+    <a th:text="${cartItem?.pizzaQuantity}"> </a>
+    <a th:text="${cartItem?.drinkQuantity}"></a>
+    <p>User info</p>
+    <a th:text="${order.user.firstName}"></a>
+    <a th:text="${order.user.secondName}"></a>
+    <a th:text="${order.payment.ccCVV}"></a>
+    <a th:text="${order.payment.ccNumber}"></a>
+    <a th:text="${order.payment.ccExpiration}"></a>
+</div>
+
+</body>
+</html>

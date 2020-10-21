@@ -23,18 +23,18 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "username")
-    @Size(min=5,max=10, message = "Username must be between {min} and {max}")
-    @UserNameConstraint
+    @Size(min = 5, max = 10, message = "Username must be between {min} and {max}")
+    // @UserNameConstraint
     private String username;
 
     @Column(name = "user_pw")
     @NotNull
-    @Size(min=6,max=1000, message ="Password must be between {min} and {max}" )
+    @Size(min = 6, max = 1000, message = "Password must be between {min} and {max}")
     private String password;
 
     @Column(name = "user_fname")
     @NotNull
-    @Size(min = 2, max = 16 , message = "First name must be between {min} and {max}")
+    @Size(min = 2, max = 16, message = "First name must be between {min} and {max}")
     private String firstName;
 
     @Column(name = "user_sname")
@@ -52,13 +52,13 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role userRole;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.MERGE,fetch = FetchType.EAGER)   //pay attention to this
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)   //pay attention to this
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch =FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 
     public Set<Order> getOrders() {

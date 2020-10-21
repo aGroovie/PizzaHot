@@ -137,7 +137,6 @@ public class RegistrationController {
 
     @GetMapping("/successPage")
     public String successPage(Model model) {
-        Payment payment = (Payment) model.getAttribute("payment");
 
         User user = (User) model.getAttribute("user");
         user = userService.findByUsername(user.getUsername());
@@ -163,7 +162,7 @@ public class RegistrationController {
             }
         }
 
-        order.setAll(user, payment, total);
+        order.setAll(user, total);
 
         orderService.saveOrder(order);
         sessionCart.clearCart();

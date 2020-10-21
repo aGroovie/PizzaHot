@@ -40,4 +40,19 @@ public class OrderServiceImpl implements OrderService {
 
 
     }
+
+    @Override
+    public String getTotalByDate(String date) {
+        return orderDao.getTotalByDate(date);
+    }
+
+    @Override
+    public Order getOrderById(Long id) {
+        return orderDao.getOrderById(id);
+    }
+
+    @Override
+    public List<Order> getOrdersByDate(String date) {
+        return orderDao.getOrdersByDate(date);
+    }
 }

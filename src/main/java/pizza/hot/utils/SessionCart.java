@@ -86,7 +86,7 @@ public class SessionCart {
         if (isFoodAlreadyInCart) {
             int curAmountOfProduct = userCart.get(foodToIncrease);
             userCart.put(foodToIncrease, curAmountOfProduct + 1);
-            foodToIncrease = null;
+
 
         }
         if (!isFoodAlreadyInCart) {

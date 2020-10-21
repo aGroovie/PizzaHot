@@ -17,7 +17,6 @@
         <mapping class="pizza.hot.model.Pizza"/>
         <mapping class="pizza.hot.model.Drink"/>
         <mapping class="pizza.hot.model.Payment"/>
-        <mapping class="pizza.hot.model.DailyReport"/>
         <mapping class="pizza.hot.model.User"/>
         <mapping class="pizza.hot.model.Address"/>
         <mapping class="pizza.hot.model.Order"/>

@@ -15,7 +15,7 @@ public class CartItem {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "pizza_in_order")
     private ModifiedPizza modifiedPizza;
 
@@ -23,7 +23,7 @@ public class CartItem {
     private int pizzaQuantity;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "drink_in_order")
     private Drink drink;
 

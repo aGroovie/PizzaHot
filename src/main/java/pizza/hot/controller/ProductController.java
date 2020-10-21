@@ -68,8 +68,6 @@ public class ProductController {
     String addProductToPizzaById(@RequestParam(value = "id", required = false) List<String> ids, Model model) {
         Pizza pizza = (Pizza) model.getAttribute("pizza");
         ModifiedPizza modifiedPizza = modPizzaService.clonePizza(pizza);
-
-
         if (ids == null) {
             sessionCart.addToCart(modifiedPizza); // problem here
             return "redirect:/drink-selection";

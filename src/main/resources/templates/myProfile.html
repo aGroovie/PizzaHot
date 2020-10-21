@@ -41,7 +41,7 @@
     <a th:text="${payment.ccNumber}"></a>
     <a th:text="${payment.ccExpiration}"></a>
     <form action="/deletePaymentById" method="POST">
-    <input type="hidden" name="id" th:value="${payment.id}"/>
+    <input type="hidden" name="paymentId" th:value="${payment.id}"/>
     <button class="getButton"> Remove Credit Card</button>
     </form>
 </div>
@@ -59,13 +59,23 @@
 </div>
 </div>
     <div>
-<div class="order-card" th:each="order: ${user.getOrders()}">
-    <p>Order Date</p>
-    <a th:text="${order.getDate()}"></a>
-    <p> Order Total $</p>
-    <a th:text="${order.getTotal()}"></a>
-    </div>
-</div>
+        <div class="order-card" th:each="order: ${user.getOrders()}">
+<p>Your menu</p>
+            <div th:each="cartItem : ${order.getCartItems()}">
+                <a th:text="${cartItem?.modifiedPizza?.name}"></a>
+                <a th:text="${cartItem.modifiedPizza?.description}"></a>
+                <a th:text="${cartItem?.drink?.name}"></a>
+                <p>Quantity :</p>
+                <a th:text="${cartItem?.pizzaQuantity}"> </a>
+                <a th:text="${cartItem?.drinkQuantity}"></a>
+            </div>
+            <p>Order Date</p>
+            <a th:text="${order.getDate()}"></a>
+            <p> Order Total $</p>
+            <a th:text="${order.getTotal()}"></a>
 
+        </div>
+
+    </div>
 </body>
 </html>

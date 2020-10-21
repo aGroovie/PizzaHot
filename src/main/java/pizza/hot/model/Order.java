@@ -26,22 +26,13 @@ public class Order {
     @Column(name = "order_total")
     private float total;
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
-
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @ManyToOne
-    @JoinColumn(name = "report_id")
-    private DailyReport dailyReport;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order",fetch = FetchType.EAGER)
     private Set<CartItem> cartItems = new HashSet<>();
 
     public Set<CartItem> getCartItems() {
@@ -61,9 +52,6 @@ public class Order {
         return date;
     }
 
-    public Payment getPayment() {
-        return payment;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -81,30 +69,18 @@ public class Order {
         this.total = total;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public DailyReport getDailyReport() {
-        return dailyReport;
-    }
-
-    public void setDailyReport(DailyReport dailyReport) {
-        this.dailyReport = dailyReport;
-    }
 
     public Order() {
     }
 
-    public void setAll(User user, Payment payment, float total) {
+    public void setAll(User user, float total) {
         this.user = user;
-        this.payment = payment;
         this.total = total;
-
 
     }
 

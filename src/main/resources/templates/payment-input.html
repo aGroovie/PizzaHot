@@ -19,7 +19,7 @@
             <li><a sec:authorize="hasRole('ADMIN')" href="/admin"> Admin page</a></li>
             <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
             <li>
-                <form method="post" th:action="@{/logout}">
+                <form sec:authorize="isFullyAuthenticated()" method="post" th:action="@{/logout}">
                     <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
                 </form>
             </li>
