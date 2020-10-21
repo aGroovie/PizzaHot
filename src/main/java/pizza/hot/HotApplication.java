@@ -9,7 +9,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
+import pizza.hot.enums.Type;
+import pizza.hot.model.Product;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -31,6 +34,10 @@ public class HotApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HotApplication.class, args);
+
+        Product product  = new Product();
+
+
     }
 
 

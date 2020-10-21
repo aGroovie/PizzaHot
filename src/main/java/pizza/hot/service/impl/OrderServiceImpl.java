@@ -55,4 +55,14 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersByDate(String date) {
         return orderDao.getOrdersByDate(date);
     }
+
+    @Override
+    public boolean isThereAnyOrders(String date) {
+        if (orderDao.getOrdersByDate(date) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

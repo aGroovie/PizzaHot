@@ -30,35 +30,32 @@
     </ul>
     <br style="clear:left"/>
 </div>
-<form action="filterByDate/" method="post">
-    <label>
-        <input type="text" name="date">
-    </label>Please, enter date in format "dd-MM-yyyy" (without "" )<Br>
-    <p>
-        <button>Search </button>
-    </p>
-</form>
-    <table class="product-container">
-        <caption><b>Orders</b></caption>
-        <thead>
-        <tr>
-            <th>Order Date</th>
-            <th>Order total</th>
-            <th>Order User</th>
-            <th>Order Information</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orders}">
-        <td th:text="${order.date}"></td>
-            <td th:text="${order.total}"></td>
-            <td th:text="${order.user.firstName} + ' ' + ${order.user.secondName}"></td>
-            <td><a th:href="@{showOrderWithId/{id}(id=${order.id})}">Show more info</a></td>
-        </tr>
+<form class="signup-form" action="/admin/saveProduct" th:object="${product}" method="post" >
+    <div class="form-header">
+        <h1> Add New Product</h1>
+    </div>
+    <div class="form-body">
+        <div class="horizontal-group">
+            <div class="form-group left">
+                <label for="name">Name</label>
+                <input type="text" th:field="*{name}" id="name" class="form-input">
 
-        </tbody>
-        <p th:text=" 'Total earnings for this date' + ${total} "><p/>
-    </table>
+                <label for="price">Price</label>
+                <input type="text" th:field="*{price}" id="price" class="form-input">
+
+                <select name="type">
+                    <option th:each="type :${T(pizza.hot.enums.Type).values()}"
+                          th:value="${type}" th:text="${type}"></option>
+                </select>
+
+                <input class="button" type="submit" value="saveProduct">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
 
 </body>
 </html>

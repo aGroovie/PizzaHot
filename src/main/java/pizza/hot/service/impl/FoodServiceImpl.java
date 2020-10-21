@@ -41,25 +41,9 @@ public class FoodServiceImpl implements FoodService {
         this.drinkService = drinkService;
     }
 
-    @Override
 
-    public float getPizzaTotalPrice(ModifiedPizza modifiedPizza) {
 
-        float totalPrice = modifiedPizza.getPrice();
 
-        Set<Product> products = modifiedPizza.getProducts();
-        for (Product product : products) {
-            if (modifiedPizza.getSize() == 30) {
-
-                totalPrice += ( product.getPrice() + product.getPrice()) /2 ;
-            } else {
-                totalPrice += product.getPrice();
-
-            }
-
-        }
-        return totalPrice;
-    }
 
     @Override
     public float getTotalPrice(Map<Food, Integer> food) {
@@ -67,7 +51,7 @@ public class FoodServiceImpl implements FoodService {
 
         for (Food fud : food.keySet()) {
             if (fud instanceof ModifiedPizza) {
-                price += getPizzaTotalPrice((ModifiedPizza) fud) * food.get(fud);
+                price += fud.getPrice()*food.get(fud);
 
             } else {
                 price += fud.getPrice() * food.get(fud);
@@ -103,15 +87,17 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public void addProductsToPizza(List<String> ids, ModifiedPizza modifiedPizza) {
+        float productPrice = 0;
         StringBuffer sb = new StringBuffer(modifiedPizza.getDescription());
         sb.append(" With extras : ");
         for (String id : ids) {
             Product product = productService.getProductById(Long.parseLong(id));
-            if(modifiedPizza.getSize() == 30){
-                product.setPrice(product.getPrice() + product.getPrice() /2);
-            }
-            sb.append(product.getName() + " " + product.getPrice() + "$ ");
+            if (modifiedPizza.getSize() == 30) {
+                productPrice = product.getPrice() + (product.getPrice() / 2);
 
+            }
+            sb.append(product.getName() + " " + productPrice + "$ ");
+            modifiedPizza.setPrice(modifiedPizza.getPrice() + productPrice);
             modifiedPizza.getProducts().add(product);
         }
         modifiedPizza.setDescription(sb.toString());

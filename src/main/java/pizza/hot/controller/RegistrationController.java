@@ -155,6 +155,7 @@ public class RegistrationController {
                 order.getCartItems().add(itemDrink);
             }
             if (food instanceof ModifiedPizza) {
+                food.setId(null);
                 itemPizza.setOrder(order);
                 itemPizza.setModifiedPizza((ModifiedPizza) food);
                 itemPizza.setPizzaQuantity(sessionCart.getUserCart().get(food));

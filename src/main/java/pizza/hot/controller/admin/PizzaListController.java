@@ -36,7 +36,7 @@ public class PizzaListController {
 
 
     @GetMapping("/pizza-list")
-    public String userList(Model model) {
+    public String pizzaList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
 
         return "pizza-list";

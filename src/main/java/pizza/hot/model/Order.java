@@ -48,13 +48,12 @@ public class Order {
         return id;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void setDate(String date) {
@@ -69,11 +68,9 @@ public class Order {
         this.total = total;
     }
 
-
     public void setUser(User user) {
         this.user = user;
     }
-
 
     public Order() {
     }

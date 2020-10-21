@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface FoodService {
 
-    public float getPizzaTotalPrice(ModifiedPizza modifiedPizza);
+
 
     public float getTotalPrice(Map<Food, Integer> food);
 

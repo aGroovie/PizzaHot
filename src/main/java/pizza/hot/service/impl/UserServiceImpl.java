@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     public String getUsernameFromSession(Object principal) {
         String username;

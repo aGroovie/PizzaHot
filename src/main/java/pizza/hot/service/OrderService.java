@@ -16,4 +16,6 @@ public interface OrderService {
     Order getOrderById(Long id);
 
     public List<Order> getOrdersByDate(String date);
+
+    boolean isThereAnyOrders(String date);
 }

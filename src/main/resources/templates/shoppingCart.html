@@ -45,7 +45,7 @@
     <tbody>
     <tr th:each="food: ${sessionCart.getUserCart()}">
         <td th:text="${food.key.name}"></td>
-        <td th:text="${food.key.price + ' $ '}"></td>
+        <td th:text="${#numbers.formatDecimal(food.key.price,2,2) + ' $ '}"></td>
         <td><img class="product-image" th:src="${food.key.pictureLink}"> </td>
         <td th:width="80px" th:text="${food.key.getDescription()}"></td>
         <td><form th:action="@{'/removeProduct' + ${food.key.id}}" method="post">

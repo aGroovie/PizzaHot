@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "products")
 @EntityListeners(AuditingEntityListener.class)
-public class Product  extends Food implements Serializable {
+public class Product extends Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,13 @@ public class Product  extends Food implements Serializable {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "product_type")
     private Type type;
 
-    @Column(name = "product_description")
-    private String description;
 
-   @ManyToOne(cascade = CascadeType.ALL)
-   @JoinColumn(name = "pizza_id")
-   private ModifiedPizza ModifiedPizza;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pizza_id")
+    private ModifiedPizza ModifiedPizza;
 
 
     public Product() {
@@ -76,26 +75,16 @@ public class Product  extends Food implements Serializable {
         return ModifiedPizza;
     }
 
-    public Product setModifiedPizza(pizza.hot.model.ModifiedPizza modifiedPizza) {
+    public void setModifiedPizza(pizza.hot.model.ModifiedPizza modifiedPizza) {
         ModifiedPizza = modifiedPizza;
-        return this;
+
     }
 
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, name, type, description);
+        return Objects.hash(id, price, name, type);
     }
-
 
 }

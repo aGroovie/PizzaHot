@@ -5,15 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Order;
-import pizza.hot.model.User;
 import pizza.hot.service.OrderService;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes({"orders", "total"})
 public class OrderListController {
 
     OrderService orderService;
@@ -27,19 +25,12 @@ public class OrderListController {
 
     @GetMapping("/order-list")
     public String getOrderList(Model model) {
-/*        List<Order> orders = orderService.findAll();
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String curDate = formatter.format(date);
-        String total = orderService.getTotalByDate(curDate);
-        model.addAttribute("total", total);
-        model.addAttribute("orders", orders);*/
         model.getAttribute("orders");
         model.getAttribute("total");
         return "/order-list";
     }
 
-    @GetMapping(value = "showOrderWithId/{id}")
+    @GetMapping(value = "/showOrderWithId/{id}")
     public String showUser(Model model, @PathVariable Long id) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("order", order);
@@ -47,12 +38,17 @@ public class OrderListController {
     }
 
 
-    @PostMapping(value = "/filterOrders")
+
+
+
+
+
+    @PostMapping(value = "/filterByDate")
     public String filterOrders(Model model, @RequestParam("date") String date) {
-        List<Order> orders = orderService.getOrdersByDate(date);
+        List<Order> orders =  orderService.getOrdersByDate(date);
         String total = orderService.getTotalByDate(date);
         model.addAttribute("orders", orders);
         model.addAttribute("total", total);
-        return "redirect:/order-list";
+        return "redirect:/admin/order-list";
     }
 }

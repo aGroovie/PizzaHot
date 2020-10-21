@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/registration">Registration</a></li>
+        <li><a href="/drink-selection">Our Drinks!</a></li>
+        <li><a href="/pizzas">Our HOT Pizzas!</a></li>
+        <li><a sec:authorize="hasRole('ADMIN')" href="/admin/user-list"> Admin page</a></li>
+        <li><a sec:authorize="isAnonymous()" href="/login"> Login to your account </a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button sec:authorize="isFullyAuthenticated()" class="logout-button" type="submit"> LOGOUT</button>
+            </form>
+        </li>
+    </ul>
+    <br style="clear:left"/>
+</div>
+<table class="product-container">
+    <caption PRODUCT LIST TO EDIT></caption>
+    <thead>
+<tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Type</th>
+    <th>Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="product : ${products}">
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.price}"></td>
+    <td th:text="${product.type}"></td>
+    <td><a th:href="@{deleteProductById/{id}(id=${product.id})}">Delete</a></td>
+</tr>
+</tbody>
+</table>
+<a href="/admin/add-product">Add new Product </a>
+
+</body>
+</html>

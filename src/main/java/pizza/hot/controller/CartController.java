@@ -65,7 +65,6 @@ public class CartController {
             Pizza pizza = pizzaService.getPizzaById(id);
             pizza.setSize(Integer.parseInt(size));
             foodService.pizzaPriceSetter(Integer.parseInt(size), pizza);
-            // sessionCart.addToCart(pizza, 1);
             model.addAttribute("pizza", pizza);
             return "redirect:/extra-products";
         } else {
@@ -86,7 +85,7 @@ public class CartController {
 
             model.addAttribute("drink", drink);
 
-            sessionCart.addToCart(drink); // problem here
+            sessionCart.addToCart(drink);
             return "redirect:/shoppingCart";
 
         } else {

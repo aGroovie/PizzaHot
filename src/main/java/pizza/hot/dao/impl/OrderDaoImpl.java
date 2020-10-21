@@ -47,9 +47,13 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public String getTotalByDate(String date) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createNativeQuery("SELECT SUM(order_total) FROM orders WHERE order_date =:date").setParameter("date", date);
-        BigDecimal bigTotal = (BigDecimal) query.getSingleResult();
-        return bigTotal.toString();
+        BigDecimal bigTotal = null;
+            Query query = session.createNativeQuery("SELECT SUM(order_total) FROM orders WHERE order_date =:date").setParameter("date", date);
+            bigTotal = (BigDecimal) query.getSingleResult();
+
+            return bigTotal.toString();
+
+
 
     }
 
@@ -67,7 +71,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> getOrdersByDate(String date) {
 
         Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createNativeQuery("SELECT * FROM orders WHERE order_date =:date").setParameter("date", date);
+        Query query = session.createNativeQuery("SELECT * FROM orders WHERE order_date =:date").setParameter("date", date).addEntity(Order.class);
 
         List<Order> orders = query.getResultList();
 

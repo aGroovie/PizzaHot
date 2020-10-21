@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-<link th:href="@{../css/style.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 
 
 <head>
@@ -36,7 +36,7 @@
     <meta charset="UTF-8">
     <title>Order Information</title>
 </head>
-<body>
+
 <div align="center" class="order-card" th:each="cartItem : ${order.getCartItems()}">
     <a th:text="${cartItem?.modifiedPizza?.name}"></a>
     <a th:text="${cartItem.modifiedPizza?.description}"></a>
@@ -47,10 +47,8 @@
     <p>User info</p>
     <a th:text="${order.user.firstName}"></a>
     <a th:text="${order.user.secondName}"></a>
-    <a th:text="${order.payment.ccCVV}"></a>
-    <a th:text="${order.payment.ccNumber}"></a>
-    <a th:text="${order.payment.ccExpiration}"></a>
-</div>
 
+</div>
 </body>
+
 </html>
