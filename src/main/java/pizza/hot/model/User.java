@@ -24,7 +24,7 @@ public class User implements Serializable {
 
     @Column(name = "username")
     @Size(min = 5, max = 10, message = "Username must be between {min} and {max}")
-    // @UserNameConstraint
+   // @UserNameConstraint
     private String username;
 
     @Column(name = "user_pw")
@@ -55,7 +55,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Payment> payments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)   //pay attention to this
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

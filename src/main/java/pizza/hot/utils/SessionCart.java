@@ -6,8 +6,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import pizza.hot.model.Food;
-import pizza.hot.model.Pizza;
-import pizza.hot.model.Product;
 import pizza.hot.service.FoodService;
 
 import java.util.LinkedHashMap;
@@ -37,7 +35,7 @@ public class SessionCart {
         return userCart;
     }
 
-    public void setUsercart(Map<Food, Integer> userCart) {
+    public void setUserСart(Map<Food, Integer> userCart) {
         this.userCart = userCart;
     }
 

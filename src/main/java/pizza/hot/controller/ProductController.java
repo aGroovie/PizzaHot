@@ -69,12 +69,12 @@ public class ProductController {
         Pizza pizza = (Pizza) model.getAttribute("pizza");
         ModifiedPizza modifiedPizza = modPizzaService.clonePizza(pizza);
         if (ids == null) {
-            sessionCart.addToCart(modifiedPizza); // problem here
+            sessionCart.addToCart(modifiedPizza);
             return "redirect:/drink-selection";
         }
 
         foodService.addProductsToPizza(ids, modifiedPizza);
-        sessionCart.addToCart(modifiedPizza); // problem here
+        sessionCart.addToCart(modifiedPizza);
 
         return "redirect:/drink-selection";
     }

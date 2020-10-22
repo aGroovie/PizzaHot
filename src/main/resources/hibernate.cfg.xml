@@ -12,7 +12,7 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
         <property name="show_sql">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-
+        <property name="javax.persistence.validation.mode">none</property>
         <mapping class="pizza.hot.model.Product"/>
         <mapping class="pizza.hot.model.Pizza"/>
         <mapping class="pizza.hot.model.Drink"/>

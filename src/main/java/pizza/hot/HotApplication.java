@@ -35,7 +35,6 @@ public class HotApplication {
     public static void main(String[] args) {
         SpringApplication.run(HotApplication.class, args);
 
-        Product product  = new Product();
 
 
     }
