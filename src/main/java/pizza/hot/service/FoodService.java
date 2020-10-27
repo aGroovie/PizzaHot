@@ -10,9 +10,6 @@ import java.util.Map;
 public interface FoodService {
 
 
-
-    public float getTotalPrice(Map<Food, Integer> food);
-
     public Food getFoodById(Long id);
 
     public void pizzaPriceSetter(int size, Food food);

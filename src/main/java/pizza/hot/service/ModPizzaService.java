@@ -13,8 +13,6 @@ public interface ModPizzaService {
 
     void deletePizzaById(Long id);
 
-    void updatePizzaById(Long id, ModifiedPizza pizza);
-
     ModifiedPizza getPizzaById(Long id);
 
     ModifiedPizza clonePizza(Pizza pizza);

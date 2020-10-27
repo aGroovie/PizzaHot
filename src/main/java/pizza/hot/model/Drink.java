@@ -24,7 +24,7 @@ public class Drink extends Food implements Serializable {
     private String name;
 
     @Column(name = "drink_size")
-    private Long size;
+    private int size;
 
     @Column(name = "drink_description")
     private String description;
@@ -62,11 +62,11 @@ public class Drink extends Food implements Serializable {
         this.name = name;
     }
 
-    public Long getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

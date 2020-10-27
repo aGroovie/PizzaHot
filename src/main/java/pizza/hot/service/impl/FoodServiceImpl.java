@@ -10,10 +10,7 @@ import pizza.hot.service.FoodService;
 import pizza.hot.service.PizzaService;
 import pizza.hot.service.ProductService;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
 
@@ -45,21 +42,7 @@ public class FoodServiceImpl implements FoodService {
 
 
 
-    @Override
-    public float getTotalPrice(Map<Food, Integer> food) {
-        float price = 0f;
 
-        for (Food fud : food.keySet()) {
-            if (fud instanceof ModifiedPizza) {
-                price += fud.getPrice()*food.get(fud);
-
-            } else {
-                price += fud.getPrice() * food.get(fud);
-
-            }
-        }
-        return price;
-    }
 
     @Override
     public Food getFoodById(Long id) {

@@ -1,46 +1,36 @@
 package pizza.hot.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import pizza.hot.model.Food;
-import pizza.hot.service.FoodService;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionCart {
 
-    Map<Food, Integer> userCart = new LinkedHashMap<>();
+    private Map<Food, Integer> userCart = new HashMap<>();
 
     private float totalPrice;
-
-    FoodService foodService;
-
-
-    @Autowired
-    public void setFoodService(FoodService foodService) {
-        this.foodService = foodService;
-    }
 
     public SessionCart() {
 
     }
 
+
     public Map<Food, Integer> getUserCart() {
         return userCart;
     }
 
-    public void setUserСart(Map<Food, Integer> userCart) {
+    public void setUserCart(Map<Food, Integer> userCart) {
         this.userCart = userCart;
     }
 
     public float getTotalPrice() {
-        float price = foodService.getTotalPrice(userCart);
         return totalPrice;
     }
 
@@ -49,9 +39,8 @@ public class SessionCart {
     }
 
     public void countTotalPrice() {
-        float price = foodService.getTotalPrice(userCart);
-        this.totalPrice = price;
-
+        this.totalPrice = getTotalPrice(userCart);
+        setTotalPrice(totalPrice);
 
     }
 
@@ -74,24 +63,34 @@ public class SessionCart {
 
     public void addToCart(Food food) {
         boolean isFoodAlreadyInCart = false;
-        Food foodToIncrease = null;
+        Food foodToPut = null;
         for (Food foodToCheck : userCart.keySet()) {
             if (foodToCheck.getName().equals(food.getName()) && foodToCheck.getDescription().equals(food.getDescription())) {
+                foodToPut = foodToCheck;
                 isFoodAlreadyInCart = true;
-                foodToIncrease = foodToCheck;
+
             }
         }
         if (isFoodAlreadyInCart) {
-            int curAmountOfProduct = userCart.get(foodToIncrease);
-            userCart.put(foodToIncrease, curAmountOfProduct + 1);
-
-
+            int curAmountOfProduct = userCart.get(foodToPut);
+            userCart.put(foodToPut, curAmountOfProduct + 1);
         }
         if (!isFoodAlreadyInCart) {
             userCart.put(food, 1);
         }
         this.countTotalPrice();
+
     }
+
+
+    public float getTotalPrice(Map<Food, Integer> food) {
+        float price = 0f;
+        for (Food foodToCheck : food.keySet()) {
+            price += foodToCheck.getPrice() * food.get(foodToCheck);
+        }
+        return price;
+    }
+
 
     public void clearCart() {
         userCart.clear();

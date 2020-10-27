@@ -1,19 +1,26 @@
 package pizza.hot.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.hibernate.validator.HibernateValidator;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Properties;
 
 @Configuration
 public class HibernateConf {
-
-
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
@@ -51,33 +58,9 @@ public class HibernateConf {
                 "org.hibernate.dialect.MySQL5InnoDBDialect", "create-drop");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-
+        hibernateProperties.setProperty(
+                "javax.persistence.validation.mode", "none");
         return hibernateProperties;
     }
-    /*private static SessionFactory buildSessionFactory() {
-        try {
-            // Create the ServiceRegistry from hibernate.cfg.xml
-            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()//
-                    .configure("hibernate.cfg.xml").build();
-
-            // Create a metadata sources using the specified service registry.
-            Metadata metadata = new MetadataSources(serviceRegistry).getMetadataBuilder().build();
-
-            return metadata.getSessionFactoryBuilder().build();
-        } catch (Throwable ex) {
-
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }*/
-
- /*   public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }*/
-/*
-    public static void shutdown() {
-        // Close caches and connection pools
-        getSessionFactory().close();
-    }*/
 
 }

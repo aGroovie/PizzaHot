@@ -37,10 +37,7 @@ public class ModPizzaServiceImpl implements ModPizzaService {
         modPizzaDao.deletePizzaById(id);
     }
 
-    @Override
-    public void updatePizzaById(Long id, ModifiedPizza pizza) {
-        modPizzaDao.updatePizzaById(id, pizza);
-    }
+
 
     @Override
     public ModifiedPizza getPizzaById(Long id) {

@@ -6,11 +6,11 @@ import pizza.hot.service.UserService;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
 @Service
 public class UsernameValidator implements ConstraintValidator<UserNameConstraint, String> {
 
     private UserService userService;
-
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -20,7 +20,6 @@ public class UsernameValidator implements ConstraintValidator<UserNameConstraint
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
         return username != null && !userService.isAlreadyInUse(username);
-
     }
 
     @Override

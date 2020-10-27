@@ -3,6 +3,7 @@ package pizza.hot.service.impl;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import pizza.hot.model.Pizza;
@@ -14,11 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FoodServiceImplTest {
 
+    @Mock
+    FoodServiceImpl foodServiceImpl;
 
-    FoodService foodService = new FoodServiceImpl();
+
+    @InjectMocks
+    FoodService foodService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         Pizza pizza = new Pizza();
         pizza.setSize(30);
         pizza.setDescription("Cheese Pizza");
@@ -28,8 +33,5 @@ class FoodServiceImplTest {
 
     }
 
-/*    @Test
-    void getPizzaTotalPrice() {
-        Assert.assertEquals(foodService.getPizzaTotalPrice());
-    }*/
+
 }

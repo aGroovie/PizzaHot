@@ -111,5 +111,24 @@ public class ModifiedPizza extends Food {
         this.products = products;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModifiedPizza)) return false;
+        if (!super.equals(o)) return false;
+        ModifiedPizza that = (ModifiedPizza) o;
+        return Float.compare(that.price, price) == 0 &&
+                size == that.size &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(pictureLink, that.pictureLink) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(products, that.products) &&
+                Objects.equals(pizza, that.pizza);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, name, price, size, pictureLink, description, products, pizza);
+    }
 }

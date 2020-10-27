@@ -57,12 +57,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getUsernameFromSession(Object principal) {
-        String username;
         principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            return username = ((UserDetails) principal).getUsername();
+            return ((UserDetails) principal).getUsername();
         } else {
-            return username = principal.toString();
+            return principal.toString();
         }
     }
 

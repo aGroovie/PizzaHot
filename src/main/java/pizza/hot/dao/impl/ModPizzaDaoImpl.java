@@ -44,31 +44,13 @@ public class ModPizzaDaoImpl implements ModPizzaDao {
 
     }
 
-    @Override
-    public void updatePizzaById(Long id, ModifiedPizza newPizza) {
-
-        Pizza oldPizza;
-
-
-        Session session = this.sessionFactory.getCurrentSession();
-    //    oldPizza = (ModifiedPizza) session.get(ModifiedPizza.class, id);
-
-     //   oldPizza.setPrice(newPizza.getPrice());
-      //  oldPizza.setName(newPizza.getName());
-     //   oldPizza.setDescription(newPizza.getDescription());
-      //  oldPizza.setProducts(newPizza.getProducts());
-
-        //session.update(oldPizza);
-
-
-    }
 
     @Override
     public ModifiedPizza getPizzaById(Long id) {
         ModifiedPizza pizza;
         Session session = this.sessionFactory.getCurrentSession();
         pizza = session.get(ModifiedPizza.class, id);
-      //  session.evict(pizza);
+
 
         return pizza;
     }
