@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean isThereAnyOrders(String date) {
-        if (orderDao.getOrdersByDate(date) != null) {
+        if (orderDao.getOrdersByDate(date) != null && orderDao.getTotalByDate(date) !=null) {
             return true;
         } else {
             return false;

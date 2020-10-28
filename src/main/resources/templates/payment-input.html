@@ -45,10 +45,13 @@
         <h1> Payment Information </h1>
         <label for="name">CARDHOLDER NAME</label>
         <input type="text" th:field="*{name}" id="name" class="form-input">
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Must be not empty!</p>
         <label for="city">City</label>
         <input type="text" th:field="*{city}" id="city" class="form-input">
+        <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}">must be not empty!</p>
         <label for="street">Street</label>
         <input type="text" th:field="*{street}" id="street" class="form-input">
+        <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}">must be not empty!</p>
         <label for="state">State</label>
         <input type="text" th:field="*{state}" id="state" class="form-input">
         <label for="zip">Zip Code</label>
@@ -57,10 +60,13 @@
         <input type="text" th:field="*{phone}" id="phone" class="form-input">
         <label for="ccNumber">Credit Card number</label>
         <input type="text" th:field="*{ccNumber}" id="ccNumber" class="form-input">
+        <p th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">Please, enter a valid credit card number!</p>
         <label for="ccExpiration">Expiration Date</label>
         <input type="text" th:field="*{ccExpiration}" id="ccExpiration" class="form-input">
+        <p th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}">"Must be formatted MM/YY"</p>
         <label for="ccCVV">CCVV CODE</label>
         <input type="text" th:field="*{ccCVV}" id="ccCVV" class="form-input">
+        <p th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">"CVV must be 3 numbers length! "</p>
         <input class="getButton" type="submit" value="Continue to Payment">
     </form>
 

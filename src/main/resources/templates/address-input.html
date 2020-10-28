@@ -32,9 +32,9 @@
 <div class="form-body">
     <b>Select existing Address</b>
    <div  class="order-card" th:if="${user.getAddresses() !=null}"  th:each="address : ${user.getAddresses()}">
-       <h1 th:text="${address.street + '  Street'}"></h1>
-       <td th:text="${address.apartmentNumber + '  apt. number'}"></td>
-       <td th:text="${address.houseNumber + '  House number'}"></td>
+       <h1 th:text="${address.street}"></h1>
+       <td th:text="'apt № '+ ${address.apartmentNumber}"></td>
+       <td th:text="'house №  ' + ${address.houseNumber}"></td>
        <form action="/address-input" method="POST">
            <input type="hidden" name="addressId" th:value="${address.id}"/>
            <p>
@@ -64,6 +64,7 @@
 
         <input  class="getButton" type="submit" value="Continue to Payment">
     </form>
+</div>
 </div>
 </body>
 </html>

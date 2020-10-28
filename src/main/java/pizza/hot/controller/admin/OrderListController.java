@@ -3,9 +3,12 @@ package pizza.hot.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Order;
 import pizza.hot.service.OrderService;
+import pizza.hot.validator.DateSearchConstraint;
 
 import java.util.List;
 
@@ -39,14 +42,16 @@ public class OrderListController {
 
 
 
-
-
-
-
     @PostMapping(value = "/filterByDate")
-    public String filterOrders(Model model, @RequestParam("date") String date) {
+    public String filterOrders(Model model, @Validated @RequestParam("date") String date) {
         List<Order> orders =  orderService.getOrdersByDate(date);
         String total = orderService.getTotalByDate(date);
+        if(total.equals("null")){
+         total =  "  There are no orders for this day!";
+        }
+        else {
+            total = "Earning for this date : " + total;
+        }
         model.addAttribute("orders", orders);
         model.addAttribute("total", total);
         return "redirect:/admin/order-list";

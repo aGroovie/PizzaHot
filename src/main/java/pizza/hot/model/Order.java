@@ -32,16 +32,43 @@ public class Order {
     private User user;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
     private Set<CartItem> cartItems = new HashSet<>();
 
     public Set<CartItem> getCartItems() {
         return cartItems;
     }
 
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_payment")
+    private Payment payment;
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_address")
+    private Address address;
+
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public Order setCartItems(Set<CartItem> cartItems) {
         this.cartItems = cartItems;
         return this;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -75,10 +102,11 @@ public class Order {
     public Order() {
     }
 
-    public void setAll(User user, float total) {
+    public void setAll(User user, float total, Payment payment, Address address) {
         this.user = user;
         this.total = total;
-
+        this.payment = payment;
+        this.address = address;
     }
 
 

@@ -10,7 +10,9 @@ import pizza.hot.dao.OrderDao;
 import pizza.hot.model.Order;
 import pizza.hot.model.User;
 
+import javax.persistence.NoResultException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -47,12 +49,17 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public String getTotalByDate(String date) {
         Session session = this.sessionFactory.getCurrentSession();
-        BigDecimal bigTotal = null;
+        BigDecimal bigTotal;
+        try {
             Query query = session.createNativeQuery("SELECT SUM(order_total) FROM orders WHERE order_date =:date").setParameter("date", date);
             bigTotal = (BigDecimal) query.getSingleResult();
+            bigTotal.toString();
+        }
+        catch (NullPointerException npe){
+            bigTotal = null;
+        }
 
-            return bigTotal.toString();
-
+        return String.valueOf(bigTotal);
 
 
     }
@@ -69,12 +76,16 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getOrdersByDate(String date) {
+        List<Order> orders;
 
-        Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createNativeQuery("SELECT * FROM orders WHERE order_date =:date").setParameter("date", date).addEntity(Order.class);
+        try {
+            Session session = this.sessionFactory.getCurrentSession();
+            Query query = session.createNativeQuery("SELECT * FROM orders WHERE order_date =:date").setParameter("date", date).addEntity(Order.class);
+            orders = query.getResultList();
+        } catch (NullPointerException npe ) {
 
-        List<Order> orders = query.getResultList();
-
+            orders = null;
+        }
         return orders;
 
 

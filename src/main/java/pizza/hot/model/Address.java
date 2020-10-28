@@ -23,8 +23,8 @@ public class Address {
     @Size(min = 3, max = 20, message = "City must be between {min} and {max}")
     private String city;
 
-    @Column(name = "address_street")
     @NotNull
+    @Column(name = "address_street")
     @Size(min = 3, max = 30, message = "Street must be between {min} and {max}")
     private String street;
 

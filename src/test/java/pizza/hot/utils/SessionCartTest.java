@@ -6,20 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
 import pizza.hot.model.Pizza;
-import pizza.hot.service.FoodService;
 import pizza.hot.service.impl.FoodServiceImpl;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
         // idk
@@ -86,9 +83,8 @@ class SessionCartTest {
     @Test
     void addToCart_worksCorrect_with_sameFood(){
         sessionCart.addToCart(pizza);
-        sessionCart.addToCart(secondPizza);
         sessionCart.addToCart(pizza);
-        assertEquals(2,sessionCart.getUserCart().size());
+        assertEquals(1,sessionCart.getUserCart().size());
 
     }
 

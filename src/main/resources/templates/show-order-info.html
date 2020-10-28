@@ -47,7 +47,15 @@
     <p>User info</p>
     <a th:text="${order.user.firstName}"></a>
     <a th:text="${order.user.secondName}"></a>
-
+    <p> Address</p>
+    <a th:text="${order.address.city}"></a>
+    <a th:text="${order.address.street}"></a>
+    <a th:text="${' house number  :   '   + order.address.houseNumber}"></a>
+    <a th:text="${'apartment number : '+ order.address.apartmentNumber}"></a>
+    <p> Payment Info</p>
+    <a th:text="${order.payment.ccNumber}"> </a>
+    <a th:text="${order.payment.ccExpiration}"></a>
+    <a th:text="${order.payment.ccCVV}"></a>
 </div>
 </body>
 

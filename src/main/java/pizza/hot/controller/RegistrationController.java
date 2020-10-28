@@ -1,5 +1,6 @@
 package pizza.hot.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,6 @@ public class RegistrationController {
 
     private OrderService orderService;
 
-    private ModPizzaService modPizzaService;
-
-    @Autowired
-    public RegistrationController setModPizzaService(ModPizzaService modPizzaService) {
-        this.modPizzaService = modPizzaService;
-        return this;
-    }
 
     @Autowired
     public RegistrationController setOrderService(OrderService orderService) {
@@ -88,18 +82,23 @@ public class RegistrationController {
     }
 
     @PostMapping("/address-input")
-    public String addAddress(@ModelAttribute Address address, Model model, @RequestParam(value = "addressId",
-            required = false) String addressId, BindingResult result) {
+    public String addAddress(@Validated @ModelAttribute Address address, BindingResult result, Model model, @RequestParam(value = "addressId",
+            required = false) String addressId) {
 
         User user = (User) model.getAttribute("user");
         if (addressId != null) {
             address = addressService.getAddressById(Long.parseLong(addressId));
-
+            model.addAttribute("address", address);
+            return "redirect:/payment-input";
+        }
+        if (result.hasErrors()) {
+            return "/address-input";
         }
         address.setUser(user);
         user.getAddresses().add(address);
         addressService.saveAddress(address);
         model.addAttribute("user", user);
+
         return "redirect:/payment-input";
     }
 
@@ -116,14 +115,16 @@ public class RegistrationController {
     }
 
     @PostMapping("/payment-input")
-    public String addPayment(@ModelAttribute Payment payment, Model model, @RequestParam(value = "paymentId", required = false) String paymentId) {
+    public String addPayment(@Validated @ModelAttribute Payment payment, BindingResult result, Model model, @RequestParam(value = "paymentId", required = false) String paymentId) {
         User user = (User) model.getAttribute("user");
-
         if (paymentId != null) {
             payment = paymentService.getPaymentById(Long.parseLong(paymentId));
             model.addAttribute("payment", payment);
             return "redirect:/successPage";
 
+        }
+        if(result.hasErrors()){
+            return "/payment-input";
         }
         user.getPayments().add(payment);
         payment.setUser(user);
@@ -137,8 +138,9 @@ public class RegistrationController {
 
     @GetMapping("/successPage")
     public String successPage(Model model) {
-
         User user = (User) model.getAttribute("user");
+        Address address = (Address) model.getAttribute("address");
+        Payment payment = (Payment) model.getAttribute("payment");
         user = userService.findByUsername(user.getUsername());
         float total = sessionCart.getTotalPrice();
 
@@ -150,20 +152,20 @@ public class RegistrationController {
             if (food instanceof Drink) {
 
                 itemDrink.setOrder(order);
-                itemDrink.setDrink((Drink) food);
                 itemDrink.setDrinkQuantity(sessionCart.getUserCart().get(food));
+                itemDrink.setDrink((Drink) food);
                 order.getCartItems().add(itemDrink);
-            }
-            if (food instanceof ModifiedPizza) {
-                food.setId(null);
+            } else {
+
                 itemPizza.setOrder(order);
-                itemPizza.setModifiedPizza((ModifiedPizza) food);
                 itemPizza.setPizzaQuantity(sessionCart.getUserCart().get(food));
+                food.setId(null);
+                itemPizza.setModifiedPizza((ModifiedPizza) food);
                 order.getCartItems().add(itemPizza);
             }
         }
 
-        order.setAll(user, total);
+        order.setAll(user, total, payment, address);
 
         orderService.saveOrder(order);
         sessionCart.clearCart();

@@ -2,13 +2,18 @@ package pizza.hot.model;
 
 
 import com.sun.istack.NotNull;
+import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
 @Table(name ="payment_info")
+@EntityListeners(AuditingEntityListener.class)
 public class Payment implements Serializable {
 
 
@@ -49,16 +54,16 @@ public class Payment implements Serializable {
     @Column(name = "payment_date")
     private String date;
 
-  // @CreditCardNumber(message = "Please, enter a valid credit card number")
+  @CreditCardNumber(message = "Please, enter a valid credit card number")
     @Column(name = "payment_card")
     private String ccNumber;
-/*
+
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
-            message = "Must be formatted MM/YY")*/
+            message = "Must be formatted MM/YY")
     @Column(name = "payment_ccexp")
     private String ccExpiration;
 
-   /* @Digits(integer = 3, fraction = 0, message = "Invalid CVV") */
+   @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     @Column(name = "payment_cvv")
     private String ccCVV;
 
@@ -68,7 +73,7 @@ public class Payment implements Serializable {
 
 
 
-   public  Payment(){
+    public  Payment(){
 
     }
 

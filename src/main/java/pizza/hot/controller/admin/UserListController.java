@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pizza.hot.model.Address;
+import pizza.hot.model.Payment;
 import pizza.hot.model.User;
 import pizza.hot.service.AddressService;
 import pizza.hot.service.PaymentService;
@@ -71,16 +73,18 @@ public class UserListController {
 
     @PostMapping(value = "/removePaymentById")
     public String removePayment(@RequestParam("paymentId") String paymentId) {
-
-        paymentService.deletePaymentById(Long.parseLong(paymentId));
+        Payment payment = paymentService.getPaymentById(Long.parseLong(paymentId));
+        payment.setUser(null);
+        paymentService.savePayment(payment);
 
         return "redirect:/admin/user-list";
     }
 
     @PostMapping(value = "/removeAddressById")
     public String removeAddress(@RequestParam("addressId") String addressId) {
-
-        addressService.deleteAddressById(Long.parseLong(addressId));
+        Address address = addressService.getAddressById(Long.parseLong(addressId));
+        address.setUser(null);
+        addressService.saveAddress(address);
         return "redirect:/admin/user-list";
     }
 }
