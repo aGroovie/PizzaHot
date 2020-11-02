@@ -90,7 +90,7 @@ class DrinkServiceImplTest {
     @Test
     void getDrinkById_ThrowsIAC() {
         Mockito.when(drinkService.getDrinkById(0L)).thenThrow(new IllegalArgumentException("id cannot be zero"));
-        Exception exception = assertThrows(IllegalAccessException.class, () -> {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             drinkService.getDrinkById(0L);
         });
         assertEquals("id cannot be zero", exception.getMessage());

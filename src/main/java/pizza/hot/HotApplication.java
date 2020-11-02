@@ -1,5 +1,6 @@
 package pizza.hot;
 
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Validator;
+import java.net.URISyntaxException;
 
 @SpringBootApplication
  @EnableAutoConfiguration(exclude= HibernateJpaAutoConfiguration.class)
