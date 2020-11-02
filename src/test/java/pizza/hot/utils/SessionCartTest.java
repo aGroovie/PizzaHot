@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import pizza.hot.model.Drink;
 import pizza.hot.model.Food;
+import pizza.hot.model.ModifiedPizza;
 import pizza.hot.model.Pizza;
 import pizza.hot.service.impl.FoodServiceImpl;
 
@@ -19,7 +20,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-        // idk
 class SessionCartTest {
 
 
@@ -29,8 +29,11 @@ class SessionCartTest {
 
     Drink drink;
 
+    ModifiedPizza modifiedPizza;
 
-    Map<Food, Integer> userCart = new LinkedHashMap<>();
+    ModifiedPizza modifiedPizzaSecond;
+
+    Map<Food, Integer> userCart;
 
     @Mock
     FoodServiceImpl foodService;
@@ -51,7 +54,7 @@ class SessionCartTest {
         pizza.setSize(30);
         pizza.setPictureLink("dfjhjfsdjsdf.com");
 
-        secondPizza =  new Pizza();
+        secondPizza = new Pizza();
         secondPizza.setId(13L);
         secondPizza.setPictureLink("gdfjdfgjdfgjs");
         secondPizza.setSize(30);
@@ -69,28 +72,56 @@ class SessionCartTest {
         drink.setPictureLink("pfsadpdfspfsdpfsd.com");
 
 
+        modifiedPizza = new ModifiedPizza();
+        modifiedPizza.setPrice(17);
+        modifiedPizza.setId(86L);
+        modifiedPizza.setDescription("VEGAN VEGAN ");
+        modifiedPizza.setName("VEGAN PIZZA");
+        modifiedPizza.setSize(30);
+
+
+        modifiedPizzaSecond = new ModifiedPizza();
+        modifiedPizzaSecond.setName("HOT PIZZA");
+        modifiedPizzaSecond.setDescription("hot Pizza yes");
+        modifiedPizzaSecond.setPrice(20);
+        modifiedPizzaSecond.setSize(30);
+        modifiedPizzaSecond.setId(33L);
+
+        userCart = new LinkedHashMap<>();
     }
 
     @Test
     void addToCart_worksCorrectly() {
         sessionCart.addToCart(drink);
         sessionCart.addToCart(pizza);
-
         assertEquals(2, sessionCart.getUserCart().size());
 
     }
 
     @Test
-    void addToCart_worksCorrect_with_sameFood(){
+    void addToCart_worksCorrect_with_sameFood() {
         sessionCart.addToCart(pizza);
         sessionCart.addToCart(pizza);
-        assertEquals(1,sessionCart.getUserCart().size());
+        assertEquals(1, sessionCart.getUserCart().size());
 
     }
 
 
+    @Test
+    void addToCart_addsModded_pizzas() {
+        sessionCart.addToCart(modifiedPizza);
+        sessionCart.addToCart(modifiedPizzaSecond);
+
+        assertEquals(2, sessionCart.getUserCart().size());
+    }
 
 
+    @Test
+    void addToCart_addsSame_Pizzas_Correctly() {
+        sessionCart.addToCart(modifiedPizza);
+        sessionCart.addToCart(modifiedPizza);
+        assertEquals(1, sessionCart.getUserCart().size());
+    }
 
     @Test
     void getTotalPrice_worksCorrectly() {

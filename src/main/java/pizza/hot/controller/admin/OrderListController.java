@@ -3,18 +3,21 @@ package pizza.hot.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Order;
 import pizza.hot.service.OrderService;
-import pizza.hot.validator.DateSearchConstraint;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Pattern;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 @SessionAttributes({"orders", "total"})
+@Validated
 public class OrderListController {
 
     OrderService orderService;
@@ -41,16 +44,20 @@ public class OrderListController {
     }
 
 
-
     @PostMapping(value = "/filterByDate")
-    public String filterOrders(Model model, @Validated @RequestParam("date") String date) {
-        List<Order> orders =  orderService.getOrdersByDate(date);
-        String total = orderService.getTotalByDate(date);
-        if(total.equals("null")){
-         total =  "  There are no orders for this day!";
+    public String filterOrders(Model model, @Pattern(message = "please enter date in correct format",regexp = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-((19|20)\\d\\d)")
+    @RequestParam("date") String date) throws ConstraintViolationException {
+
+
+        List<Order> orders = orderService.getOrdersByDate(date);
+        Float totalSum = orderService.getTotalByDate(date);
+        String total;
+
+        if(totalSum == null){
+            total = "there are no orders for such date!";
         }
         else {
-            total = "Earning for this date : " + total;
+            total = "Total earnings for this date " + totalSum;
         }
         model.addAttribute("orders", orders);
         model.addAttribute("total", total);

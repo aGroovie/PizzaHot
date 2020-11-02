@@ -56,8 +56,10 @@
         <input type="text" th:field="*{state}" id="state" class="form-input">
         <label for="zip">Zip Code</label>
         <input type="text" th:field="*{zip}" id="zip" class="form-input">
+        <p th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}">zip code must be 5 numbers length!</p>
         <label for="phone">Phone number</label>
         <input type="text" th:field="*{phone}" id="phone" class="form-input">
+        <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone number length must be 11 digits!</p>
         <label for="ccNumber">Credit Card number</label>
         <input type="text" th:field="*{ccNumber}" id="ccNumber" class="form-input">
         <p th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">Please, enter a valid credit card number!</p>

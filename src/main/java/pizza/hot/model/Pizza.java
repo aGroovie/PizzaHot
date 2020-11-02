@@ -4,6 +4,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "base_pizzas")
@@ -92,7 +93,22 @@ public class Pizza extends Food implements Serializable {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pizza)) return false;
+        if (!super.equals(o)) return false;
+        Pizza pizza = (Pizza) o;
+        return Float.compare(pizza.price, price) == 0 &&
+                size == pizza.size &&
+                Objects.equals(id, pizza.id) &&
+                Objects.equals(name, pizza.name) &&
+                Objects.equals(pictureLink, pizza.pictureLink) &&
+                Objects.equals(description, pizza.description);
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, name, price, size, pictureLink, description);
+    }
 }

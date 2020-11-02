@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String getTotalByDate(String date) {
+    public Float getTotalByDate(String date) {
         return orderDao.getTotalByDate(date);
     }
 

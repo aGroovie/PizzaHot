@@ -39,18 +39,12 @@ public class FoodServiceImpl implements FoodService {
     }
 
 
-
-
-
-
-
     @Override
     public Food getFoodById(Long id) {
         Drink drink;
         Pizza pizza;
 
         if (pizzaService.getPizzaById(id) == null) {
-
             drink = drinkService.getDrinkById(id);
             return drink;
         } else {
@@ -69,12 +63,12 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void addProductsToPizza(List<String> ids, ModifiedPizza modifiedPizza) {
+    public void addProductsToPizza(List<Long> ids, ModifiedPizza modifiedPizza) {
         float productPrice = 0;
         StringBuffer sb = new StringBuffer(modifiedPizza.getDescription());
         sb.append(" With extras : ");
-        for (String id : ids) {
-            Product product = productService.getProductById(Long.parseLong(id));
+        for (Long id : ids) {
+            Product product = productService.getProductById(id);
             if (modifiedPizza.getSize() == 30) {
                 productPrice = product.getPrice() + (product.getPrice() / 2);
 

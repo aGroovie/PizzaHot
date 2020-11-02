@@ -13,6 +13,7 @@ import pizza.hot.service.ProductService;
 import pizza.hot.utils.SessionCart;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes("pizza")
@@ -72,8 +73,9 @@ public class ProductController {
             sessionCart.addToCart(modifiedPizza);
             return "redirect:/drink-selection";
         }
+        List<Long> convertedIds = ids.stream().map(Long::parseLong).collect(Collectors.toList());
 
-        foodService.addProductsToPizza(ids, modifiedPizza);
+        foodService.addProductsToPizza(convertedIds, modifiedPizza);
         sessionCart.addToCart(modifiedPizza);
 
         return "redirect:/drink-selection";

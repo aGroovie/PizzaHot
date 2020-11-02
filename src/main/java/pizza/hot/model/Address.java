@@ -1,6 +1,7 @@
 package pizza.hot.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -38,11 +39,11 @@ public class Address {
     @Digits(integer = 3, fraction = 0)
     private int apartmentNumber;
 
-    @Column(name = "address_phone_number")   // Custom validator with phone number to do
-    @NotNull
+    @Column(name = "address_phone_number")
+    @Pattern(regexp = "^\\d{11}$",message = "Phone number must be 11 numbers length!")
     private String phoneNumber;
 
-    @Column(name ="address_zip") //Custom validator for zip
+    @Column(name ="address_zip")
     @NotNull
     private int zip;
 

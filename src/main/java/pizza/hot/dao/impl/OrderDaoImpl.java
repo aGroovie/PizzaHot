@@ -8,11 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pizza.hot.dao.OrderDao;
 import pizza.hot.model.Order;
-import pizza.hot.model.User;
 
-import javax.persistence.NoResultException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -47,19 +44,21 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public String getTotalByDate(String date) {
+    public Float getTotalByDate(String date) {
         Session session = this.sessionFactory.getCurrentSession();
         BigDecimal bigTotal;
+        Float total;
         try {
             Query query = session.createNativeQuery("SELECT SUM(order_total) FROM orders WHERE order_date =:date").setParameter("date", date);
             bigTotal = (BigDecimal) query.getSingleResult();
-            bigTotal.toString();
+            total = bigTotal.floatValue();
+
         }
         catch (NullPointerException npe){
-            bigTotal = null;
+            total = null;
         }
 
-        return String.valueOf(bigTotal);
+        return total;
 
 
     }

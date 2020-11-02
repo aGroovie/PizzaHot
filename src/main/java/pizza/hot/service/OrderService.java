@@ -11,7 +11,7 @@ public interface OrderService {
 
     void deleteOrderById(Long id);
 
-    String getTotalByDate(String date);
+    Float getTotalByDate(String date);
 
     Order getOrderById(Long id);
 

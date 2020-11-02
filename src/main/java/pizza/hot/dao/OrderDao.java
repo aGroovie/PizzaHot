@@ -8,7 +8,7 @@ public interface OrderDao {
     void saveOrder(Order order);
     List<Order> findAll();
     void deleteOrderById(Long id);
-    String getTotalByDate(String date);
+    Float getTotalByDate(String date);
      Order getOrderById(Long id) ;
      List<Order>  getOrdersByDate(String date);
 }

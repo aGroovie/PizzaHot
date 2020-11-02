@@ -42,12 +42,12 @@ public class Payment implements Serializable {
 
     @NotNull
     @Column(name = "payment_zip")
-    @Size(min = 5, max = 5)
+    @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$",message = "zip code must be 5 numbers length!")
     private String zip;
 
     @NotNull
     @Column(name = "payment_phone")
-    @Size(min=9)
+    @Pattern(regexp = "^\\d{11}$",message = "Phone number must be 11 numbers length!")
     private String phone;
 
 

@@ -72,6 +72,9 @@ public class RegistrationController {
 
     @GetMapping("/address-input")
     public String getAddress(Model model) {
+        if(sessionCart.getUserCart().isEmpty()){
+            return "redirect:/main";
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userService.getUsernameFromSession(principal);
 
@@ -105,6 +108,9 @@ public class RegistrationController {
 
     @GetMapping("/payment-input")
     public String getPayment(Model model) {
+        if(sessionCart.getUserCart().isEmpty()){
+            return "redirect:/main";
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userService.getUsernameFromSession(principal);
 
@@ -138,6 +144,9 @@ public class RegistrationController {
 
     @GetMapping("/successPage")
     public String successPage(Model model) {
+        if(sessionCart.getUserCart().isEmpty()){
+            return "redirect:/main";
+        }
         User user = (User) model.getAttribute("user");
         Address address = (Address) model.getAttribute("address");
         Payment payment = (Payment) model.getAttribute("payment");
