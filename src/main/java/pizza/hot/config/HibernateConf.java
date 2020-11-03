@@ -55,7 +55,7 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
-                "org.hibernate.dialect.MySQL5InnoDBDialect", "create-drop");
+                "org.hibernate.dialect.MySQL5InnoDBDialect", "create");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty(
