@@ -37,7 +37,7 @@ public class HibernateConf {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/pizza_hot?useLegacyDatetimeCode=false&serverTimezone=UTC");
+        dataSource.setUrl("mysql://b86d5f7bb560c4:1257f5f7@us-cdbr-east-02.cleardb.com/heroku_c69d9e5901f7885?reconnect=true\n");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
 
