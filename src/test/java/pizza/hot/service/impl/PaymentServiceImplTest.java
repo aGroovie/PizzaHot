@@ -1,3 +1,4 @@
+/*
 package pizza.hot.service.impl;
 
 import org.junit.Assert;
@@ -56,4 +57,4 @@ class PaymentServiceImplTest {
         Assert.assertEquals(3, paymentServiceImpl.findAll().size());
     }
 
-}
+}*/

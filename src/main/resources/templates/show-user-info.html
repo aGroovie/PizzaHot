@@ -69,8 +69,8 @@
         <a th:text="${cartItem?.modifiedPizza?.description}"></a>
         <a th:text="${cartItem?.drink?.name}"></a>
         <p>Quantity :</p>
-        <a th:text="${cartItem?.pizzaQuantity}"> </a>
-        <a th:text="${cartItem?.drinkQuantity}"></a>
+        <a th:text="${cartItem?.pizzaQuantity != 0} ? ${cartItem?.pizzaQuantity} : ''"></a>
+        <a th:text="${cartItem?.drinkQuantity != 0} ? ${cartItem?.drinkQuantity} : ''"></a>
     </div>
 
 </body>
