@@ -26,14 +26,18 @@ public class HibernateConf {
 
     @Bean
     public DataSource dataSource() {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/pizza_hot?useLegacyDatetimeCode=false&serverTimezone=UTC");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
 
         return dataSource;
     }
+
 
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
@@ -46,11 +50,15 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
-                "org.hibernate.dialect.MySQL5InnoDBDialect", "create");
+                "org.hibernate.dialect.MySQL5InnoDBDialect", "create-drop");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty(
                 "javax.persistence.validation.mode", "none");
+        hibernateProperties.setProperty(
+                "hibernate.hbm2ddl.auto","create-drop"
+        );
+
         return hibernateProperties;
     }
 
