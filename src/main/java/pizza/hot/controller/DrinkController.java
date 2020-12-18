@@ -41,10 +41,10 @@ public class DrinkController {
         this.foodService = foodService;
     }
 
-    @GetMapping("/drink-selection")
+    @GetMapping("drink-selection")
     public String getAllDrinks(Model model) {
         model.addAttribute("drinks", drinkService.findAll());
-        return "/drink-selection";
+        return "drink-selection";
     }
 
 

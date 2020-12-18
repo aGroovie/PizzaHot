@@ -17,10 +17,10 @@ public class PizzaController {
         this.pizzaService = pizzaService;
     }
 
-     @GetMapping("/pizzas")
+     @GetMapping("pizzas")
     public String userList(Model model, Principal principal){
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
-        return "/main";
+        return "main";
 
 
     }

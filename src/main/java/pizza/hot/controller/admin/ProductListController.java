@@ -11,7 +11,7 @@ import pizza.hot.service.ProductService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class ProductListController {
 
     ProductService productService;
@@ -21,10 +21,10 @@ public class ProductListController {
         this.productService = productService;
     }
 
-    @PostMapping(value = "/saveProduct")
+    @PostMapping(value = "saveProduct")
     public String save(@ModelAttribute("product") Product product) {
         productService.saveProduct(product);
-        return "redirect:/admin/product-list";
+        return "redirect:admin/product-list";
     }
 
 
@@ -32,25 +32,25 @@ public class ProductListController {
     String deleteProduct(@PathVariable Long id) {
         productService.deleteProductById(id);
 
-        return "redirect:/admin/product-list";
+        return "redirect:admin/product-list";
     }
 
-    @GetMapping("/product-list")
+    @GetMapping("product-list")
     public String productList(Model model) {
         model.addAttribute("products", productService.findAllProducts());
 
         return "product-list";
     }
 
-    @GetMapping("/add-product")
+    @GetMapping("add-product")
     public String getAddProduct(@ModelAttribute("product") Product product) {
         return "/add-product";
     }
 
-    @PostMapping(value = "/add-product")
+    @PostMapping(value = "add-product")
     public String addPizza(@ModelAttribute("product") Product product) {
         productService.saveProduct(product);
-        return "redirect:/admin/product-list";
+        return "redirect:admin/product-list";
     }
 
 }

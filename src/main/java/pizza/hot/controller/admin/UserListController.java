@@ -12,7 +12,7 @@ import pizza.hot.service.PaymentService;
 import pizza.hot.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class UserListController {
 
     UserService userService;
@@ -37,7 +37,7 @@ public class UserListController {
     }
 
 
-    @GetMapping("/user-list")
+    @GetMapping("user-list")
     public String userList(Model model) {
         model.addAttribute("users", userService.getAllUsers());
 
@@ -51,7 +51,7 @@ public class UserListController {
         return "redirect:/admin/user-list";
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute("error", "User name or password incorrect");
@@ -71,13 +71,13 @@ public class UserListController {
     }
 
 
-    @PostMapping(value = "/removePaymentById")
+    @PostMapping(value = "removePaymentById")
     public String removePayment(@RequestParam("paymentId") String paymentId) {
         Payment payment = paymentService.getPaymentById(Long.parseLong(paymentId));
         payment.setUser(null);
         paymentService.savePayment(payment);
 
-        return "redirect:/admin/user-list";
+        return "redirect:admin/user-list";
     }
 
     @PostMapping(value = "/removeAddressById")
@@ -85,6 +85,6 @@ public class UserListController {
         Address address = addressService.getAddressById(Long.parseLong(addressId));
         address.setUser(null);
         addressService.saveAddress(address);
-        return "redirect:/admin/user-list";
+        return "redirect:admin/user-list";
     }
 }

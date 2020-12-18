@@ -50,13 +50,13 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty(
-                "org.hibernate.dialect.MySQL5InnoDBDialect", "create-drop");
+                "org.hibernate.dialect.MySQL5InnoDBDialect", "update");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty(
                 "javax.persistence.validation.mode", "none");
         hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto","create-drop"
+                "hibernate.hbm2ddl.auto","update"
         );
 
         return hibernateProperties;

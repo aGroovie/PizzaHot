@@ -11,7 +11,7 @@ import pizza.hot.model.Pizza;
 import pizza.hot.service.DrinkService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 
 public class DrinkListController {
 
@@ -22,7 +22,7 @@ public class DrinkListController {
         this.drinkService = drinkService;
     }
 
-    @PostMapping(value = "/saveDrink")
+    @PostMapping(value = "saveDrink")
     public String save(@Validated @ModelAttribute("drink") Drink drink, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "drink-list";
@@ -32,7 +32,7 @@ public class DrinkListController {
         return "redirect:/admin/drink-list";
     }
 
-    @GetMapping("/drink-list")
+    @GetMapping("drink-list")
     public String getAllDrinks(Model model) {
         model.addAttribute("drinks", drinkService.findAll());
 
@@ -42,7 +42,7 @@ public class DrinkListController {
     @GetMapping(value = "deleteDrinkById/{id}")
     public String deleteDrinkById(@PathVariable("id") Long id) {
         drinkService.deleteDrinkById(id);
-        return "redirect:/admin/drink-list";
+        return "redirect:admin/drink-list";
     }
 
     @GetMapping(value = {"updateDrinkById/{id}", "/deleteDrinkById/", "updateDrink"})
@@ -59,19 +59,19 @@ public class DrinkListController {
     @PostMapping(value = "updateDrinkById/{id}")
     public String updateDrink(@ModelAttribute("drink") Drink drink, @PathVariable Long id) {
         drinkService.updateDrinkById(id, drink);
-        return "redirect:/admin/drink-list";
+        return "redirect:admin/drink-list";
     }
 
 
 
-    @GetMapping(value = "/add-drink")
+    @GetMapping(value = "add-drink")
     public String getAddDrink(@ModelAttribute("drink") Drink drink) {
         return "/add-drink";
     }
 
-    @PostMapping(value = "/add-drink")
+    @PostMapping(value = "add-drink")
     public String addDrink(@ModelAttribute("drink") Drink drink) {
         drinkService.saveDrink(drink);
-        return "redirect:/admin/drink-list";
+        return "redirect:admin/drink-list";
     }
 }

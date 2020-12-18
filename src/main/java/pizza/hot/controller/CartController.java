@@ -52,7 +52,7 @@ public class CartController {
         this.foodService = foodService;
     }
 
-    @PostMapping(value = "/buyPizza")
+    @PostMapping(value = "buyPizza")
     public String listProductHandler(@RequestParam(value = "id") Long id,
                                      @RequestParam(value = "size", required = false) String size,
                                      ModelMap model
@@ -68,12 +68,12 @@ public class CartController {
             model.addAttribute("pizza", pizza);
             return "redirect:/extra-products";
         } else {
-            return "/login";
+            return "login";
         }
 
     }
 
-    @PostMapping(value = "/buyDrink")
+    @PostMapping(value = "buyDrink")
     public String listProductHandler(@RequestParam(value = "id") Long id,
                                      Model model
     ) {
@@ -86,10 +86,10 @@ public class CartController {
             model.addAttribute("drink", drink);
 
             sessionCart.addToCart(drink);
-            return "redirect:/shoppingCart";
+            return "redirect:shoppingCart";
 
         } else {
-            return "/login";
+            return "login";
         }
 
     }
@@ -102,11 +102,11 @@ public class CartController {
         food.setDescription(description);
         sessionCart.addToCart(food);
 
-        return "redirect:/shoppingCart";
+        return "redirect:shoppingCart";
     }
 
 
-    @PostMapping(value = "/removeProduct{id}")
+    @PostMapping(value = "removeProduct{id}")
     public String removeProductHandler(@PathVariable(value = "id") Long id
             , Model model, @RequestParam(value = "description") String description,
                                        @RequestParam(value = "name") String name) {
@@ -117,26 +117,26 @@ public class CartController {
     }
 
 
-    @GetMapping("/shoppingCart")
+    @GetMapping("shoppingCart")
     public String ShoppingCartHandler(Model model) {
 
         model.addAttribute("sessionCart", sessionCart);
         model.addAttribute("userCart", sessionCart.getUserCart());
 
-        return "/shoppingCart";
+        return "shoppingCart";
 
     }
 
-    @PostMapping("/clearCart")
+    @PostMapping("clearCart")
     public String CleanCartHandler() {
 
         sessionCart.getUserCart().clear();
-        return "redirect:/shoppingCart";
+        return "redirect:shoppingCart";
     }
 
-    @PostMapping("/continueShopping")
+    @PostMapping("continueShopping")
     public String continueShopping() {
 
-        return "redirect:/main";
+        return "redirect:main";
     }
 }

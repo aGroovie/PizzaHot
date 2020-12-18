@@ -9,7 +9,7 @@ import pizza.hot.service.PizzaService;
 import pizza.hot.service.UserService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class PizzaListController {
 
     PizzaService pizzaService;
@@ -27,15 +27,15 @@ public class PizzaListController {
     }
 
 
-    @PostMapping(value = "/savePizza")
+    @PostMapping(value = "savePizza")
     public String save(@ModelAttribute("pizza") Pizza pizza) {
 
         pizzaService.addPizza(pizza);
-        return "redirect:/admin/pizza-list";
+        return "redirect:admin/pizza-list";
     }
 
 
-    @GetMapping("/pizza-list")
+    @GetMapping("pizza-list")
     public String pizzaList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
 
@@ -45,19 +45,19 @@ public class PizzaListController {
     @GetMapping(value = "deletePizzaById/{id}")
     public String deletePizza(@PathVariable("id") Long id) {
         pizzaService.deletePizzaById(id);
-        return "redirect:/admin/pizza-list";
+        return "redirect:admin/pizza-list";
     }
 
 
-    @GetMapping(value = "/add-pizza")
+    @GetMapping(value = "add-pizza")
     public String getAddPizza(@ModelAttribute("pizza") Pizza pizza){
         return "/add-pizza";
     }
 
-    @PostMapping(value = "/add-pizza")
+    @PostMapping(value = "add-pizza")
         public String addPizza(@ModelAttribute("pizza") Pizza pizza){
             pizzaService.addPizza(pizza);
-            return "redirect:/admin/pizza-list";
+            return "redirect:admin/pizza-list";
         }
 
     @GetMapping(value = {"updatePizzaById/{id}", "/deletePizzaById/", "updatePizza"})
@@ -66,7 +66,7 @@ public class PizzaListController {
         model.addAttribute("pizza", pizzaService.getPizzaById(id));
 
 
-        return "/edit-pizza";
+        return "edit-pizza";
 
 
     }
@@ -75,14 +75,14 @@ public class PizzaListController {
     public String updatePizza(@ModelAttribute("pizza") Pizza pizza, @PathVariable Long id) {
         pizzaService.updatePizzaById(id, pizza);
 
-        return "redirect:/admin/pizza-list";
+        return "redirect:admin/pizza-list";
     }
 
 
-    @GetMapping(value = "/new-pizza")
+    @GetMapping(value = "new-pizza")
     public String newPizza(@ModelAttribute("pizza") Pizza pizza) {
 
-        return "/new-pizza";
+        return "new-pizza";
 
     }
 

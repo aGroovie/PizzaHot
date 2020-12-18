@@ -62,51 +62,51 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping(value = "/logoutSuccessful")
+    @GetMapping(value = "logoutSuccessful")
     public String logoutSuccessfulPage(Model model) {
         model.addAttribute("title", "Logout");
         return "logoutSuccessfulPage";
     }
 
 
-    @GetMapping(value = "/admin")
+    @GetMapping(value = "admin")
     public String admin(Model model) {
         return "admin";
     }
 
-    @GetMapping(value = "/error403")
+    @GetMapping(value = "error403")
     public String errorPage() {
         return "403";
     }
 
 
-    @GetMapping(value = "/myProfile")
+    @GetMapping(value = "myProfile")
     public String showProfile(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userService.getUsernameFromSession(principal);
 
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
-        return "/myProfile";
+        return "myProfile";
 
     }
 
-    @PostMapping(value = "/deleteAddressById")
+    @PostMapping(value = "deleteAddressById")
     public String deleteAddressById(@RequestParam(value = "addressId", required = false) String addressId) {
         Address address = addressService.getAddressById(Long.parseLong(addressId));
         address.setUser(null);
         addressService.saveAddress(address);
 
-        return "redirect:/myProfile";
+        return "redirect:myProfile";
     }
 
-    @PostMapping(value = "/deletePaymentById")
+    @PostMapping(value = "deletePaymentById")
     public String deletePaymentById(@RequestParam(value = "paymentId", required = false) String paymentId) {
         Payment payment = paymentService.getPaymentById(Long.parseLong(paymentId));
         payment.setUser(null);
         paymentService.savePayment(payment);
 
-        return "redirect:/myProfile";
+        return "redirect:myProfile";
     }
 
 }

@@ -3,7 +3,6 @@ package pizza.hot.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pizza.hot.model.Order;
@@ -11,11 +10,10 @@ import pizza.hot.service.OrderService;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Pattern;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 @SessionAttributes({"orders", "total"})
 @Validated
 public class OrderListController {
@@ -29,14 +27,14 @@ public class OrderListController {
     }
 
 
-    @GetMapping("/order-list")
+    @GetMapping("order-list")
     public String getOrderList(Model model) {
         model.getAttribute("orders");
         model.getAttribute("total");
-        return "/order-list";
+        return "order-list";
     }
 
-    @GetMapping(value = "/showOrderWithId/{id}")
+    @GetMapping(value = "showOrderWithId/{id}")
     public String showUser(Model model, @PathVariable Long id) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("order", order);
@@ -44,7 +42,7 @@ public class OrderListController {
     }
 
 
-    @PostMapping(value = "/filterByDate")
+    @PostMapping(value = "filterByDate")
     public String filterOrders(Model model, @Pattern(message = "please enter date in correct format",regexp = "(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-((19|20)\\d\\d)")
     @RequestParam("date") String date) throws ConstraintViolationException {
 
@@ -61,6 +59,6 @@ public class OrderListController {
         }
         model.addAttribute("orders", orders);
         model.addAttribute("total", total);
-        return "redirect:/admin/order-list";
+        return "redirect:admin/order-list";
     }
 }

@@ -54,26 +54,26 @@ public class RegistrationController {
     }
 
 
-    @GetMapping("/registration")
+    @GetMapping("registration")
     public String register(Model model) {
         model.addAttribute("user", new User());
         return "registration";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("registration")
     public String register(@Validated @ModelAttribute User user, BindingResult result) {
         if (result.hasErrors()) {
-            return "/registration";
+            return "registration";
         }
         userService.saveUser(user);
         return "redirect:/main";
     }
 
 
-    @GetMapping("/address-input")
+    @GetMapping("address-input")
     public String getAddress(Model model) {
         if(sessionCart.getUserCart().isEmpty()){
-            return "redirect:/main";
+            return "redirect:main";
         }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userService.getUsernameFromSession(principal);
@@ -81,10 +81,10 @@ public class RegistrationController {
         User user = userService.findByUsername(username);
         model.addAttribute("address", new Address());
         model.addAttribute("user", user);
-        return "/address-input";
+        return "address-input";
     }
 
-    @PostMapping("/address-input")
+    @PostMapping("address-input")
     public String addAddress(@Validated @ModelAttribute Address address, BindingResult result, Model model, @RequestParam(value = "addressId",
             required = false) String addressId) {
 
@@ -92,21 +92,21 @@ public class RegistrationController {
         if (addressId != null) {
             address = addressService.getAddressById(Long.parseLong(addressId));
             model.addAttribute("address", address);
-            return "redirect:/payment-input";
+            return "redirect:payment-input";
         }
         if (result.hasErrors()) {
-            return "/address-input";
+            return "address-input";
         }
         address.setUser(user);
         user.getAddresses().add(address);
         addressService.saveAddress(address);
         model.addAttribute("user", user);
 
-        return "redirect:/payment-input";
+        return "redirect:payment-input";
     }
 
 
-    @GetMapping("/payment-input")
+    @GetMapping("payment-input")
     public String getPayment(Model model) {
         if(sessionCart.getUserCart().isEmpty()){
             return "redirect:/main";
@@ -117,20 +117,20 @@ public class RegistrationController {
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
         model.addAttribute("payment", new Payment());
-        return "/payment-input";
+        return "payment-input";
     }
 
-    @PostMapping("/payment-input")
+    @PostMapping("payment-input")
     public String addPayment(@Validated @ModelAttribute Payment payment, BindingResult result, Model model, @RequestParam(value = "paymentId", required = false) String paymentId) {
         User user = (User) model.getAttribute("user");
         if (paymentId != null) {
             payment = paymentService.getPaymentById(Long.parseLong(paymentId));
             model.addAttribute("payment", payment);
-            return "redirect:/successPage";
+            return "redirect:successPage";
 
         }
         if(result.hasErrors()){
-            return "/payment-input";
+            return "payment-input";
         }
         user.getPayments().add(payment);
         payment.setUser(user);
@@ -138,14 +138,14 @@ public class RegistrationController {
         model.addAttribute("user", user);
         model.addAttribute("payment", payment);
 
-        return "redirect:/successPage";
+        return "redirect:successPage";
     }
 
 
-    @GetMapping("/successPage")
+    @GetMapping("successPage")
     public String successPage(Model model) {
         if(sessionCart.getUserCart().isEmpty()){
-            return "redirect:/main";
+            return "redirect:main";
         }
         User user = (User) model.getAttribute("user");
         Address address = (Address) model.getAttribute("address");

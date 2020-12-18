@@ -56,7 +56,7 @@ public class ProductController {
     }
 
 
-    @GetMapping("/extra-products")
+    @GetMapping("extra-products")
     public String showProducts(Model model) {
         model.getAttribute("pizza");
         model.getAttribute("sessionCart");
@@ -65,20 +65,20 @@ public class ProductController {
     }
 
 
-    @PostMapping(value = "/addProductById")
+    @PostMapping(value = "addProductById")
     String addProductToPizzaById(@RequestParam(value = "id", required = false) List<String> ids, Model model) {
         Pizza pizza = (Pizza) model.getAttribute("pizza");
         ModifiedPizza modifiedPizza = modPizzaService.clonePizza(pizza);
         if (ids == null) {
             sessionCart.addToCart(modifiedPizza);
-            return "redirect:/drink-selection";
+            return "redirect:drink-selection";
         }
         List<Long> convertedIds = ids.stream().map(Long::parseLong).collect(Collectors.toList());
 
         foodService.addProductsToPizza(convertedIds, modifiedPizza);
         sessionCart.addToCart(modifiedPizza);
 
-        return "redirect:/drink-selection";
+        return "redirect:drink-selection";
     }
 
 

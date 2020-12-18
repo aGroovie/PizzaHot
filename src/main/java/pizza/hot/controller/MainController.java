@@ -26,13 +26,13 @@ public class MainController {
         this.pizzaService = pizzaService;
     }
 
-    @GetMapping("/main")
+    @GetMapping("main")
     public String pizzaList(Model model) {
         model.addAttribute("pizzas", pizzaService.getAllPizzas());
-        return "/main";
+        return "main";
     }
 
-    @GetMapping("/403")
+    @GetMapping("403")
     public String accessDenied(){
         return "/403";
     }
